@@ -64,8 +64,9 @@ services:
       MYSQL_DATABASE: ${DB_DATABASE:-munchgud}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
     ports:
-      - "${PORT_DB:-3306}:3306"
+      - "${PORT_DB:-3307}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
