@@ -80,7 +80,7 @@ class ProductController extends Controller
                         return [
                             'name' => $p->name,
                             'url' => route('products.show', $p->slug),
-                            'image' => $p->primaryImage ? \Illuminate\Support\Facades\Storage::url($p->primaryImage->path) : asset('images/product_shot.png')
+                            'image' => $p->primaryImage ? \Illuminate\Support\Facades\Storage::url($p->primaryImage->path) : asset('images/product_shot_new.png')
                         ];
                     });
         return response()->json($products);

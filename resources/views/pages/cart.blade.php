@@ -68,7 +68,7 @@
                                 <div class="flex gap-4 sm:gap-5">
                                     <!-- Product Image -->
                                     <a :href="'/products/' + item.slug" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-mg-cream overflow-hidden flex-shrink-0 border border-mg-dark/5 group">
-                                        <img :src="item.image" :alt="item.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='/images/product_shot.png'">
+                                        <img :src="item.image" :alt="item.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='/images/product_shot_new.png'">
                                     </a>
                                     
                                     <!-- Details -->
@@ -392,7 +392,7 @@
                 @if($wish->sku && $wish->sku->product)
                 <div class="bg-white rounded-2xl overflow-hidden border border-mg-dark/5 shadow-sm group hover:shadow-xl hover:border-mg-green/10 transition-all duration-300 flex flex-col h-full" id="wishlist-card-{{ $wish->sku->id }}">
                     <a href="{{ route('products.show', $wish->sku->product->slug) }}" class="block aspect-square bg-mg-cream overflow-hidden">
-                        <img src="{{ $wish->sku->product->primaryImage ? Storage::url($wish->sku->product->primaryImage->path) : asset('images/product_shot.png') }}" 
+                        <img src="{{ $wish->sku->product->primaryImage ? Storage::url($wish->sku->product->primaryImage->path) : asset('images/product_shot_new.png') }}" 
                              alt="{{ $wish->sku->product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </a>
                     <div class="p-4 flex flex-col flex-grow">
@@ -437,7 +437,7 @@
                 @if($rpSku)
                 <div class="flex-shrink-0 w-[200px] sm:w-[220px] bg-white rounded-2xl overflow-hidden border border-mg-dark/5 shadow-sm group hover:shadow-xl hover:border-mg-green/10 transition-all duration-300 snap-start">
                     <a href="{{ route('products.show', $rp->slug) }}" class="block aspect-square bg-mg-cream overflow-hidden">
-                        <img src="{{ $rp->primaryImage ? Storage::url($rp->primaryImage->path) : asset('images/product_shot.png') }}" 
+                        <img src="{{ $rp->primaryImage ? Storage::url($rp->primaryImage->path) : asset('images/product_shot_new.png') }}" 
                              alt="{{ $rp->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </a>
                     <div class="p-4">
@@ -473,7 +473,7 @@
             'name' => $item->sku->product->name,
             'slug' => $item->sku->product->slug,
             'category' => $item->sku->product->category->name ?? 'Snack',
-            'image' => $item->sku->product->primaryImage ? Storage::url($item->sku->product->primaryImage->path) : asset('images/product_shot.png'),
+            'image' => $item->sku->product->primaryImage ? Storage::url($item->sku->product->primaryImage->path) : asset('images/product_shot_new.png'),
             'variant' => $item->sku->variantOptions->pluck('value')->implode(' / '),
             'price' => (float) $item->sku->sale_price,
             'mrp' => (float) $item->sku->mrp,

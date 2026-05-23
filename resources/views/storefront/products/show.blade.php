@@ -277,7 +277,7 @@
                 @endphp
                 <div class="group bg-white rounded-3xl border border-mg-dark/[0.04] overflow-hidden hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
                     <a href="{{ route('products.show', $rp->slug) }}" class="relative aspect-square bg-gradient-to-br from-mg-cream to-white flex items-center justify-center overflow-hidden block">
-                        <img src="{{ $rp->primaryImage ? Storage::url($rp->primaryImage->path) : asset('images/product_shot.png') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="{{ $rp->primaryImage ? Storage::url($rp->primaryImage->path) : asset('images/product_shot_new.png') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         @if($discount > 0)
                             <span class="absolute top-4 left-4 bg-mg-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">-{{ $discount }}% OFF</span>
                         @endif
@@ -439,7 +439,7 @@ document.addEventListener('alpine:init', () => {
                     '{{ Storage::url($img->path) }}',
                 @endforeach
             @else
-                '{{ asset('images/product_shot.png') }}'
+                '{{ asset('images/product_shot_new.png') }}'
             @endif
         ],
         currentImageIndex: 0,

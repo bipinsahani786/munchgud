@@ -123,7 +123,7 @@
             @endphp
             <div class="reveal group bg-white rounded-3xl border border-mg-dark/[0.04] overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:shadow-mg-green/8 transition-all duration-500" style="transition-delay:{{ $i*0.07 }}s">
                 <a href="{{ route('products.show', $p->slug) }}" class="relative aspect-square bg-gradient-to-br {{ $g }} flex items-center justify-center overflow-hidden block">
-                    <img src="{{ $p->primaryImage ? Storage::url($p->primaryImage->path) : asset('images/product_shot.png') }}" alt="{{ $p->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <img src="{{ $p->primaryImage ? Storage::url($p->primaryImage->path) : asset('images/product_shot_new.png') }}" alt="{{ $p->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                     @if($discount > 0 || $badge)
                     <span class="absolute top-3 left-3 {{ $bc }} text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">{{ $badge }}</span>
                     @endif
@@ -253,7 +253,7 @@
                         @foreach([
                             ['img' => '/images/story_farmer.png', 'likes' => '3.1K', 'comments' => '124', 'tag' => 'Mithila Sourced'],
                             ['img' => '/images/ingredient_macro.png', 'likes' => '1.8K', 'comments' => '89', 'tag' => 'Pure Protein'],
-                            ['img' => '/images/product_shot.png', 'likes' => '2.5K', 'comments' => '142', 'tag' => 'Gourmet Roasted'],
+                            ['img' => '/images/product_shot_new.png', 'likes' => '2.5K', 'comments' => '142', 'tag' => 'Gourmet Roasted'],
                             ['img' => '/images/hero_bg.png', 'likes' => '4.2K', 'comments' => '210', 'tag' => 'Snack Gud']
                         ] as $item)
                             <div class="aspect-square rounded-3xl bg-white relative group overflow-hidden border border-mg-dark/5 shadow-md shadow-mg-dark/[0.02]">
@@ -277,7 +277,7 @@
                 @foreach([
                     ['img' => '/images/story_farmer.png', 'likes' => '3.8K', 'comments' => '189', 'tag' => 'Source', 'label' => 'Mithila Sourced'],
                     ['img' => '/images/ingredient_macro.png', 'likes' => '2.4K', 'comments' => '95', 'tag' => 'Healthy', 'label' => 'Pure Protein'],
-                    ['img' => '/images/product_shot.png', 'likes' => '4.1K', 'comments' => '212', 'tag' => 'Snack', 'label' => 'Roasted Makhana'],
+                    ['img' => '/images/product_shot_new.png', 'likes' => '4.1K', 'comments' => '212', 'tag' => 'Snack', 'label' => 'Roasted Makhana'],
                     ['img' => '/images/hero_bg.png', 'likes' => '1.9K', 'comments' => '73', 'tag' => 'Vibe', 'label' => 'Air Roasted'],
                     ['img' => '/images/story_farmer.png', 'likes' => '2.9K', 'comments' => '104', 'tag' => 'Farms', 'label' => 'Direct to You'],
                     ['img' => '/images/ingredient_macro.png', 'likes' => '3.5K', 'comments' => '142', 'tag' => 'Nature', 'label' => 'Gluten Free']
@@ -307,7 +307,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl">
-                <img src="{{ asset('images/product_shot.png') }}" alt="MunchGud Premium Roasted Makhana" class="w-full h-full object-cover">
+                <img src="{{ asset('images/product_shot_new.png') }}" alt="MunchGud Premium Roasted Makhana" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
             </div>
             <div class="reveal">
@@ -366,7 +366,7 @@
                     @endforeach
                 </div>
             @else
-                @php $ph = ['images/hero_bg.png', 'images/product_shot.png', 'images/story_farmer.png', 'images/ingredient_macro.png']; @endphp
+                @php $ph = ['images/hero_bg.png', 'images/product_shot_new.png', 'images/story_farmer.png', 'images/ingredient_macro.png']; @endphp
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
                     @for($i=0; $i<4; $i++)
                         <a href="https://instagram.com/munchgud" target="_blank" class="aspect-square rounded-[2rem] overflow-hidden relative group shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">

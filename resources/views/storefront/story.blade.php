@@ -336,7 +336,7 @@
             @endphp
             <div class="reveal group bg-mg-cream/30 rounded-3xl border border-mg-dark/[0.04] overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:shadow-mg-green/8 transition-all duration-500 relative" style="transition-delay:{{ $i*0.1 }}s">
                 <a href="{{ route('products.show', $p->slug) }}" class="relative aspect-square bg-gradient-to-br {{ $g }} flex items-center justify-center overflow-hidden block">
-                    <img src="{{ $p->primaryImage ? Storage::url($p->primaryImage->path) : asset('images/product_shot.png') }}" alt="{{ $p->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <img src="{{ $p->primaryImage ? Storage::url($p->primaryImage->path) : asset('images/product_shot_new.png') }}" alt="{{ $p->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                     @if($discount > 0 || $badge)
                     <span class="absolute top-3 left-3 {{ $bc }} text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">{{ $badge }}</span>
                     @endif

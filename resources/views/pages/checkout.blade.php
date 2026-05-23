@@ -182,7 +182,7 @@
                                         @if($item->sku->product->primaryImage)
                                             <img src="{{ Storage::url($item->sku->product->primaryImage->path) }}" class="w-full h-full object-cover">
                                         @else
-                                            <img src="{{ asset('images/product_shot.png') }}" class="w-full h-full object-cover">
+                                            <img src="{{ asset('images/product_shot_new.png') }}" class="w-full h-full object-cover">
                                         @endif
                                     </div>
                                     <span class="absolute -top-2 -right-2 bg-mg-dark text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center ring-2 ring-white">{{ $item->quantity }}</span>
