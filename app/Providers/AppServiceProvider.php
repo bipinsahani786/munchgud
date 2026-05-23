@@ -22,19 +22,23 @@ class AppServiceProvider extends ServiceProvider
          if (env('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }
-        // Override mail config from database settings
-        if (!app()->runningInConsole() && \Illuminate\Support\Facades\Schema::hasTable('settings')) {
-            $mailHost = \App\Models\Setting::get('mail_host');
-            if ($mailHost) {
-                config([
-                    'mail.mailers.smtp.host' => $mailHost,
-                    'mail.mailers.smtp.port' => \App\Models\Setting::get('mail_port', env('MAIL_PORT', 2525)),
-                    'mail.mailers.smtp.username' => \App\Models\Setting::get('mail_username', env('MAIL_USERNAME')),
-                    'mail.mailers.smtp.password' => \App\Models\Setting::get('mail_password', env('MAIL_PASSWORD')),
-                    'mail.from.address' => \App\Models\Setting::get('mail_from_address', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
-                    'mail.from.name' => \App\Models\Setting::get('mail_from_name', env('MAIL_FROM_NAME', 'Example')),
-                ]);
+        // Override mail config from database settings (runs in web and queue/console environments safely)
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+                $mailHost = \App\Models\Setting::get('mail_host');
+                if ($mailHost) {
+                    config([
+                        'mail.mailers.smtp.host' => $mailHost,
+                        'mail.mailers.smtp.port' => \App\Models\Setting::get('mail_port', env('MAIL_PORT', 2525)),
+                        'mail.mailers.smtp.username' => \App\Models\Setting::get('mail_username', env('MAIL_USERNAME')),
+                        'mail.mailers.smtp.password' => \App\Models\Setting::get('mail_password', env('MAIL_PASSWORD')),
+                        'mail.from.address' => \App\Models\Setting::get('mail_from_address', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
+                        'mail.from.name' => \App\Models\Setting::get('mail_from_name', env('MAIL_FROM_NAME', 'Example')),
+                    ]);
+                }
             }
+        } catch (\Exception $e) {
+            // Database not fully migrated or ready yet, ignore and use .env defaults
         }
 
         // Share categories and cart count with storefront views
