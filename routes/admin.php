@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\AdminVariantTypeController;
 use App\Http\Controllers\Admin\AdminSupportTicketController;
 use App\Http\Controllers\Admin\RecipeController as AdminRecipeController;
 use App\Http\Controllers\Admin\AdminSystemController;
+use App\Http\Controllers\Admin\AdminInquiryController;
 
 Route::prefix('admin')->name('admin.')->group(function() {
     // Auth
@@ -43,6 +44,11 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
         // Categories
         Route::resource('categories', AdminCategoryController::class);
+
+        // CMS Pages
+        Route::get('/pages', [App\Http\Controllers\Admin\AdminPageController::class, 'index'])->name('pages.index');
+        Route::get('/pages/{page}/edit', [App\Http\Controllers\Admin\AdminPageController::class, 'edit'])->name('pages.edit');
+        Route::patch('/pages/{page}', [App\Http\Controllers\Admin\AdminPageController::class, 'update'])->name('pages.update');
 
         // Orders
         Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
@@ -104,6 +110,11 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('tickets/{ticket}', [AdminSupportTicketController::class, 'show'])->name('tickets.show');
         Route::post('tickets/{ticket}/reply', [AdminSupportTicketController::class, 'reply'])->name('tickets.reply');
         Route::patch('tickets/{ticket}/status', [AdminSupportTicketController::class, 'updateStatus'])->name('tickets.status');
+
+        // Contact Inquiries
+        Route::get('inquiries', [AdminInquiryController::class, 'index'])->name('inquiries.index');
+        Route::get('inquiries/{inquiry}', [AdminInquiryController::class, 'show'])->name('inquiries.show');
+        Route::delete('inquiries/{inquiry}', [AdminInquiryController::class, 'destroy'])->name('inquiries.destroy');
 
         // Recipes
         Route::get('recipes', [AdminRecipeController::class, 'index'])->name('recipes.index');

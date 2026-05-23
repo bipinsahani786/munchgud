@@ -32,9 +32,9 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-widest text-munch-500 mb-1">Email Us</p>
-                        <a href="mailto:support@munchgud.com" class="text-munch-900 font-semibold text-sm hover:text-mg-green transition">support@munchgud.com</a>
-                        <p class="text-xs text-munch-500 mt-1">We respond within 24 hours</p>
+                        <p class="text-[11px] font-bold text-munch-500 uppercase tracking-widest mb-0.5">Email Us</p>
+                        <a href="mailto:{{ $global_settings['store_email'] ?? 'support@munchgud.com' }}" class="text-munch-900 font-semibold text-sm hover:text-mg-green transition">{{ $global_settings['store_email'] ?? 'support@munchgud.com' }}</a>
+                        <p class="text-xs text-munch-400 mt-1 font-medium">We respond within 24 hours</p>
                     </div>
                 </div>
 
@@ -46,9 +46,9 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-widest text-munch-500 mb-1">WhatsApp Chat</p>
-                        <a href="https://wa.me/919999999999" target="_blank" rel="noopener" class="text-munch-900 font-semibold text-sm hover:text-[#25D366] transition">+91 99999 99999</a>
-                        <p class="text-xs text-munch-500 mt-1">Mon–Sat, 10am – 6pm IST</p>
+                        <p class="text-[11px] font-bold text-munch-500 uppercase tracking-widest mb-0.5">WhatsApp Chat</p>
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $global_settings['store_phone'] ?? '919999999999') }}" target="_blank" rel="noopener" class="text-munch-900 font-semibold text-sm hover:text-[#25D366] transition">{{ $global_settings['store_phone'] ?? '+91 99999 99999' }}</a>
+                        <p class="text-xs text-munch-400 mt-1 font-medium">Mon–Sat, 10am – 6pm IST</p>
                     </div>
                 </div>
 
@@ -60,9 +60,9 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-widest text-munch-500 mb-1">Our Base</p>
-                        <p class="text-munch-900 font-semibold text-sm">Darbhanga, Bihar</p>
-                        <p class="text-xs text-munch-500 mt-1">India — 846 004</p>
+                        <p class="text-[11px] font-bold text-munch-500 uppercase tracking-widest mb-0.5">Our Base</p>
+                        <p class="text-munch-900 font-semibold text-sm">{{ $global_settings['company_city'] ?? 'Darbhanga' }}, {{ $global_settings['company_state'] ?? 'Bihar' }}</p>
+                        <p class="text-xs text-munch-400 mt-1 font-medium">India — {{ $global_settings['company_pincode'] ?? '846 004' }}</p>
                     </div>
                 </div>
 
@@ -231,8 +231,8 @@
     <div class="bg-munch-900/5 border-t border-munch-200 py-16">
         <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 text-center">
             <span class="text-mg-green text-xs font-bold uppercase tracking-widest mb-3 block">Find Us</span>
-            <h2 class="text-3xl font-serif font-bold text-munch-900 mb-4">Rooted in the Heart of Bihar</h2>
-            <p class="text-munch-600 font-light mb-10 max-w-md mx-auto text-sm">Our makhanas are sourced, roasted, and packed in Darbhanga — the makhana capital of the world.</p>
+            <h2 class="text-3xl font-serif font-bold text-munch-900 mb-4 text-center">Locate Us</h2>
+            <p class="text-munch-600 font-light mb-10 max-w-md mx-auto text-sm">Our makhanas are sourced, roasted, and packed in {{ $global_settings['company_city'] ?? 'Darbhanga' }} — the makhana capital of the world.</p>
             <div class="rounded-3xl overflow-hidden border border-munch-200 premium-shadow max-w-4xl mx-auto">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114958.96936453574!2d85.82003!3d26.15228!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ee3ead7b22c451%3A0x9c62f94f2fd9e63f!2sDarbhanga%2C%20Bihar!5e0!3m2!1sen!2sin!4v1716300000000"

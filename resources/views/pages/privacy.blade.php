@@ -35,7 +35,7 @@
                 
                 <section id="intro" class="scroll-mt-28">
                     <h2 class="text-2xl font-serif text-munch-900 font-bold mb-4">1. Introduction</h2>
-                    <p class="mb-4">Welcome to MunchGud. We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our policy, or our practices with regards to your personal information, please contact us at support@munchgud.com.</p>
+                    <p class="mb-4">Welcome to MunchGud. We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about our policy, or our practices with regards to your personal information, please contact us at {{ $global_settings['store_email'] ?? 'support@munchgud.com' }}.</p>
                     <p>When you visit our website and use our services, you trust us with your personal information. We take your privacy very seriously. In this privacy notice, we seek to explain to you in the clearest way possible what information we collect, how we use it and what rights you have in relation to it.</p>
                 </section>
 
@@ -104,7 +104,7 @@
                         <li>To request rectification or erasure of your personal records.</li>
                         <li>To object to or restrict processing of your active data.</li>
                     </ul>
-                    <p>To make such a request, please contact our support desk directly at support@munchgud.com. We will consider and act upon any request in accordance with applicable laws.</p>
+                    <p>To make such a request, please contact our support desk directly at {{ $global_settings['store_email'] ?? 'support@munchgud.com' }}. We will consider and act upon any request in accordance with applicable laws.</p>
                 </section>
 
             </article>

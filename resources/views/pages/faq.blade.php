@@ -26,7 +26,7 @@
         {
             category: 'orders',
             q: 'Can I modify or cancel my order after placing it?',
-            a: 'Orders can be modified or cancelled within 2 hours of placing them by contacting our customer support team directly at support@munchgud.com or raising a support ticket in your dashboard. Once the order is dispatched, we cannot cancel it.'
+            a: 'Orders can be modified or cancelled within 2 hours of placing them by contacting our customer support team directly at {{ $global_settings['store_email'] ?? 'support@munchgud.com' }} or raising a support ticket in your dashboard. Once the order is dispatched, we cannot cancel it.'
         },
         {
             category: 'shipping',
@@ -121,7 +121,7 @@
             <p class="text-sm text-munch-600 font-light mb-6">Our support crew is always ready to guide you on your makhana journey.</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="{{ route('contact') }}" class="inline-flex items-center justify-center bg-mg-green text-white text-xs font-bold px-6 py-3.5 rounded-full hover:bg-mg-green-dark uppercase tracking-widest transition-all">Contact Support</a>
-                <a href="mailto:support@munchgud.com" class="inline-flex items-center justify-center bg-munch-50 border border-munch-200 text-munch-800 text-xs font-bold px-6 py-3.5 rounded-full hover:bg-munch-100 uppercase tracking-widest transition-all">Email Us</a>
+                <a href="mailto:{{ $global_settings['store_email'] ?? 'support@munchgud.com' }}" class="inline-flex items-center justify-center bg-munch-50 border border-munch-200 text-munch-800 text-xs font-bold px-6 py-3.5 rounded-full hover:bg-munch-100 uppercase tracking-widest transition-all">Email Us</a>
             </div>
         </div>
     </div>

@@ -71,7 +71,7 @@
                 <section id="undelivered" class="scroll-mt-28">
                     <h2 class="text-2xl font-serif text-munch-900 font-bold mb-4">5. Undelivered Packages</h2>
                     <p class="mb-4">Our delivery partners will attempt to deliver your order up to **3 times** before initiating a Return-to-Origin (RTO). In the event of a failed delivery due to an incorrect shipping address, phone number, or unavailability of the recipient, our support desk will contact you to reschedule.</p>
-                    <p>If you need to change your delivery address after placing an order, please contact us immediately at support@munchgud.com or raise a ticket. We cannot alter the address once the order has been handed over to the courier partners.</p>
+                    <p>If you need to change your delivery address after placing an order, please contact us immediately at {{ $global_settings['store_email'] ?? 'support@munchgud.com' }} or raise a ticket. We cannot alter the address once the order has been handed over to the courier partners.</p>
                 </section>
 
             </article>

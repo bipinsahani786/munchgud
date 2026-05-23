@@ -55,7 +55,7 @@
 
                 <section id="cancellations" class="scroll-mt-28">
                     <h2 class="text-2xl font-serif text-munch-900 font-bold mb-4">3. Order Cancellations</h2>
-                    <p class="mb-4">You can cancel your order free of charge within **2 hours** of placing it. To cancel your order, please raise a ticket directly through the Account Dashboard or contact us at support@munchgud.com with your order details.</p>
+                    <p class="mb-4">You can cancel your order free of charge within **2 hours** of placing it. To cancel your order, please raise a ticket directly through the Account Dashboard or contact us at {{ $global_settings['store_email'] ?? 'support@munchgud.com' }} with your order details.</p>
                     <p>Once an order has been picked up by our shipping partners or dispatched from our central warehouse in Bihar, we cannot accept cancellations or offer refunds for that order.</p>
                 </section>
 
@@ -73,7 +73,7 @@
                     <h2 class="text-2xl font-serif text-munch-900 font-bold mb-4">5. Contact Customer Support</h2>
                     <p class="mb-4">For any refund or replacement inquiries, feel free to contact us through any of the following channels:</p>
                     <ul class="list-disc pl-6 space-y-2 mb-6">
-                        <li>Email: <a href="mailto:support@munchgud.com" class="text-mg-green hover:underline">support@munchgud.com</a></li>
+                        <li>Email: <a href="mailto:{{ $global_settings['store_email'] ?? 'support@munchgud.com' }}" class="text-mg-green hover:underline">{{ $global_settings['store_email'] ?? 'support@munchgud.com' }}</a></li>
                         <li>Support Tickets: <a href="{{ route('account.tickets.index') }}" class="text-mg-green hover:underline">Raise a Ticket in your Account Dashboard</a></li>
                         <li>Response Time: We aim to respond to all inquiries within 24 hours.</li>
                     </ul>

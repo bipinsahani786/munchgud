@@ -63,12 +63,17 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="font-semibold text-gray-700 text-sm flex items-center gap-2">
-                                @if($sku->product->primaryImage)
-                                    <img src="{{ Storage::url($sku->product->primaryImage->path) }}" class="w-8 h-8 rounded-lg object-cover">
+                                @if($sku->product)
+                                    @if($sku->product->primaryImage)
+                                        <img src="{{ Storage::url($sku->product->primaryImage->path) }}" class="w-8 h-8 rounded-lg object-cover">
+                                    @else
+                                        <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-lg">🥜</div>
+                                    @endif
+                                    <a href="{{ route('admin.products.edit', $sku->product) }}" class="hover:text-emerald-600 transition">{{ $sku->product->name }}</a>
                                 @else
-                                    <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-lg">🥜</div>
+                                    <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-lg" title="Product deleted or missing">⚠️</div>
+                                    <span class="text-red-500 text-xs italic">Unknown Product</span>
                                 @endif
-                                <a href="{{ route('admin.products.edit', $sku->product) }}" class="hover:text-emerald-600 transition">{{ $sku->product->name }}</a>
                             </div>
                         </td>
                         <td class="px-6 py-4">
