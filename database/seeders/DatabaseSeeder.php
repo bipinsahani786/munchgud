@@ -18,6 +18,7 @@ namespace Database\Seeders;
                 CouponSeeder::class,
                 SettingSeeder::class,
                 ProductSeeder::class,
+                InitialDataSeeder::class, // Master seeder populating pages, recipes, static text, blogs, and faqs
             ]);
         }
     }
