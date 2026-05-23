@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        // Override mail config from database settings
+        if (!app()->runningInConsole() && \Illuminate\Support\Facades\Schema::hasTable('settings')) {
+            $mailHost = \App\Models\Setting::get('mail_host');
+            if ($mailHost) {
+                config([
+                    'mail.mailers.smtp.host' => $mailHost,
+                    'mail.mailers.smtp.port' => \App\Models\Setting::get('mail_port', env('MAIL_PORT', 2525)),
+                    'mail.mailers.smtp.username' => \App\Models\Setting::get('mail_username', env('MAIL_USERNAME')),
+                    'mail.mailers.smtp.password' => \App\Models\Setting::get('mail_password', env('MAIL_PASSWORD')),
+                    'mail.from.address' => \App\Models\Setting::get('mail_from_address', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
+                    'mail.from.name' => \App\Models\Setting::get('mail_from_name', env('MAIL_FROM_NAME', 'Example')),
+                ]);
+            }
+        }
+
+        // Share categories and cart count with storefront views
+        if (!app()->runningInConsole()) {
+            \Illuminate\Support\Facades\View::composer('*', function ($view) {
+                if (\Illuminate\Support\Facades\Schema::hasTable('categories')) {
+                    $view->with('global_categories', \App\Models\Category::active()->whereNull('parent_id')->orderBy('sort_order', 'asc')->get());
+                } else {
+                    $view->with('global_categories', collect());
+                }
+
+                if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+                    $view->with('global_settings', \App\Models\Setting::allCached());
+                } else {
+                    $view->with('global_settings', []);
+                }
+
+                try {
+                    $cartService = app(\App\Services\CartService::class);
+                    $view->with('cart_count', $cartService->getSummary()['items_count'] ?? 0);
+                } catch (\Exception $e) {
+                    $view->with('cart_count', 0);
+                }
+            });
+        }
+    }
+}
