@@ -341,42 +341,69 @@
                          x-transition:leave="transition ease-in duration-150"
                          x-transition:leave-start="opacity-100 translate-y-0"
                          x-transition:leave-end="opacity-0 translate-y-1"
-                         class="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-80 bg-white/95 backdrop-blur-xl rounded-3xl shadow-dropdown border border-mg-green/10 overflow-hidden z-50 premium-shadow">
+                         class="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[480px] bg-white/95 backdrop-blur-xl rounded-3xl shadow-dropdown border border-mg-green/10 overflow-hidden z-50 premium-shadow">
                         
-                        <div class="p-3">
-                            <!-- All Products Link -->
-                            <a href="{{ route('products.index') }}" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-mg-green/8 transition-colors group mb-2">
-                                <div class="w-11 h-11 bg-mg-green/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-mg-green/20 group-hover:scale-110 transition-all">
-                                    <svg class="w-5 h-5 text-mg-green" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z" stroke-linecap="round"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" stroke-linecap="round"/></svg>
-                                </div>
-                                <div>
-                                    <p class="text-[15px] font-bold text-mg-dark group-hover:text-mg-green transition">All Products</p>
-                                    <p class="text-xs text-mg-muted leading-tight mt-0.5">Explore our full range</p>
-                                </div>
-                            </a>
-                            
-                            @if(isset($global_categories) && $global_categories->count() > 0)
-                            <div class="border-t border-mg-green/5 pt-2 mt-1">
-                                <p class="px-4 py-2 text-[11px] font-black text-mg-muted uppercase tracking-widest">Categories</p>
-                                @foreach($global_categories as $cat)
-                                <a href="{{ route('products.category', $cat->slug) }}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-mg-green/5 hover:text-mg-green text-[14.5px] font-bold text-mg-dark/80 transition-all group">
-                                    <span class="w-2 h-2 rounded-full bg-mg-green/30 group-hover:bg-mg-green transition-all group-hover:scale-125"></span>
-                                    {{ $cat->name }}
-                                </a>
-                                @endforeach
-                            </div>
-                            @endif
-
-                            <div class="border-t border-mg-green/5 pt-2 mt-2">
-                                <a href="{{ route('build-a-box') }}" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-mg-orange/8 transition-colors group">
-                                    <div class="w-11 h-11 bg-mg-orange/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-mg-orange/20 group-hover:scale-110 transition-all">
-                                        <svg class="w-5 h-5 text-mg-orange" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+                        <div class="grid grid-cols-2 p-4 gap-4">
+                            <!-- Left Column: Catalog & Categories -->
+                            <div class="border-r border-mg-green/5 pr-4 text-left">
+                                <!-- All Products Link -->
+                                <a href="{{ route('products.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-mg-green/8 transition-colors group mb-2">
+                                    <div class="w-9 h-9 bg-mg-green/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-mg-green/20 group-hover:scale-110 transition-all">
+                                        <svg class="w-4 h-4 text-mg-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z" stroke-linecap="round"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" stroke-linecap="round"/></svg>
                                     </div>
                                     <div>
-                                        <p class="text-[15px] font-bold text-mg-dark group-hover:text-mg-orange transition">Build a Box</p>
-                                        <p class="text-xs text-mg-muted mt-0.5">Customize your flavour mix</p>
+                                        <p class="text-[14px] font-bold text-mg-dark group-hover:text-mg-green transition">All Products</p>
+                                        <p class="text-[10px] text-mg-muted leading-none mt-0.5">Explore full range</p>
                                     </div>
                                 </a>
+
+                                @if(isset($global_categories) && $global_categories->count() > 0)
+                                <div class="pt-2 mt-1">
+                                    <p class="px-3 py-1.5 text-[10px] font-black text-mg-muted uppercase tracking-widest">Categories</p>
+                                    @foreach($global_categories as $cat)
+                                    <a href="{{ route('products.category', $cat->slug) }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-mg-green/5 hover:text-mg-green text-[13.5px] font-bold text-mg-dark/85 transition-all group">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-mg-green/30 group-hover:bg-mg-green transition-all group-hover:scale-125"></span>
+                                        {{ $cat->name }}
+                                    </a>
+                                    @endforeach
+                                </div>
+                                @endif
+                            </div>
+
+                            <!-- Right Column: Popular Flavours & Custom Box -->
+                            <div class="pl-2 text-left">
+                                <p class="px-3 py-1.5 text-[10px] font-black text-mg-muted uppercase tracking-widest">Featured Flavours</p>
+                                <div class="space-y-1">
+                                    <!-- Cream & Onion Link -->
+                                    <a href="{{ route('cream-and-onion') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-mg-green/5 hover:text-mg-green transition group">
+                                        <div class="w-8 h-8 bg-mg-green/10 rounded-xl flex items-center justify-center flex-shrink-0 text-base">🧅</div>
+                                        <div>
+                                            <p class="text-[13.5px] font-bold text-mg-dark group-hover:text-mg-green">Cream & Onion</p>
+                                            <p class="text-[9.5px] text-mg-muted leading-none mt-0.5">Rich & comforting</p>
+                                        </div>
+                                    </a>
+
+                                    <!-- Peri Peri Link -->
+                                    <a href="{{ route('peri-peri') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-mg-orange/5 hover:text-mg-orange transition group">
+                                        <div class="w-8 h-8 bg-mg-orange/10 rounded-xl flex items-center justify-center flex-shrink-0 text-base">🌶️</div>
+                                        <div>
+                                            <p class="text-[13.5px] font-bold text-mg-dark group-hover:text-mg-orange">Spicy Peri Peri</p>
+                                            <p class="text-[9.5px] text-mg-muted leading-none mt-0.5">Fiery & bold taste</p>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="border-t border-mg-green/5 pt-3 mt-3">
+                                    <a href="{{ route('build-a-box') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-mg-orange/8 transition-colors group">
+                                        <div class="w-9 h-9 bg-mg-orange/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-mg-orange/20 group-hover:scale-110 transition-all">
+                                            <svg class="w-4 h-4 text-mg-orange" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-[13.5px] font-bold text-mg-dark group-hover:text-mg-orange transition">Build a Box</p>
+                                            <p class="text-[9.5px] text-mg-muted leading-none mt-0.5">Customize your mix</p>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -541,7 +568,7 @@
                     </div>
                 </div>
 
-                @foreach([['Our Story', route('story')], ['Blog', route('blogs.index')], ['Health Benefits', route('health')], ['Recipes', route('recipes')], ['Reviews', route('reviews')], ['Contact Us', route('contact')]] as [$label, $href])
+                @foreach([['Our Story', route('story')], ['Blog', route('blogs.index')], ['Cream & Onion', route('cream-and-onion')], ['Peri Peri', route('peri-peri')], ['Health Benefits', route('health')], ['Recipes', route('recipes')], ['Reviews', route('reviews')], ['Contact Us', route('contact')]] as [$label, $href])
                 <a href="{{ $href }}" @click="mobileOpen=false" class="flex items-center gap-3 px-4 py-3.5 rounded-xl hover:bg-mg-green/[0.05] text-mg-dark font-semibold text-[14.5px] transition">
                     {{ $label }}
                 </a>
@@ -706,6 +733,8 @@
                 <ul class="space-y-3">
                     <li><a href="{{ route('story') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Our Story</a></li>
                     <li><a href="{{ route('blogs.index') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Blog</a></li>
+                    <li><a href="{{ route('cream-and-onion') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Cream & Onion</a></li>
+                    <li><a href="{{ route('peri-peri') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Peri Peri</a></li>
                     <li><a href="{{ route('health') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Health Benefits</a></li>
                     <li><a href="{{ route('recipes') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Recipes</a></li>
                     <li><a href="{{ route('reviews') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Reviews</a></li>

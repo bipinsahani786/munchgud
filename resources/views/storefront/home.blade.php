@@ -93,29 +93,6 @@
 </div>
 
 {{-- ══════════════════════════════════════════
-     5. BRAND PROMISE — 3 PILLARS
-     ══════════════════════════════════════════ --}}
-<section class="py-20 lg:py-28 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid md:grid-cols-3 gap-10 lg:gap-20">
-            @php $pillars = [
-                ['icon'=>'🔥', 'num'=>$page->sections['pillar_1_num'] ?? '0g', 'title'=>$page->sections['pillar_1_title'] ?? 'Oil Used', 'desc'=>$page->sections['pillar_1_desc'] ?? 'Pure hot-air roasting technology. Zero oil, maximum crunch, guilt-free snacking at its finest.'],
-                ['icon'=>'🌿', 'num'=>$page->sections['pillar_2_num'] ?? '100%', 'title'=>$page->sections['pillar_2_title'] ?? 'Natural', 'desc'=>$page->sections['pillar_2_desc'] ?? 'What you see on the label is what\'s inside. No preservatives, no artificial colours, nothing hidden.'],
-                ['icon'=>'💪', 'num'=>$page->sections['pillar_3_num'] ?? '15g', 'title'=>$page->sections['pillar_3_title'] ?? 'Protein per 100g', 'desc'=>$page->sections['pillar_3_desc'] ?? 'The perfect post-workout or evening snack. Plant-based protein that actually tastes incredible.'],
-            ]; @endphp
-            @foreach($pillars as $i=>$p)
-            <div class="reveal text-center group" style="transition-delay:{{ $i*0.15 }}s">
-                <div class="w-16 h-16 bg-mg-green/8 rounded-2xl mx-auto mb-5 flex items-center justify-center text-3xl group-hover:bg-mg-green/15 transition-colors">{{ $p['icon'] }}</div>
-                <p class="font-heading text-5xl font-black text-mg-green mb-1">{{ $p['num'] }}</p>
-                <h3 class="font-heading text-lg font-bold text-mg-dark mb-3">{{ $p['title'] }}</h3>
-                <p class="text-mg-muted text-sm leading-relaxed max-w-xs mx-auto">{{ $p['desc'] }}</p>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- ══════════════════════════════════════════
      6. FEATURED PRODUCTS
      ══════════════════════════════════════════ --}}
 <section id="products" class="py-20 lg:py-28 bg-mg-cream">
@@ -219,6 +196,240 @@
 </section>
 
 {{-- ══════════════════════════════════════════
+     13. INSTAGRAM
+     ══════════════════════════════════════════ --}}
+@php
+    $instagramEmbedUrl = $page->sections['instagram_video_1'] ?? \App\Models\Setting::get('instagram_embed_url', '');
+    if ($instagramEmbedUrl) {
+        if (strpos($instagramEmbedUrl, '?') !== false) {
+            $instagramEmbedUrl = substr($instagramEmbedUrl, 0, strpos($instagramEmbedUrl, '?'));
+        }
+        $instagramEmbedUrl = rtrim($instagramEmbedUrl, '/');
+        if (!str_ends_with($instagramEmbedUrl, '/embed')) {
+            $instagramEmbedUrl .= '/embed';
+        }
+    }
+@endphp
+
+<section class="py-20 lg:py-24 bg-mg-cream relative overflow-hidden">
+    <!-- Subtle background blob -->
+    <div class="absolute -top-10 -right-10 w-72 h-72 bg-mg-green/5 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-10 -left-10 w-72 h-72 bg-mg-orange/5 rounded-full blur-3xl"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-12 reveal">
+            <span class="inline-block bg-mg-green/10 text-mg-green text-[11px] font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-3">{{ $page->sections['instagram_badge'] ?? '#MunchGudMoments' }}</span>
+            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">{!! $page->sections['instagram_title'] ?? 'Tag Us <a href="https://instagram.com/munchgud" target="_blank" rel="noopener" class="italic text-mg-green hover:underline">@munchgud</a>' !!}</h2>
+            <p class="text-mg-muted text-sm mt-3 max-w-md mx-auto">{{ $page->sections['instagram_subtitle'] ?? 'Share your snack love and get featured! Join our premium snacking community.' }}</p>
+        </div>
+
+        @if($instagramEmbedUrl)
+            <div class="grid lg:grid-cols-12 gap-8 items-center">
+                <!-- Column 1: Live Instagram Post Smartphone Frame -->
+                <div class="lg:col-span-5 flex justify-center reveal">
+                    <div class="relative w-full max-w-[360px] aspect-[9/16] bg-mg-dark rounded-[48px] p-3 shadow-2xl border-4 border-mg-dark/80 ring-8 ring-mg-dark/10 overflow-hidden">
+                        <!-- Top Speaker / Notch -->
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-mg-dark rounded-b-2xl z-50 flex items-center justify-center">
+                            <span class="w-12 h-1 bg-white/20 rounded-full"></span>
+                        </div>
+                        <!-- Status Bar -->
+                        <div class="absolute top-6 left-6 right-6 flex justify-between text-[10px] text-white/40 font-semibold font-mono z-40">
+                            <span>MunchGud 5G</span>
+                            <div class="flex items-center gap-1">
+                                <span>📶</span>
+                                <span>100% 🔋</span>
+                            </div>
+                        </div>
+                        <!-- Iframe container -->
+                        <div class="w-full h-full rounded-[38px] overflow-hidden bg-white pt-10 relative">
+                            <iframe src="{{ $instagramEmbedUrl }}" class="w-full h-full border-0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Gorgeous complementary feed grid -->
+                <div class="lg:col-span-7 reveal">
+                    <div class="grid grid-cols-2 gap-4">
+                        @foreach([
+                            ['img' => '/images/story_farmer.png', 'likes' => '3.1K', 'comments' => '124', 'tag' => 'Mithila Sourced'],
+                            ['img' => '/images/ingredient_macro.png', 'likes' => '1.8K', 'comments' => '89', 'tag' => 'Pure Protein'],
+                            ['img' => '/images/product_shot.png', 'likes' => '2.5K', 'comments' => '142', 'tag' => 'Gourmet Roasted'],
+                            ['img' => '/images/hero_bg.png', 'likes' => '4.2K', 'comments' => '210', 'tag' => 'Snack Gud']
+                        ] as $item)
+                            <div class="aspect-square rounded-3xl bg-white relative group overflow-hidden border border-mg-dark/5 shadow-md shadow-mg-dark/[0.02]">
+                                <img src="{{ $item['img'] }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Instagram Post">
+                                <span class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-[10px] font-bold text-mg-green px-3 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">{{ $item['tag'] }}</span>
+                                <div class="absolute inset-0 bg-mg-green-dark/65 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3 z-20">
+                                    <div class="flex items-center gap-4 text-white">
+                                        <span class="font-bold text-sm flex items-center gap-1">❤️ {{ $item['likes'] }}</span>
+                                        <span class="font-bold text-sm flex items-center gap-1">💬 {{ $item['comments'] }}</span>
+                                    </div>
+                                    <a href="{{ route('products.index') }}" class="bg-white text-mg-green text-[11px] font-bold px-4 py-1.5 rounded-full hover:bg-mg-orange hover:text-white transition shadow-lg">Shop Flavor</a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @else
+            <!-- Beautiful full interactive 6-column grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">
+                @foreach([
+                    ['img' => '/images/story_farmer.png', 'likes' => '3.8K', 'comments' => '189', 'tag' => 'Source', 'label' => 'Mithila Sourced'],
+                    ['img' => '/images/ingredient_macro.png', 'likes' => '2.4K', 'comments' => '95', 'tag' => 'Healthy', 'label' => 'Pure Protein'],
+                    ['img' => '/images/product_shot.png', 'likes' => '4.1K', 'comments' => '212', 'tag' => 'Snack', 'label' => 'Roasted Makhana'],
+                    ['img' => '/images/hero_bg.png', 'likes' => '1.9K', 'comments' => '73', 'tag' => 'Vibe', 'label' => 'Air Roasted'],
+                    ['img' => '/images/story_farmer.png', 'likes' => '2.9K', 'comments' => '104', 'tag' => 'Farms', 'label' => 'Direct to You'],
+                    ['img' => '/images/ingredient_macro.png', 'likes' => '3.5K', 'comments' => '142', 'tag' => 'Nature', 'label' => 'Gluten Free']
+                ] as $item)
+                    <div class="reveal aspect-square rounded-3xl bg-white relative group overflow-hidden border border-mg-dark/5 shadow-md shadow-mg-dark/[0.02]">
+                        <img src="{{ $item['img'] }}" class="w-full h-full object-cover group-hover:scale-115 transition-transform duration-700" alt="Instagram Post">
+                        <!-- Custom Tag -->
+                        <span class="absolute top-3.5 left-3.5 bg-white/90 backdrop-blur-sm text-[9px] font-black text-mg-dark px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">{{ $item['tag'] }}</span>
+                        <!-- Glassmorphic hover overlay -->
+                        <div class="absolute inset-0 bg-mg-green-dark/70 opacity-0 group-hover:opacity-100 transition-all duration-400 flex flex-col items-center justify-center p-4 text-center z-20">
+                            <span class="text-white/80 text-[10px] font-bold uppercase tracking-widest mb-1">{{ $item['label'] }}</span>
+                            <div class="flex items-center gap-3 text-white mb-4">
+                                <span class="font-bold text-xs flex items-center gap-1 select-none cursor-pointer hover:scale-110 active:scale-95 transition-all">❤️ {{ $item['likes'] }}</span>
+                                <span class="font-bold text-xs flex items-center gap-1">💬 {{ $item['comments'] }}</span>
+                            </div>
+                            <a href="{{ route('products.index') }}" class="bg-mg-orange text-white text-[10px] font-bold px-4 py-2 rounded-full hover:bg-white hover:text-mg-green transition shadow-md">Shop Flavor</a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+</section>
+
+<!-- SEO Text Block 1: Hero -->
+<section class="py-20 lg:py-28 bg-white border-b border-mg-dark/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl">
+                <img src="{{ asset('images/product_shot.png') }}" alt="MunchGud Premium Roasted Makhana" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
+            </div>
+            <div class="reveal">
+                <span class="inline-block bg-mg-green/10 text-mg-green font-bold tracking-widest uppercase text-xs px-4 py-1.5 rounded-full mb-4">Premium Snacking</span>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-black text-mg-dark mb-6">MunchGud Premium Roasted Makhana</h2>
+                <div class="text-mg-dark/80 text-lg leading-relaxed space-y-5">
+                    <p>MunchGud has a collection of flavoured makhana that is good for you and tastes amazing. Their roasted fox nuts are crafted to deliver a light texture with a satisfying crunch. They offer bold flavours that make snack time more enjoyable.</p>
+                    <p>MunchGud makhana adds flavour and crunch to everyday snacking. Enjoy eating the makhana range when you are working or travelling or watching a movie. It is an easy snack option for busy lifestyles. MunchGud is a great choice for everyday snacking. MunchGud brings a more enjoyable way to snack.</p>
+                    <p>Every bite delivers bold flavour and a satisfying crunch. We use organic ingredients to make our snacks. Enjoy delicious snacking without compromising on smarter food choices. MunchGud combines bold flavours with a lighter snacking experience. You can make your snack time better with MunchGud snacks.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@php
+    $instaLinks = [];
+    foreach(['instagram_video_1', 'instagram_video_2', 'instagram_video_3'] as $key) {
+        $url = $page->sections[$key] ?? '';
+        if (!$url && $key === 'instagram_video_1') {
+            $url = \App\Models\Setting::get('instagram_embed_url', '');
+        }
+        if ($url) {
+            if (strpos($url, '?') !== false) {
+                $url = substr($url, 0, strpos($url, '?'));
+            }
+            $url = rtrim($url, '/');
+            if (!str_ends_with($url, '/embed')) {
+                $url .= '/embed';
+            }
+            $instaLinks[] = $url;
+        }
+    }
+@endphp
+<section class="py-24 lg:py-32 bg-mg-cream">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 reveal">
+            <div>
+                <span class="inline-block bg-mg-green/10 text-mg-green font-bold tracking-widest uppercase text-xs px-4 py-1.5 rounded-full mb-4">Community</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark mb-4">Join the <span class="italic text-mg-green">#MunchGudFam</span></h2>
+                <p class="text-mg-muted text-lg">Follow us on Instagram for daily snacking inspiration.</p>
+            </div>
+            <a href="https://instagram.com/munchgud" target="_blank" class="inline-flex items-center gap-2 font-bold bg-white px-6 py-3 rounded-full shadow-sm hover:shadow-md text-mg-dark hover:text-mg-green transition-all">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                @munchgud
+            </a>
+        </div>
+        
+        <div class="reveal">
+            @if(count($instaLinks) > 0)
+                <div class="grid grid-cols-1 md:grid-cols-[{{ count($instaLinks) == 1 ? 'minmax(0,1fr)' : 'repeat('.count($instaLinks).',minmax(0,1fr))' }}] gap-8 max-w-{{ count($instaLinks) == 1 ? '2xl' : '7xl' }} mx-auto">
+                    @foreach($instaLinks as $link)
+                    <div class="w-full bg-white rounded-[2rem] shadow-2xl shadow-mg-dark/5 overflow-hidden border border-mg-dark/5 p-2 sm:p-4 md:p-6 lg:p-8">
+                        <iframe src="{{ $link }}" width="100%" height="750" frameborder="0" scrolling="no" allowtransparency="true" class="rounded-xl bg-white"></iframe>
+                    </div>
+                    @endforeach
+                </div>
+            @else
+                @php $ph = ['images/hero_bg.png', 'images/product_shot.png', 'images/story_farmer.png', 'images/ingredient_macro.png']; @endphp
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+                    @for($i=0; $i<4; $i++)
+                        <a href="https://instagram.com/munchgud" target="_blank" class="aspect-square rounded-[2rem] overflow-hidden relative group shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                            <img src="{{ asset($ph[$i]) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/80 via-mg-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white">
+                                <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                    <svg width="40" height="40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                                </div>
+                            </div>
+                        </a>
+                    @endfor
+                </div>
+            @endif
+        </div>
+    </div>
+</section>
+
+{{-- ══════════════════════════════════════════
+     5. BRAND PROMISE — 3 PILLARS
+     ══════════════════════════════════════════ --}}
+<section class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-3 gap-10 lg:gap-20">
+            @php $pillars = [
+                ['icon'=>'🔥', 'num'=>$page->sections['pillar_1_num'] ?? '0g', 'title'=>$page->sections['pillar_1_title'] ?? 'Oil Used', 'desc'=>$page->sections['pillar_1_desc'] ?? 'Pure hot-air roasting technology. Zero oil, maximum crunch, guilt-free snacking at its finest.'],
+                ['icon'=>'🌿', 'num'=>$page->sections['pillar_2_num'] ?? '100%', 'title'=>$page->sections['pillar_2_title'] ?? 'Natural', 'desc'=>$page->sections['pillar_2_desc'] ?? 'What you see on the label is what\'s inside. No preservatives, no artificial colours, nothing hidden.'],
+                ['icon'=>'💪', 'num'=>$page->sections['pillar_3_num'] ?? '15g', 'title'=>$page->sections['pillar_3_title'] ?? 'Protein per 100g', 'desc'=>$page->sections['pillar_3_desc'] ?? 'The perfect post-workout or evening snack. Plant-based protein that actually tastes incredible.'],
+            ]; @endphp
+            @foreach($pillars as $i=>$p)
+            <div class="reveal text-center group" style="transition-delay:{{ $i*0.15 }}s">
+                <div class="w-16 h-16 bg-mg-green/8 rounded-2xl mx-auto mb-5 flex items-center justify-center text-3xl group-hover:bg-mg-green/15 transition-colors">{{ $p['icon'] }}</div>
+                <p class="font-heading text-5xl font-black text-mg-green mb-1">{{ $p['num'] }}</p>
+                <h3 class="font-heading text-lg font-bold text-mg-dark mb-3">{{ $p['title'] }}</h3>
+                <p class="text-mg-muted text-sm leading-relaxed max-w-xs mx-auto">{{ $p['desc'] }}</p>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- SEO Text Block 2: Products & Snacking -->
+<section class="py-20 lg:py-28 bg-white border-t border-mg-dark/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div class="reveal order-last lg:order-first">
+                <span class="inline-block bg-mg-green/10 text-mg-green font-bold tracking-widest uppercase text-xs px-4 py-1.5 rounded-full mb-4">Healthy & Tasty</span>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-black text-mg-dark mb-6">Product Experience & Healthy Snacking</h2>
+                <div class="text-mg-dark/80 text-lg leading-relaxed space-y-5">
+                    <p>At MunchGud, we believe snacking should always feel exciting, flavourful, and satisfying. We made our flavoured makhana for people who like strong flavours, crispy snacks and a more exciting way to snack. Every pack is carefully seasoned to deliver bold flavour with a light and crispy texture, which is what makes the makhana range more enjoyable to snack on.</p>
+                    <p>Our MunchGud Cream and Onion flavour is great for people who like snacks with a lot of flavour. The Cream & Onion flavour combines creamy seasoning with savoury onion taste to create a rich and satisfying snacking experience. For people who like snacks, our Peri Peri makhana is perfect for people who enjoy bold and spicy flavours.</p>
+                    <p>People today are becoming more aware of the importance of healthier eating habits. Now they look for alternatives to oily chips, fried snacks and heavy packaged food. As they learn about being healthy and eating well, demand for healthy food options is increasing in India. Many consumers now look for lighter snack options that fit healthier lifestyles. They want to satisfy their cravings without feeling full or guilty.</p>
+                    <p>That is why health-conscious consumers prefer snacks like makhana. Now people look for convenient protein-rich snacks that fit their busy routine. Everyone wants something crunchy but not too heavy. That's why roasted makhana is becoming popular.</p>
+                </div>
+            </div>
+            <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl order-first lg:order-last">
+                <img src="{{ asset('images/story_farmer.png') }}" alt="MunchGud Snacking Experience" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ══════════════════════════════════════════
      7. BESTSELLER SPOTLIGHT
      ══════════════════════════════════════════ --}}
 <section class="py-20 lg:py-28 bg-white overflow-hidden">
@@ -300,6 +511,32 @@
                 <p class="text-white/45 text-sm leading-relaxed">{{ $b['desc'] }}</p>
             </div>
             @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- SEO Text Block 3: Why Trending -->
+<section class="py-20 lg:py-28 bg-white border-t border-mg-dark/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl">
+                <img src="{{ asset('images/ingredient_macro.png') }}" alt="Why Roasted Fox Nuts Are Trending" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
+            </div>
+            <div class="reveal">
+                <span class="inline-block bg-mg-green/10 text-mg-green font-bold tracking-widest uppercase text-xs px-4 py-1.5 rounded-full mb-4">Trending Now</span>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-black text-mg-dark mb-6">Why Roasted Fox Nuts Are Trending</h2>
+                <div class="text-mg-dark/80 text-lg leading-relaxed space-y-5">
+                    <p>Roasted fox nuts have become really popular as a snack in India over the past few years. Health-conscious consumers are increasingly choosing makhana as an everyday snack. They are also known as makhana. They are light, crunchy, and easy to enjoy. When you compare them to the fried snacks they are a better choice because they taste good and are good for you.</p>
+                    <p>From fitness enthusiasts to busy working professionals, more people are adding makhana to their everyday snacking routine. The reason people like fox nuts so much is because they are light yet crunchy. Makhana is a snack that is crunchy and light and it will not make you feel heavy like oily snacks do.</p>
+                    <ul class="list-disc pl-5 my-4 space-y-2 font-semibold text-mg-dark">
+                        <li>Perfect for light evening cravings</li>
+                        <li>Easy to carry while travelling or working</li>
+                        <li>Convenient to enjoy anytime during the day</li>
+                    </ul>
+                    <p>Today’s consumers look for protein-rich snacks that are convenient and easy to enjoy on the go. Many consumers now enjoy makhana as a healthier evening snack. They want evening snacks that feel satisfying without the heaviness of fried or junk food.</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -552,113 +789,6 @@
 </section>
 
 {{-- ══════════════════════════════════════════
-     13. INSTAGRAM
-     ══════════════════════════════════════════ --}}
-@php
-    $instagramEmbedUrl = $page->sections['instagram_video_1'] ?? \App\Models\Setting::get('instagram_embed_url', '');
-    if ($instagramEmbedUrl) {
-        if (strpos($instagramEmbedUrl, '?') !== false) {
-            $instagramEmbedUrl = substr($instagramEmbedUrl, 0, strpos($instagramEmbedUrl, '?'));
-        }
-        $instagramEmbedUrl = rtrim($instagramEmbedUrl, '/');
-        if (!str_ends_with($instagramEmbedUrl, '/embed')) {
-            $instagramEmbedUrl .= '/embed';
-        }
-    }
-@endphp
-
-<section class="py-20 lg:py-24 bg-mg-cream relative overflow-hidden">
-    <!-- Subtle background blob -->
-    <div class="absolute -top-10 -right-10 w-72 h-72 bg-mg-green/5 rounded-full blur-3xl"></div>
-    <div class="absolute -bottom-10 -left-10 w-72 h-72 bg-mg-orange/5 rounded-full blur-3xl"></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center mb-12 reveal">
-            <span class="inline-block bg-mg-green/10 text-mg-green text-[11px] font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-3">{{ $page->sections['instagram_badge'] ?? '#MunchGudMoments' }}</span>
-            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">{!! $page->sections['instagram_title'] ?? 'Tag Us <a href="https://instagram.com/munchgud" target="_blank" rel="noopener" class="italic text-mg-green hover:underline">@munchgud</a>' !!}</h2>
-            <p class="text-mg-muted text-sm mt-3 max-w-md mx-auto">{{ $page->sections['instagram_subtitle'] ?? 'Share your snack love and get featured! Join our premium snacking community.' }}</p>
-        </div>
-
-        @if($instagramEmbedUrl)
-            <div class="grid lg:grid-cols-12 gap-8 items-center">
-                <!-- Column 1: Live Instagram Post Smartphone Frame -->
-                <div class="lg:col-span-5 flex justify-center reveal">
-                    <div class="relative w-full max-w-[360px] aspect-[9/16] bg-mg-dark rounded-[48px] p-3 shadow-2xl border-4 border-mg-dark/80 ring-8 ring-mg-dark/10 overflow-hidden">
-                        <!-- Top Speaker / Notch -->
-                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-mg-dark rounded-b-2xl z-50 flex items-center justify-center">
-                            <span class="w-12 h-1 bg-white/20 rounded-full"></span>
-                        </div>
-                        <!-- Status Bar -->
-                        <div class="absolute top-6 left-6 right-6 flex justify-between text-[10px] text-white/40 font-semibold font-mono z-40">
-                            <span>MunchGud 5G</span>
-                            <div class="flex items-center gap-1">
-                                <span>📶</span>
-                                <span>100% 🔋</span>
-                            </div>
-                        </div>
-                        <!-- Iframe container -->
-                        <div class="w-full h-full rounded-[38px] overflow-hidden bg-white pt-10 relative">
-                            <iframe src="{{ $instagramEmbedUrl }}" class="w-full h-full border-0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Column 2: Gorgeous complementary feed grid -->
-                <div class="lg:col-span-7 reveal">
-                    <div class="grid grid-cols-2 gap-4">
-                        @foreach([
-                            ['img' => '/images/story_farmer.png', 'likes' => '3.1K', 'comments' => '124', 'tag' => 'Mithila Sourced'],
-                            ['img' => '/images/ingredient_macro.png', 'likes' => '1.8K', 'comments' => '89', 'tag' => 'Pure Protein'],
-                            ['img' => '/images/product_shot.png', 'likes' => '2.5K', 'comments' => '142', 'tag' => 'Gourmet Roasted'],
-                            ['img' => '/images/hero_bg.png', 'likes' => '4.2K', 'comments' => '210', 'tag' => 'Snack Gud']
-                        ] as $item)
-                            <div class="aspect-square rounded-3xl bg-white relative group overflow-hidden border border-mg-dark/5 shadow-md shadow-mg-dark/[0.02]">
-                                <img src="{{ $item['img'] }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Instagram Post">
-                                <span class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-[10px] font-bold text-mg-green px-3 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">{{ $item['tag'] }}</span>
-                                <div class="absolute inset-0 bg-mg-green-dark/65 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3 z-20">
-                                    <div class="flex items-center gap-4 text-white">
-                                        <span class="font-bold text-sm flex items-center gap-1">❤️ {{ $item['likes'] }}</span>
-                                        <span class="font-bold text-sm flex items-center gap-1">💬 {{ $item['comments'] }}</span>
-                                    </div>
-                                    <a href="{{ route('products.index') }}" class="bg-white text-mg-green text-[11px] font-bold px-4 py-1.5 rounded-full hover:bg-mg-orange hover:text-white transition shadow-lg">Shop Flavor</a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        @else
-            <!-- Beautiful full interactive 6-column grid -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">
-                @foreach([
-                    ['img' => '/images/story_farmer.png', 'likes' => '3.8K', 'comments' => '189', 'tag' => 'Source', 'label' => 'Mithila Sourced'],
-                    ['img' => '/images/ingredient_macro.png', 'likes' => '2.4K', 'comments' => '95', 'tag' => 'Healthy', 'label' => 'Pure Protein'],
-                    ['img' => '/images/product_shot.png', 'likes' => '4.1K', 'comments' => '212', 'tag' => 'Snack', 'label' => 'Roasted Makhana'],
-                    ['img' => '/images/hero_bg.png', 'likes' => '1.9K', 'comments' => '73', 'tag' => 'Vibe', 'label' => 'Air Roasted'],
-                    ['img' => '/images/story_farmer.png', 'likes' => '2.9K', 'comments' => '104', 'tag' => 'Farms', 'label' => 'Direct to You'],
-                    ['img' => '/images/ingredient_macro.png', 'likes' => '3.5K', 'comments' => '142', 'tag' => 'Nature', 'label' => 'Gluten Free']
-                ] as $item)
-                    <div class="reveal aspect-square rounded-3xl bg-white relative group overflow-hidden border border-mg-dark/5 shadow-md shadow-mg-dark/[0.02]">
-                        <img src="{{ $item['img'] }}" class="w-full h-full object-cover group-hover:scale-115 transition-transform duration-700" alt="Instagram Post">
-                        <!-- Custom Tag -->
-                        <span class="absolute top-3.5 left-3.5 bg-white/90 backdrop-blur-sm text-[9px] font-black text-mg-dark px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">{{ $item['tag'] }}</span>
-                        <!-- Glassmorphic hover overlay -->
-                        <div class="absolute inset-0 bg-mg-green-dark/70 opacity-0 group-hover:opacity-100 transition-all duration-400 flex flex-col items-center justify-center p-4 text-center z-20">
-                            <span class="text-white/80 text-[10px] font-bold uppercase tracking-widest mb-1">{{ $item['label'] }}</span>
-                            <div class="flex items-center gap-3 text-white mb-4">
-                                <span class="font-bold text-xs flex items-center gap-1 select-none cursor-pointer hover:scale-110 active:scale-95 transition-all">❤️ {{ $item['likes'] }}</span>
-                                <span class="font-bold text-xs flex items-center gap-1">💬 {{ $item['comments'] }}</span>
-                            </div>
-                            <a href="{{ route('products.index') }}" class="bg-mg-orange text-white text-[10px] font-bold px-4 py-2 rounded-full hover:bg-white hover:text-mg-green transition shadow-md">Shop Flavor</a>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @endif
-    </div>
-</section>
-
-{{-- ══════════════════════════════════════════
      14. SUBSCRIPTION
      ══════════════════════════════════════════ --}}
 {{-- 
@@ -739,6 +869,28 @@
                 <p class="text-mg-muted leading-relaxed mb-4">Growing up in Bihar, makhana was always on our table — but always plain. We knew this superfood deserved bold flavours, premium quality, and a brand young India could be proud of.</p>
                 <p class="text-mg-muted leading-relaxed mb-6">Today, MunchGud sources from 200+ farming families across Mithilanchal. Every pack represents our promise: real food, real taste, real impact.</p>
                 <p class="font-heading font-bold text-mg-dark">— The MunchGud Team 🌿</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SEO Text Block 4: Brand Intro -->
+<section class="py-20 lg:py-28 bg-white border-b border-mg-dark/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div class="reveal order-last lg:order-first">
+                <span class="inline-block bg-mg-green/10 text-mg-green font-bold tracking-widest uppercase text-xs px-4 py-1.5 rounded-full mb-4">Our Mission</span>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-black text-mg-dark mb-6">Redefining Snacking in India</h2>
+                <div class="text-mg-dark/80 text-lg leading-relaxed space-y-5">
+                    <p>Consumers today are becoming more conscious about their everyday food choices. They are moving away from snacks and fried foods. Instead they are choosing healthy snacks in India. The market for snacks in India is growing rapidly.</p>
+                    <p>More consumers are now looking for modern snacks that are not too heavy or unhealthy. MunchGud started with a simple goal — to make healthy snacking fun and exciting for everyone. We think healthy food should not be boring.</p>
+                    <p>That's why our flavoured makhana range is crispy, flavourful, and seasoned to perfection. Every bite is enjoyable. At MunchGud we focus on making snacks that are perfect for everyday eating, office breaks or anytime you feel hungry. Our aim is to provide an exciting snacking experience in India.</p>
+                    <p>We want to give consumers options without sacrificing taste. MunchGud is changing the way people snack in India with quality ingredients, bold flavours, and satisfying crunch.</p>
+                </div>
+            </div>
+            <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl order-first lg:order-last">
+                <img src="{{ asset('images/hero_bg.png') }}" alt="MunchGud Brand Introduction" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
             </div>
         </div>
     </div>
@@ -905,63 +1057,77 @@
     </div>
 </section>
 
-@php
-    $instaLinks = [];
-    foreach(['instagram_video_1', 'instagram_video_2', 'instagram_video_3'] as $key) {
-        $url = $page->sections[$key] ?? '';
-        if (!$url && $key === 'instagram_video_1') {
-            $url = \App\Models\Setting::get('instagram_embed_url', '');
-        }
-        if ($url) {
-            if (strpos($url, '?') !== false) {
-                $url = substr($url, 0, strpos($url, '?'));
-            }
-            $url = rtrim($url, '/');
-            if (!str_ends_with($url, '/embed')) {
-                $url .= '/embed';
-            }
-            $instaLinks[] = $url;
-        }
-    }
-@endphp
-<section class="py-24 lg:py-32 bg-mg-cream">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 reveal">
-            <div>
-                <span class="inline-block bg-mg-green/10 text-mg-green font-bold tracking-widest uppercase text-xs px-4 py-1.5 rounded-full mb-4">Community</span>
-                <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark mb-4">Join the <span class="italic text-mg-green">#MunchGudFam</span></h2>
-                <p class="text-mg-muted text-lg">Follow us on Instagram for daily snacking inspiration.</p>
-            </div>
-            <a href="https://instagram.com/munchgud" target="_blank" class="inline-flex items-center gap-2 font-bold bg-white px-6 py-3 rounded-full shadow-sm hover:shadow-md text-mg-dark hover:text-mg-green transition-all">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                @munchgud
-            </a>
+
+<!-- SEO Content Section -->
+<section class="py-16 bg-white border-t border-mg-dark/5" x-data="{ expanded: false }">
+    <style>
+        .seo-content h3 { font-size: 1.25rem; font-weight: 800; color: #2d3748; margin-top: 2rem; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; }
+        .seo-content p { margin-bottom: 1rem; line-height: 1.7; color: #4a5568; font-size: 0.95rem; }
+        .seo-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4a5568; }
+        .seo-content li { margin-bottom: 0.5rem; font-size: 0.95rem; }
+    </style>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10 reveal">
+            <h2 class="font-heading text-3xl font-black text-mg-dark mb-4">Discover <span class="text-mg-green">MunchGud</span></h2>
+            <p class="text-mg-muted text-sm">Everything you need to know about our roasted fox nuts and healthy snacking.</p>
         </div>
         
-        <div class="reveal">
-            @if(count($instaLinks) > 0)
-                <div class="grid grid-cols-1 md:grid-cols-[{{ count($instaLinks) == 1 ? 'minmax(0,1fr)' : 'repeat('.count($instaLinks).',minmax(0,1fr))' }}] gap-8 max-w-{{ count($instaLinks) == 1 ? '2xl' : '7xl' }} mx-auto">
-                    @foreach($instaLinks as $link)
-                    <div class="w-full bg-white rounded-[2rem] shadow-2xl shadow-mg-dark/5 overflow-hidden border border-mg-dark/5 p-2 sm:p-4 md:p-6 lg:p-8">
-                        <iframe src="{{ $link }}" width="100%" height="750" frameborder="0" scrolling="no" allowtransparency="true" class="rounded-xl bg-white"></iframe>
-                    </div>
-                    @endforeach
+        <div class="relative reveal">
+            <div class="seo-content overflow-hidden transition-all duration-700 ease-in-out" 
+                 :class="expanded ? 'max-h-[5000px] pb-12' : 'max-h-[300px]'">
+                
+                <h3>Buying Makhana in Pune</h3>
+
+                <h3>Why Choose MunchGud</h3>
+                <p>MunchGud is made for people who love snacks and want taste, good quality and a smarter option for daily life. We know many snacks in the market are too oily or heavily processed. So we created MunchGud to be lighter but still full of flavour and crunch. Our goal is to give you premium makhana that you can enjoy anytime without losing taste. When buying premium roasted makhana online, customers look for freshness, flavour, and quality. At MunchGud we prepare our makhana carefully to get the crunchy texture and rich taste. Every flavour is balanced so you enjoy seasoning and satisfying taste from the first bite to the last. We know people want convenient healthy snacks in India that fit into busy routines. Our roasted makhana fits perfectly into busy everyday routines. Whether you're working, travelling, having evening chai, watching movies, studying late or just feeling hungry. Our packaging keeps the product fresh. It is easy to carry and store. At MunchGud we think healthy snacking should be enjoyable, flavourful, and satisfying. That's why we focus on freshness, consistency, quality ingredients and perfect crunch. This allows you to enjoy fresh and flavourful snacking every day. We take pride in offering premium makhana made for modern snack lovers. We created MunchGud to make everyday snacking more exciting.</p>
+
+                <h3>Frequently Asked Questions</h3>
+                <div class="space-y-4 mt-6">
+                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
+                        <summary class="font-bold text-mg-dark outline-none">1. What are roasted fox nuts?</summary>
+                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">Roasted fox nuts are crispy snacks made from lotus seeds. People love them as an alternative to fried snacks. They are crispy, flavourful, and available in different exciting flavours. You can enjoy fox nuts any time of the day like during office breaks, tea time, when travelling or on movie nights.</p>
+                    </details>
+                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
+                        <summary class="font-bold text-mg-dark outline-none">2. Why is flavoured makhana becoming so popular?</summary>
+                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">Consumers today love flavoured makhana because they want snacks that are tasty and not too oily. Flavoured makhana comes in flavours, like Cream & Onion and Peri Peri. Makhana is crunchy and satisfying. It doesn't feel too heavy. That’s why many consumers now choose flavoured makhana as their go-to snack.</p>
+                    </details>
+                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
+                        <summary class="font-bold text-mg-dark outline-none">3. Can we have makhana as a snack?</summary>
+                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">Yes a lot of people like to eat makhana as part of their snacking routine. Makhana is popular because it feels light, crunchy, and easy to enjoy anytime. Many people enjoy makhana during evening tea, office breaks, travelling, or movie nights. in the evening when we feel like having something. Makhana is also a snack to take to the office or when we are traveling. We can even eat makhana with our tea. The crunchy texture of makhana and the many different flavours make it a great snack to eat every day.</p>
+                    </details>
+                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
+                        <summary class="font-bold text-mg-dark outline-none">4. Are makhana snacks a source of protein?</summary>
+                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">Modern consumers choose makhana when they are looking for protein rich snacks and easy to eat. Students and working people like to eat makhana because it is a healthy snack that tastes good and is light and crispy. People who like to stay fit also like to eat makhana because it's a lighter snack.</p>
+                    </details>
+                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
+                        <summary class="font-bold text-mg-dark outline-none">5. Why do people like to eat makhana when they are trying to lose weight?</summary>
+                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">People who want healthier food choices often choose makhana as a snack when they are trying to lose weight. Makhana is a choice because it is lighter than many other snacks that are fried. Makhana helps satisfy evening cravings when we feel like eating something. Makhana is popular because it offers a satisfying crunch and enjoyable flavour. We can eat makhana when we feel like having a snack. It will not make us feel too full. Makhana is often preferred by people looking for lighter and healthier snack alternatives.</p>
+                    </details>
+                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
+                        <summary class="font-bold text-mg-dark outline-none">6. Where can I get roasted makhana online?</summary>
+                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">You can easily order roasted makhana online from trusted brands like MunchGud. The brand offers multiple delicious flavours with fresh packaging and convenient doorstep delivery, making it easy to enjoy premium makhana anytime.</p>
+                    </details>
+                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
+                        <summary class="font-bold text-mg-dark outline-none">7. Where can I buy makhana in Pune?</summary>
+                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">You can easily buy MunchGud roasted makhana online in Pune and enjoy doorstep delivery with fresh packaging and exciting flavours. It is a convenient option for snack lovers looking for lighter and more flavourful everyday snacks.</p>
+                    </details>
                 </div>
-            @else
-                @php $ph = ['images/hero_bg.png', 'images/product_shot.png', 'images/story_farmer.png', 'images/ingredient_macro.png']; @endphp
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-                    @for($i=0; $i<4; $i++)
-                        <a href="https://instagram.com/munchgud" target="_blank" class="aspect-square rounded-[2rem] overflow-hidden relative group shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                            <img src="{{ asset($ph[$i]) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/80 via-mg-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white">
-                                <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                    <svg width="40" height="40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                                </div>
-                            </div>
-                        </a>
-                    @endfor
+
+                <div class="mt-10 p-6 bg-mg-green/5 rounded-2xl border border-mg-green/20">
+                    <h3 class="!mt-0 text-mg-green">Make your snack time better with MunchGud</h3>
+                    <p class="!mb-0 text-sm">MunchGud offers delicious flavours of makhana to suit different tastes. You can explore different makhana flavours based on your taste preference. Each flavour offers a light texture with delicious seasoning and satisfying crunch. You can eat them anytime. They are also perfect for movie nights and evening cravings. The range includes exciting roasted makhana flavours for every taste preference. Enjoy fresh roasted makhana delivered directly to your doorstep. If you want to buy makhana in Pune, MunchGud makes online ordering simple and convenient. With MunchGud, you enjoy bold flavours, quality ingredients, and satisfying crunch in every bite. Enjoy a better everyday snacking experience with our roasted makhana.</p>
                 </div>
-            @endif
+
+            </div>
+            
+            <div class="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-white to-transparent pointer-events-none" x-show="!expanded"></div>
+        </div>
+        
+        <div class="text-center mt-8">
+            <button @click="expanded = !expanded" class="inline-flex items-center gap-2 px-8 py-3.5 border-2 border-mg-dark text-mg-dark font-bold text-sm rounded-full hover:bg-mg-dark hover:text-white transition-all shadow-sm">
+                <span x-text="expanded ? 'Read Less' : 'Read More About Us'"></span>
+                <svg :class="expanded ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
         </div>
     </div>
 </section>

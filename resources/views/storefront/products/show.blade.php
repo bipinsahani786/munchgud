@@ -37,17 +37,6 @@
                         <span class="absolute top-4 left-4 sm:top-6 sm:left-6 bg-mg-orange text-white text-[10px] sm:text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10" x-text="`-${discount}% OFF`" x-show="!zoom"></span>
                     </template>
 
-                    <!-- Slider Arrows -->
-                    <template x-if="images.length > 1">
-                        <div x-show="!zoom" class="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2 sm:px-4 pointer-events-none z-10 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button @click.prevent.stop="prevImage()" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 backdrop-blur text-mg-dark shadow-md flex items-center justify-center pointer-events-auto hover:bg-white hover:scale-110 transition-all border border-black/5">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-                            </button>
-                            <button @click.prevent.stop="nextImage()" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 backdrop-blur text-mg-dark shadow-md flex items-center justify-center pointer-events-auto hover:bg-white hover:scale-110 transition-all border border-black/5">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                            </button>
-                        </div>
-                    </template>
                 </div>
                 
                 @if($product->images->count() > 1)

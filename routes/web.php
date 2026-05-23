@@ -88,6 +88,8 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function()
 // CMS Pages
 Route::get('/story', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'story')->name('story');
 Route::get('/health-benefits', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'health-benefits')->name('health');
+Route::get('/cream-and-onion', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'cream-and-onion')->name('cream-and-onion');
+Route::get('/peri-peri-makhana', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'peri-peri-makhana')->name('peri-peri');
 Route::get('/about', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'about')->name('about');
 Route::get('/faq', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'faq')->name('faq');
 Route::get('/privacy-policy', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'privacy-policy')->name('privacy');

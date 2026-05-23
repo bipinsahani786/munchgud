@@ -20,6 +20,8 @@ class PageController extends Controller
             'shipping-policy' => 'pages.shipping',
             'story' => 'storefront.story',
             'health-benefits' => 'storefront.health',
+            'cream-and-onion' => 'storefront.cream-and-onion',
+            'peri-peri-makhana' => 'storefront.peri-peri',
         ];
 
         // If the slug doesn't have a specific view, use a generic one
