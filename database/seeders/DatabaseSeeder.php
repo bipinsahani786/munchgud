@@ -19,6 +19,7 @@ namespace Database\Seeders;
                 SettingSeeder::class,
                 ProductSeeder::class,
                 InitialDataSeeder::class, // Master seeder populating pages, recipes, static text, blogs, and faqs
+                StorefrontImagesSeeder::class,
             ]);
         }
     }
