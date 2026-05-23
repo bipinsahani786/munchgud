@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+         if (env('APP_ENV') === 'production') {
+            URL::forceScheme('https');
+        }
         // Override mail config from database settings
         if (!app()->runningInConsole() && \Illuminate\Support\Facades\Schema::hasTable('settings')) {
             $mailHost = \App\Models\Setting::get('mail_host');
