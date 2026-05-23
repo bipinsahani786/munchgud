@@ -46,10 +46,13 @@ Route::post('/payment/webhook', [PaymentController::class, 'webhook'])->withoutM
 
 // Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/auth/check', [AuthController::class, 'checkEmail'])->name('auth.check');
+Route::post('/login/password', [AuthController::class, 'loginWithPassword'])->name('login.password');
 Route::post('/otp/send', [AuthController::class, 'sendOtp'])->name('otp.send')->middleware('throttle:5,60');
 Route::post('/otp/verify', [AuthController::class, 'verifyOtp'])->name('otp.verify');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.store');
+Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('password.reset');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
@@ -81,21 +84,24 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function()
 });
 
 // Static pages
-Route::view('/story', 'storefront.story')->name('story');
-Route::view('/health-benefits', 'storefront.health')->name('health');
-Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes');
-Route::get('/recipes/submit', [RecipeController::class, 'create'])->name('recipes.create');
-Route::post('/recipes/submit', [RecipeController::class, 'submit'])->name('recipes.submit');
-Route::get('/recipes/{slug}', [RecipeController::class, 'show'])->name('recipes.show');
+// CMS Pages
+Route::get('/story', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'story')->name('story');
+Route::get('/health-benefits', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'health-benefits')->name('health');
+Route::get('/about', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'about')->name('about');
+Route::get('/faq', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'faq')->name('faq');
+Route::get('/privacy-policy', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'privacy-policy')->name('privacy');
+Route::get('/terms', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'terms')->name('terms');
+Route::get('/refund-policy', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'refund-policy')->name('refund');
+Route::get('/shipping-policy', [App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'shipping-policy')->name('shipping');
+
+Route::get('/recipes', [App\Http\Controllers\RecipeController::class, 'index'])->name('recipes');
+Route::get('/recipes/submit', [App\Http\Controllers\RecipeController::class, 'create'])->name('recipes.create');
+Route::post('/recipes/submit', [App\Http\Controllers\RecipeController::class, 'submit'])->name('recipes.submit');
+Route::get('/recipes/{slug}', [App\Http\Controllers\RecipeController::class, 'show'])->name('recipes.show');
 Route::view('/reviews', 'storefront.reviews')->name('reviews');
-Route::view('/about', 'pages.about')->name('about');
-Route::view('/faq', 'pages.faq')->name('faq');
+
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
-Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
-Route::view('/terms', 'pages.terms')->name('terms');
-Route::view('/refund-policy', 'pages.refund')->name('refund');
-Route::view('/shipping-policy', 'pages.shipping')->name('shipping');
 Route::get('/build-a-box', [BuildABoxController::class, 'index'])->name('build-a-box');
 Route::post('/build-a-box/add', [BuildABoxController::class, 'addToCart'])->name('build-a-box.add');
 
@@ -103,6 +109,6 @@ Route::post('/build-a-box/add', [BuildABoxController::class, 'addToCart'])->name
 Route::post('/products/{product}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 // Pincode check
-Route::get('/pincode-check', [ShiprocketController::class, 'checkPincode'])->name('pincode.check');
+Route::post('/api/check-pincode', [\App\Http\Controllers\PincodeController::class, 'check'])->name('api.pincode.check');
 
 require __DIR__.'/admin.php';

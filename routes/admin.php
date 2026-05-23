@@ -21,6 +21,8 @@ use App\Http\Controllers\Admin\AdminSupportTicketController;
 use App\Http\Controllers\Admin\RecipeController as AdminRecipeController;
 use App\Http\Controllers\Admin\AdminSystemController;
 use App\Http\Controllers\Admin\AdminInquiryController;
+use App\Http\Controllers\Admin\AdminFaqController;
+use App\Http\Controllers\Admin\AdminServiceableZoneController;
 
 Route::prefix('admin')->name('admin.')->group(function() {
     // Auth
@@ -49,6 +51,10 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('/pages', [App\Http\Controllers\Admin\AdminPageController::class, 'index'])->name('pages.index');
         Route::get('/pages/{page}/edit', [App\Http\Controllers\Admin\AdminPageController::class, 'edit'])->name('pages.edit');
         Route::patch('/pages/{page}', [App\Http\Controllers\Admin\AdminPageController::class, 'update'])->name('pages.update');
+        Route::post('/upload-image', [\App\Http\Controllers\Admin\ImageUploadController::class, 'upload'])->name('upload.image');
+
+        // FAQs
+        Route::resource('faqs', AdminFaqController::class)->except(['show']);
 
         // Orders
         Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
@@ -102,6 +108,12 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('settings', [AdminSettingsController::class, 'index'])->name('settings.index');
         Route::post('settings', [AdminSettingsController::class, 'update'])->name('settings.update');
 
+        // Delivery Zones
+        Route::get('zones', [AdminServiceableZoneController::class, 'index'])->name('zones.index');
+        Route::post('zones', [AdminServiceableZoneController::class, 'store'])->name('zones.store');
+        Route::patch('zones/{zone}', [AdminServiceableZoneController::class, 'update'])->name('zones.update');
+        Route::delete('zones/{zone}', [AdminServiceableZoneController::class, 'destroy'])->name('zones.destroy');
+
         // Variant Types
         Route::resource('variant-types', AdminVariantTypeController::class);
 
@@ -117,10 +129,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::delete('inquiries/{inquiry}', [AdminInquiryController::class, 'destroy'])->name('inquiries.destroy');
 
         // Recipes
-        Route::get('recipes', [AdminRecipeController::class, 'index'])->name('recipes.index');
+        Route::resource('recipes', AdminRecipeController::class)->except(['show']);
         Route::patch('recipes/{recipe}/approve', [AdminRecipeController::class, 'approve'])->name('recipes.approve');
         Route::patch('recipes/{recipe}/reject', [AdminRecipeController::class, 'reject'])->name('recipes.reject');
-        Route::delete('recipes/{recipe}', [AdminRecipeController::class, 'destroy'])->name('recipes.destroy');
 
         // System Tools
         Route::get('system/tools', [AdminSystemController::class, 'tools'])->name('system.tools');

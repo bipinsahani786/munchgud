@@ -31,15 +31,45 @@ class AuthController extends Controller
         return response()->json(['success' => true, 'message' => 'OTP sent successfully']);
     }
 
-    public function verifyOtp(Request $request) {
+    public function checkEmail(Request $request) {
+        $request->validate(['contact' => 'required|email']);
+        
+        $user = User::where('email', $request->contact)->first();
+        
+        if ($user && $user->password) {
+            return response()->json(['success' => true, 'exists' => true, 'has_password' => true]);
+        }
+        
+        return response()->json(['success' => true, 'exists' => $user ? true : false, 'has_password' => false]);
+    }
+
+    public function loginWithPassword(Request $request) {
         $request->validate([
             'contact' => 'required|email',
-            'otp' => 'required|numeric'
+            'password' => 'required'
+        ]);
+
+        $oldSessionId = session()->getId();
+
+        if (Auth::attempt(['email' => $request->contact, 'password' => $request->password], true)) {
+            $request->session()->regenerate();
+            app(CartService::class)->mergeGuestCart($oldSessionId);
+            return redirect()->intended('/products');
+        }
+
+        return back()->withErrors(['password' => 'Invalid password.'])->withInput(['contact' => $request->contact]);
+    }
+
+    public function register(Request $request) {
+        $request->validate([
+            'contact' => 'required|email',
+            'otp' => 'required|numeric',
+            'name' => 'required|string|max:255',
+            'password' => 'required|min:6'
         ]);
 
         $cached = Cache::get("otp:{$request->contact}");
         
-        // Temporarily bypass OTP for quick testing if 123456 provided in dev
         if (app()->environment('local') && $request->otp == '123456') {
             $cached = $request->otp;
         }
@@ -50,21 +80,56 @@ class AuthController extends Controller
         
         Cache::forget("otp:{$request->contact}");
         
-        $isEmail = filter_var($request->contact, FILTER_VALIDATE_EMAIL);
+        // Find existing guest user or create new
         $user = User::firstOrCreate(
-            $isEmail ? ['email' => $request->contact] : ['phone' => $request->contact],
-            ['name' => 'Guest', 'is_active' => true]
+            ['email' => $request->contact],
+            ['name' => $request->name, 'is_active' => true]
         );
+
+        $user->name = $request->name;
+        $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
+        $user->email_verified_at = now();
+        $user->save();
         
-        Auth::login($user);
+        $oldSessionId = session()->getId();
+        Auth::login($user, true);
+        $request->session()->regenerate();
+        app(CartService::class)->mergeGuestCart($oldSessionId);
         
-        app(CartService::class)->mergeGuestCart(session()->getId());
-        
-        return redirect()->intended('/account');
+        return redirect()->intended('/products');
     }
 
-    public function register(Request $request) {
-        return redirect()->route('login');
+    public function resetPassword(Request $request) {
+        $request->validate([
+            'contact' => 'required|email',
+            'otp' => 'required|numeric',
+            'password' => 'required|min:6'
+        ]);
+
+        $cached = Cache::get("otp:{$request->contact}");
+        
+        if (app()->environment('local') && $request->otp == '123456') {
+            $cached = $request->otp;
+        }
+
+        if (!$cached || $cached != $request->otp) {
+            return back()->withErrors(['otp' => 'Invalid or expired OTP.'])->withInput();
+        }
+        
+        Cache::forget("otp:{$request->contact}");
+        
+        $user = User::where('email', $request->contact)->first();
+        if ($user) {
+            $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
+            $user->save();
+            $oldSessionId = session()->getId();
+            Auth::login($user, true);
+            $request->session()->regenerate();
+            app(CartService::class)->mergeGuestCart($oldSessionId);
+            return redirect()->intended('/products');
+        }
+        
+        return back()->withErrors(['contact' => 'User not found.']);
     }
 
     public function logout(Request $request) {

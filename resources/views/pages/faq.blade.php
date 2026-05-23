@@ -7,48 +7,13 @@
     searchQuery: '',
     activeCategory: 'all',
     activeFaq: null,
-    faqs: [
-        {
-            category: 'products',
-            q: 'What is Makhana and what are its health benefits?',
-            a: 'Makhana, also known as Fox Nuts or Lotus Seeds, is an ancient superfood that grows in fresh water bodies. It is an excellent source of plant-based protein, dietary fiber, magnesium, and antioxidants. It is naturally gluten-free, low in calories, cholesterol, and saturated fat, making it the perfect healthy snack!'
-        },
-        {
-            category: 'products',
-            q: 'Do you use palm oil or artificial preservatives?',
-            a: 'Absolutely not! At MunchGud, health comes first. We never use palm oil or cheap seed oils. Instead, we use premium olive oil or ghee to slow-roast our makhanas. Our products contain zero MSG, zero artificial colors, and zero chemical preservatives.'
-        },
-        {
-            category: 'orders',
-            q: 'How can I track my order?',
-            a: 'Once your order is shipped, we send you a confirmation message via SMS and email with a live tracking link. You can also track your order directly from your MunchGud Account Dashboard by clicking on the Orders section.'
-        },
-        {
-            category: 'orders',
-            q: 'Can I modify or cancel my order after placing it?',
-            a: 'Orders can be modified or cancelled within 2 hours of placing them by contacting our customer support team directly at {{ $global_settings['store_email'] ?? 'support@munchgud.com' }} or raising a support ticket in your dashboard. Once the order is dispatched, we cannot cancel it.'
-        },
-        {
-            category: 'shipping',
-            q: 'What are the shipping charges and estimated delivery times?',
-            a: 'We offer FREE Shipping on all orders above ₹999. For orders below ₹999, a flat shipping fee of ₹49 applies. Delivery typically takes 2-4 business days for metro cities and 4-7 business days for the rest of India.'
-        },
-        {
-            category: 'shipping',
-            q: 'Do you ship internationally?',
-            a: 'Currently, we only ship within India. However, we are actively working on bringing our premium roasted makhanas to snack lovers worldwide. Stay tuned to our social media for updates!'
-        },
-        {
-            category: 'payments',
-            q: 'What payment options do you support?',
-            a: 'We accept all major credit/debit cards, Netbanking, popular UPI apps (Google Pay, PhonePe, Paytm), digital wallets, and Cash on Delivery (COD). All online payments are handled securely through our encrypted payment partner, Razorpay.'
-        },
-        {
-            category: 'payments',
-            q: 'Is Cash on Delivery (COD) available?',
-            a: 'Yes, we provide Cash on Delivery (COD) across most pincodes in India. There is a nominal COD processing fee of ₹30 charged by our logistics partners.'
-        }
-    ],
+    faqs: @json(\App\Models\Faq::active()->orderBy('sort_order')->get()->map(function($f) {
+        return [
+            'category' => $f->category ?: 'general',
+            'q' => $f->question,
+            'a' => $f->answer
+        ];
+    })),
     filteredFaqs() {
         return this.faqs.filter(faq => {
             const matchesSearch = faq.q.toLowerCase().includes(this.searchQuery.toLowerCase()) || 

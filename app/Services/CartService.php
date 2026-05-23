@@ -157,10 +157,43 @@ class CartService
             ? 0 
             : settings('flat_shipping_rate', 50);
 
-        $taxPercent = settings('gst_percent', 18);
-        $tax = round($afterDiscount * ($taxPercent / 100), 2);
+        // Per-product tax calculation
+        $defaultGst = (float) settings('gst_percent', 18);
+        $taxIncluded = 0;  // GST already included in price (for inclusive products)
+        $taxExtra = 0;     // GST to add on top (for exclusive products)
 
-        $total = $afterDiscount + $shipping + $tax;
+        foreach ($items as $item) {
+            $product = $item->sku->product;
+            $gstRate = $product->gst_percent ?? $defaultGst;
+            $lineTotal = $item->quantity * $item->sku->sale_price;
+            
+            // Apply proportional coupon discount to this line
+            if ($subtotal > 0 && $discount > 0) {
+                $proportion = $lineTotal / $subtotal;
+                $lineTotal = $lineTotal - ($discount * $proportion);
+            }
+
+            if (($product->tax_type ?? 'inclusive') === 'inclusive') {
+                // Price includes GST → extract for display
+                $taxIncluded += round($lineTotal - ($lineTotal / (1 + ($gstRate / 100))), 2);
+            } else {
+                // Price excludes GST → add on top
+                $taxExtra += round($lineTotal * ($gstRate / 100), 2);
+            }
+        }
+
+        $total = $afterDiscount + $shipping + $taxExtra;
+
+        // Check COD availability
+        $codAllowed = settings('cod_enabled', '1') == '1';
+        if ($codAllowed) {
+            foreach ($items as $item) {
+                if (!($item->sku->product->cod_allowed ?? true)) {
+                    $codAllowed = false;
+                    break;
+                }
+            }
+        }
 
         return [
             'subtotal' => round($subtotal, 2),
@@ -168,11 +201,14 @@ class CartService
             'item_discount' => round($itemDiscount, 2),
             'discount' => round($discount, 2),
             'shipping' => round($shipping, 2),
-            'tax' => round($tax, 2),
+            'tax_included' => round($taxIncluded, 2),
+            'tax_extra' => round($taxExtra, 2),
+            'tax' => round($taxIncluded + $taxExtra, 2),
             'total' => round($total, 2),
             'coupon' => $coupon,
             'items_count' => $items->sum('quantity'),
-            'items' => $items
+            'items' => $items,
+            'cod_allowed' => $codAllowed,
         ];
     }
 }

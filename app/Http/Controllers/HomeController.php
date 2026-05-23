@@ -20,7 +20,9 @@ class HomeController extends Controller
         $banners = Banner::active()->orderBy('sort_order')->get();
         $testimonials = Review::approved()->latest()->take(6)->get();
         $wishlistSkus = auth()->check() ? auth()->user()->wishlists()->pluck('product_sku_id')->toArray() : [];
+        $page = \App\Models\Page::where('slug', 'home')->first();
+        $recipes = \App\Models\Recipe::where('status', 'approved')->latest()->take(4)->get();
         
-        return view('storefront.home', compact('sections','activeTheme','featuredProducts','categories','banners','testimonials','wishlistSkus'));
+        return view('storefront.home', compact('sections','activeTheme','featuredProducts','categories','banners','testimonials','wishlistSkus', 'page', 'recipes'));
     }
 }

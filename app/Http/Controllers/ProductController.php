@@ -38,7 +38,10 @@ class ProductController extends Controller
             ->with('images','skus.variantOptions.variantType','category','reviews')
             ->firstOrFail();
             
-        $defaultSku = $product->skus->where('is_default',true)->first() ?? $product->skus->first();
+        $defaultSku = $product->skus->where('is_default',true)->first();
+        if (!$defaultSku || $defaultSku->stock_qty <= 0) {
+            $defaultSku = $product->skus->where('stock_qty', '>', 0)->first() ?? $product->skus->first();
+        }
         
         $variantTypes = $product->skus->flatMap->variantOptions->groupBy('variantType.name');
         

@@ -112,6 +112,16 @@
                     <p class="text-[11px] text-gray-400 mt-1.5">Instagram post embed URL for the homepage.</p>
                 </div>
                 <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Free Shipping Text</label>
+                    <input type="text" name="free_shipping_text" value="{{ \App\Models\Setting::get('free_shipping_text', 'Free shipping above ₹999 ✦ Pan India') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
+                    <p class="text-[11px] text-gray-400 mt-1.5">Shown in menus and footer.</p>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Announcement Marquee Messages</label>
+                    <textarea name="announcement_messages" rows="3" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none" placeholder="Message 1&#10;Message 2">{{ \App\Models\Setting::get('announcement_messages', "🌿 Free Shipping on orders above ₹999 — Pan India Delivery!\n✨ New customers get 10% off — Use code WELCOME10\n🔥 New Flavour Drop: Cheese & Herbs Makhana is LIVE!\n⭐ 5,000+ Happy Snackers — Join the MunchGud family today!") }}</textarea>
+                    <p class="text-[11px] text-gray-400 mt-1.5">Enter one message per line. These will slide at the top of the website.</p>
+                </div>
+                <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Store Phone</label>
                     <input type="text" name="store_phone" value="{{ \App\Models\Setting::get('store_phone') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
                 </div>
@@ -122,11 +132,11 @@
             </div>
         </div>
 
-        <!-- Delivery Settings -->
+        <!-- Delivery & Tax Settings -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
-                <h2 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Delivery</h2>
+                <h2 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Delivery & Tax</h2>
             </div>
             <div class="p-6 grid md:grid-cols-2 gap-5">
                 <div>
@@ -139,10 +149,24 @@
                     <input type="number" step="0.01" name="flat_shipping_rate" value="{{ \App\Models\Setting::get('flat_shipping_rate', 50) }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
                     <p class="text-[11px] text-gray-400 mt-1.5">Shipping cost if order is below threshold.</p>
                 </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Default GST Rate (%)</label>
+                    <input type="number" step="0.01" name="gst_percent" value="{{ \App\Models\Setting::get('gst_percent', 18) }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
+                    <p class="text-[11px] text-gray-400 mt-1.5">Default GST rate applied to all products (overridable per product).</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">COD (Cash on Delivery)</label>
+                    <select name="cod_enabled" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
+                        <option value="1" {{ \App\Models\Setting::get('cod_enabled', '1') == '1' ? 'selected' : '' }}>Enabled (Global)</option>
+                        <option value="0" {{ \App\Models\Setting::get('cod_enabled', '1') == '0' ? 'selected' : '' }}>Disabled (Global)</option>
+                    </select>
+                    <p class="text-[11px] text-gray-400 mt-1.5">Globally enable/disable COD. Can also be controlled per product & per zone.</p>
+                </div>
                 <div class="md:col-span-2 mt-2">
-                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Serviceable Pincodes</label>
-                    <textarea name="serviceable_pincodes" rows="2" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none" placeholder="e.g. 800001, 800002 (Leave empty to deliver anywhere)">{{ \App\Models\Setting::get('serviceable_pincodes') }}</textarea>
-                    <p class="text-[11px] text-gray-400 mt-1.5">Comma-separated list of pincodes where you offer delivery. Leave empty if you deliver all over India.</p>
+                    <div class="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 flex items-start gap-2">
+                        <svg class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <p class="text-xs text-blue-800">For state-wise pincode management, use <a href="{{ route('admin.zones.index') }}" class="font-bold underline">Delivery Zones</a> instead. Zones allow per-state COD control, custom delivery days, and extra shipping charges.</p>
+                    </div>
                 </div>
             </div>
         </div>

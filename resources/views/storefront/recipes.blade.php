@@ -13,13 +13,12 @@
             <div class="lg:w-5/12 text-center lg:text-left relative z-10 reveal">
                 <div class="absolute -top-20 -left-20 w-64 h-64 bg-mg-green/10 rounded-full blur-[60px] -z-10"></div>
                 
-                <span class="inline-block bg-mg-green/10 text-mg-green text-xs font-bold px-5 py-2 rounded-full tracking-[0.2em] uppercase mb-8 border border-mg-green/20">The Culinary Canvas</span>
+                <span class="inline-block bg-mg-green/10 text-mg-green text-xs font-bold px-5 py-2 rounded-full tracking-[0.2em] uppercase mb-8 border border-mg-green/20">{{ $page->sections['hero_badge'] ?? 'The Culinary Canvas' }}</span>
                 <h1 class="font-heading text-6xl md:text-8xl font-black text-mg-dark leading-[1.1] mb-8">
-                    MunchGud<br>
-                    <span class="italic text-mg-orange">Recipes.</span>
+                    {!! $page->sections['hero_title'] ?? 'MunchGud<br><span class="italic text-mg-orange">Recipes.</span>' !!}
                 </h1>
                 <p class="text-xl md:text-2xl text-mg-muted font-medium max-w-lg mx-auto lg:mx-0 leading-relaxed mb-10">
-                    Elevate your culinary game. Discover quick, healthy, and incredibly tasty makhana-based recipes.
+                    {{ $page->sections['hero_desc'] ?? 'Elevate your culinary game. Discover quick, healthy, and incredibly tasty makhana-based recipes.' }}
                 </p>
                 <div class="flex items-center justify-center lg:justify-start gap-6">
                     <a href="#featured" class="bg-mg-dark text-white font-bold px-8 py-4 rounded-full hover:bg-mg-green transition-all shadow-lg hover:-translate-y-1">
@@ -38,11 +37,11 @@
                 <div class="relative h-[450px] sm:h-[600px] w-full max-w-lg mx-auto lg:max-w-none mt-10 lg:mt-0 lg:ml-auto lg:pl-10">
                     <!-- Main large image -->
                     <div class="absolute top-0 right-0 lg:right-4 w-[85%] lg:w-[80%] h-[80%] rounded-[3rem] overflow-hidden shadow-2xl shadow-mg-dark/10 border-8 border-white bg-mg-cream z-10 transform hover:scale-105 transition-transform duration-500">
-                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover" alt="Healthy Food">
+                        <img src="{{ isset($page->sections['hero_image_main']) ? Storage::url($page->sections['hero_image_main']) : 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1000&auto=format&fit=crop' }}" class="w-full h-full object-cover" alt="Healthy Food">
                     </div>
                     <!-- Overlapping small image bottom left -->
                     <div class="absolute bottom-10 left-0 lg:left-8 w-[55%] h-[50%] rounded-[2rem] overflow-hidden shadow-2xl shadow-mg-dark/15 border-8 border-white bg-mg-cream z-20 transform -rotate-6 hover:rotate-0 hover:scale-105 transition-all duration-500">
-                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover" alt="Smoothie Bowl">
+                        <img src="{{ isset($page->sections['hero_image_small']) ? Storage::url($page->sections['hero_image_small']) : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop' }}" class="w-full h-full object-cover" alt="Smoothie Bowl">
                     </div>
                     <!-- Small accent element -->
                     <div class="absolute top-16 -left-4 sm:-left-8 lg:left-0 bg-white px-6 py-4 rounded-2xl shadow-xl z-30 flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
@@ -132,8 +131,8 @@
             
             <div class="relative z-10">
                 <span class="text-5xl mb-6 block">👨‍🍳</span>
-                <h2 class="font-heading text-4xl lg:text-5xl font-black mb-6">Got a unique recipe?</h2>
-                <p class="text-white/80 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">Share your own creative way to eat MunchGud. The best recipes will get featured on our website and social media, and you might just win a free box of snacks!</p>
+                <h2 class="font-heading text-4xl lg:text-5xl font-black mb-6">{!! $page->sections['banner_title'] ?? 'Got a unique recipe?' !!}</h2>
+                <p class="text-white/80 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">{{ $page->sections['banner_desc'] ?? 'Share your own creative way to eat MunchGud. The best recipes will get featured on our website and social media, and you might just win a free box of snacks!' }}</p>
                 <a href="{{ route('recipes.create') }}" class="inline-block bg-mg-gold text-mg-dark font-bold text-lg px-10 py-4 rounded-full hover:scale-105 hover:bg-white transition-all shadow-xl shadow-black/20">
                     Submit Your Recipe
                 </a>

@@ -46,6 +46,14 @@ class CartController extends Controller
             'qty' => 'integer|min:1'
         ]);
 
+        $sku = \App\Models\ProductSku::find($request->sku_id);
+        if (!$sku || $sku->stock_qty < $request->qty) {
+            if ($request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => 'Out of stock or not enough quantity.']);
+            }
+            return redirect()->back()->with('error', 'Out of stock or not enough quantity.');
+        }
+
         $this->cartService->addItem($request->sku_id, $request->qty);
 
         if ($request->wantsJson()) {

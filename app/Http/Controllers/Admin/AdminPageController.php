@@ -34,19 +34,46 @@ class AdminPageController extends Controller
         // Process dynamically added sections
         $newKeys = $request->input('new_section_keys', []);
         $newValues = $request->input('new_section_values', []);
+        $newTypes = $request->input('new_section_types', []);
+        $newImages = $request->file('new_section_images', []);
+
         foreach ($newKeys as $index => $key) {
             if (!empty($key)) {
-                // Convert to snake_case for consistency
                 $formattedKey = \Str::slug($key, '_');
-                $sections[$formattedKey] = $newValues[$index] ?? '';
+                $type = $newTypes[$index] ?? 'text';
+                
+                if ($type === 'image') {
+                    if (isset($newImages[$index])) {
+                        $path = $newImages[$index]->store('pages', 'public');
+                        $sections[$formattedKey] = $path;
+                    }
+                } else {
+                    $sections[$formattedKey] = $newValues[$index] ?? '';
+                }
             }
         }
 
         // Handle image uploads inside sections
         if ($request->hasFile('section_images')) {
             foreach ($request->file('section_images') as $key => $file) {
+                // Delete old file if exists
+                if (isset($sections[$key]) && \Storage::disk('public')->exists($sections[$key])) {
+                    \Storage::disk('public')->delete($sections[$key]);
+                }
                 $path = $file->store('pages', 'public');
                 $sections[$key] = $path;
+            }
+        }
+
+        // Handle image removal
+        if ($request->has('remove_section_images')) {
+            foreach ($request->input('remove_section_images') as $key) {
+                if (isset($sections[$key])) {
+                    if (\Storage::disk('public')->exists($sections[$key])) {
+                        \Storage::disk('public')->delete($sections[$key]);
+                    }
+                    unset($sections[$key]); // Remove the key from the sections array
+                }
             }
         }
 

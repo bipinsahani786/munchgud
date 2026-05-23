@@ -8,8 +8,8 @@
         
         <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-                <h1 class="font-heading text-5xl font-black text-mg-dark mb-4">Our <span class="italic text-mg-green">Flavours</span></h1>
-                <p class="text-mg-muted text-lg max-w-xl">Explore our premium range of roasted makhana, packed with protein and crunch.</p>
+                <h1 class="font-heading text-5xl font-black text-mg-dark mb-4">{!! $page->sections['hero_title'] ?? 'Our <span class="italic text-mg-green">Flavours</span>' !!}</h1>
+                <p class="text-mg-muted text-lg max-w-xl">{{ $page->sections['hero_desc'] ?? 'Explore our premium range of roasted makhana, packed with protein and crunch.' }}</p>
             </div>
             
             <form action="{{ route('products.index') }}" method="GET" class="flex items-center gap-4">
@@ -63,12 +63,18 @@
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                     @forelse($products as $p)
                     @php
-                        $sku = $p->skus->first();
+                        // Get default SKU, or fallback to an in-stock one
+                        $sku = $p->skus->where('is_default', true)->first();
+                        if (!$sku || $sku->stock_qty <= 0) {
+                            $sku = $p->skus->where('stock_qty', '>', 0)->first() ?? $p->skus->first();
+                        }
+
                         $price = $sku ? $sku->sale_price : 0;
                         $mrp = $sku ? $sku->mrp : 0;
                         $discount = $mrp > 0 ? round((1 - $price / $mrp) * 100) : 0;
                         $rating = $p->average_rating;
                         $reviewsCount = $p->review_count;
+                        $isOutOfStock = !$sku || $sku->stock_qty <= 0;
                     @endphp
                     <div class="group bg-white rounded-3xl border border-mg-dark/[0.04] overflow-hidden hover:-translate-y-2 hover:shadow-xl hover:shadow-mg-green/5 transition-all duration-300 flex flex-col h-full">
                         <a href="{{ route('products.show', $p->slug) }}" class="relative aspect-square bg-gradient-to-br from-mg-cream to-white flex items-center justify-center overflow-hidden block">
@@ -127,11 +133,19 @@
                                 <span class="font-mono text-sm text-mg-muted line-through">₹{{ $mrp }}</span>
                                 @endif
                             </div>
+                            
+                            @if($isOutOfStock)
+                            <button type="button" disabled
+                                    class="w-full py-3 bg-gray-200 text-gray-500 text-sm font-bold rounded-2xl flex items-center justify-center cursor-not-allowed">
+                                Out of Stock
+                            </button>
+                            @else
                             <button type="button" x-data @click="window.addToCart({{ $sku ? $sku->id : 0 }}, 1, $event.currentTarget)" 
                                     class="w-full py-3 bg-mg-green/10 text-mg-green hover:bg-mg-green hover:text-white text-sm font-bold rounded-2xl transition-all flex items-center justify-center gap-2">
                                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0" stroke-linecap="round"/></svg>
                                 Quick Add
                             </button>
+                            @endif
                         </div>
                     </div>
                     @empty

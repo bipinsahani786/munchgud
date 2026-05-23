@@ -20,41 +20,100 @@
         <div class="flex flex-col lg:flex-row gap-8 xl:gap-10">
             
             <!-- Checkout Form -->
-            <div class="w-full lg:w-[62%]">
+            <div class="w-full lg:w-[62%]" x-data="{ selectedAddressId: '{{ $addresses->where('is_default', true)->first()->id ?? ($addresses->first()->id ?? '') }}' }">
+                
+                <!-- Shipping Address Section (Outside Checkout Form) -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-mg-dark/5 shadow-sm mb-6">
+                    <h3 class="font-heading text-xl font-bold text-mg-dark mb-6 pb-4 border-b border-mg-dark/5 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 text-mg-green flex items-center justify-center text-sm font-extrabold">1</span>
+                        Shipping Address
+                    </h3>
+                    
+                    @if($addresses->count() > 0)
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            @foreach($addresses as $address)
+                                <label class="border rounded-xl p-5 cursor-pointer hover:border-mg-green/40 hover:shadow-md transition-all"
+                                       :class="selectedAddressId == '{{ $address->id }}' ? 'border-mg-green bg-mg-green/5 ring-1 ring-mg-green/20' : 'border-mg-dark/10 bg-white'">
+                                    <div class="flex items-start gap-3">
+                                        <input type="radio" x-model="selectedAddressId" value="{{ $address->id }}" class="mt-1 text-mg-green focus:ring-mg-green w-4 h-4">
+                                        <div>
+                                            <div class="font-bold text-mg-dark mb-1 flex items-center gap-2">
+                                                {{ $address->name }}
+                                                @if($address->label)<span class="text-[10px] font-extrabold tracking-wider uppercase bg-mg-dark/5 text-mg-dark px-2 py-0.5 rounded-md">{{ $address->label }}</span>@endif
+                                            </div>
+                                            <p class="text-sm text-mg-muted line-clamp-2 mb-2 font-medium">{{ $address->line1 }}, {{ $address->city }}, {{ $address->state }} - {{ $address->pincode }}</p>
+                                            <p class="text-sm font-semibold text-mg-dark">{{ $address->phone }}</p>
+                                        </div>
+                                    </div>
+                                </label>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="bg-red-50 text-red-500 p-4 rounded-xl text-sm font-medium border border-red-100 flex items-center gap-2 mb-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                            Please add a shipping address to proceed.
+                        </div>
+                    @endif
+
+                    <!-- Add New Address Accordion -->
+                    <div x-data="{ showForm: {{ $addresses->count() == 0 ? 'true' : 'false' }} }" class="mt-4 border-t border-mg-dark/5 pt-4">
+                        <button type="button" @click="showForm = !showForm" x-show="!showForm" class="text-mg-green font-bold text-sm flex items-center gap-1 hover:text-mg-green-dark transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                            Add New Address
+                        </button>
+
+                        <div x-show="showForm" x-collapse class="bg-mg-cream/30 border border-mg-dark/5 rounded-xl p-5 mt-2">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-mg-dark text-sm uppercase tracking-wider">New Address</h4>
+                                @if($addresses->count() > 0)
+                                <button type="button" @click="showForm = false" class="text-mg-muted hover:text-mg-dark"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+                                @endif
+                            </div>
+                            
+                            <form method="POST" action="{{ route('account.addresses.store') }}" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                @csrf
+                                <div>
+                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Full Name</label>
+                                    <input type="text" name="name" required class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Phone Number</label>
+                                    <input type="text" name="phone" required class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Address Line 1</label>
+                                    <input type="text" name="line1" required placeholder="House No., Building, Street" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Address Line 2 (Optional)</label>
+                                    <input type="text" name="line2" placeholder="Locality, Area, Landmark" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Pincode</label>
+                                    <input type="text" name="pincode" required class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">City</label>
+                                    <input type="text" name="city" required class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">State</label>
+                                    <input type="text" name="state" required class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                </div>
+                                <input type="hidden" name="country" value="India">
+                                <input type="hidden" name="is_default" value="1">
+                                <div class="sm:col-span-2 mt-2">
+                                    <button type="submit" class="bg-mg-dark text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-mg-green transition w-full sm:w-auto">Save Address</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checkout Form for Payment & Place Order -->
                 <form id="checkout-form" action="{{ route('checkout.store') }}" method="POST">
                     @csrf
-                    
-                    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-mg-dark/5 shadow-sm mb-6">
-                        <h3 class="font-heading text-xl font-bold text-mg-dark mb-6 pb-4 border-b border-mg-dark/5 flex items-center gap-3">
-                            <span class="w-8 h-8 rounded-full bg-mg-green/10 text-mg-green flex items-center justify-center text-sm font-extrabold">1</span>
-                            Shipping Address
-                        </h3>
-                        
-                        @if($addresses->count() > 0)
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
-                                @foreach($addresses as $address)
-                                    <label class="border rounded-xl p-5 cursor-pointer hover:border-mg-green/40 hover:shadow-md transition-all {{ $address->is_default ? 'border-mg-green bg-mg-green/5 ring-1 ring-mg-green/20' : 'border-mg-dark/10 bg-white' }}">
-                                        <div class="flex items-start gap-3">
-                                            <input type="radio" name="address_id" value="{{ $address->id }}" {{ $address->is_default ? 'checked' : '' }} class="mt-1 text-mg-green focus:ring-mg-green w-4 h-4">
-                                            <div>
-                                                <div class="font-bold text-mg-dark mb-1 flex items-center gap-2">
-                                                    {{ $address->name }}
-                                                    @if($address->label)<span class="text-[10px] font-extrabold tracking-wider uppercase bg-mg-dark/5 text-mg-dark px-2 py-0.5 rounded-md">{{ $address->label }}</span>@endif
-                                                </div>
-                                                <p class="text-sm text-mg-muted line-clamp-2 mb-2 font-medium">{{ $address->line1 }}, {{ $address->city }}, {{ $address->state }} - {{ $address->pincode }}</p>
-                                                <p class="text-sm font-semibold text-mg-dark">{{ $address->phone }}</p>
-                                            </div>
-                                        </div>
-                                    </label>
-                                @endforeach
-                            </div>
-                        @else
-                            <div class="bg-red-50 text-red-500 p-4 rounded-xl text-sm font-medium border border-red-100 flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                                Please add an address in your account before proceeding.
-                            </div>
-                        @endif
-                    </div>
+                    <input type="hidden" name="address_id" :value="selectedAddressId">
                     
                     <div class="bg-white p-6 sm:p-8 rounded-2xl border border-mg-dark/5 shadow-sm">
                         <h3 class="font-heading text-xl font-bold text-mg-dark mb-6 pb-4 border-b border-mg-dark/5 flex items-center gap-3">
@@ -74,6 +133,7 @@
                                 </div>
                             </label>
                             
+                            @if($summary['cod_allowed'] ?? true)
                             <label class="border border-mg-dark/10 rounded-xl p-5 flex items-center gap-4 cursor-pointer hover:border-mg-green/40 hover:shadow-md transition-all bg-white has-[:checked]:border-mg-green has-[:checked]:bg-mg-green/5 has-[:checked]:ring-1 has-[:checked]:ring-mg-green/20">
                                 <input type="radio" name="payment_method" value="cod" class="text-mg-green focus:ring-mg-green w-5 h-5">
                                 <div class="flex-1">
@@ -84,6 +144,15 @@
                                     <svg class="w-8 h-8 text-mg-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 </div>
                             </label>
+                            @else
+                            <div class="border border-mg-dark/10 rounded-xl p-5 flex items-center gap-4 bg-gray-50 opacity-60">
+                                <input type="radio" disabled class="text-gray-300 w-5 h-5">
+                                <div class="flex-1">
+                                    <div class="font-bold text-gray-500">Cash on Delivery (COD)</div>
+                                    <div class="text-xs font-medium text-red-500 mt-0.5">Not available for some items in your cart.</div>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                         
                         <div class="mt-8">
@@ -156,7 +225,14 @@
                         @endif
                         <div class="flex justify-between">
                             <span class="text-mg-muted">Tax (GST)</span>
-                            <span class="font-semibold text-mg-dark">₹{{ number_format($summary['tax'], 2) }}</span>
+                            <div class="text-right">
+                                @if(isset($summary['tax_extra']) && $summary['tax_extra'] > 0)
+                                    <div class="font-semibold text-mg-dark">₹{{ number_format($summary['tax_extra'], 2) }}</div>
+                                @endif
+                                @if(isset($summary['tax_included']) && $summary['tax_included'] > 0)
+                                    <div class="text-[10px] text-mg-muted font-medium mt-0.5">(Includes ₹{{ number_format($summary['tax_included'], 2) }} GST)</div>
+                                @endif
+                            </div>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-mg-muted">Delivery</span>
@@ -197,7 +273,6 @@
             </div>
             
         </div>
-    </div>
 </div>
 
 @section('scripts')

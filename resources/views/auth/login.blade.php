@@ -1,6 +1,6 @@
 @extends('storefront.layout')
 
-@section('title', 'Login — MunchGud')
+@section('title', 'Login / Sign Up — MunchGud')
 
 @section('content')
 <div class="min-h-[92vh] flex items-center justify-center py-16 px-4" style="background: linear-gradient(135deg, #FAFAF5 0%, #F0F7F2 50%, #FAFAF5 100%);">
@@ -14,15 +14,49 @@
         <!-- Card -->
         <div class="bg-white rounded-[2rem] border border-black/[0.06] premium-shadow p-8 sm:p-10"
              x-data="{
-                otpSent: false,
-                contact: '',
+                state: 'email', // email, password, register_otp, forgot_otp
+                contact: '{{ old('contact') ?? '' }}',
+                password: '',
+                name: '',
                 otp: '',
-                sending: false,
-                verifyError: '',
-                sendOtp() {
+                loading: false,
+                errorMessage: '',
+                
+                checkEmail() {
                     if (!this.contact) return;
-                    this.sending = true;
-                    this.verifyError = '';
+                    this.loading = true;
+                    this.errorMessage = '';
+                    fetch('{{ route('auth.check') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ contact: this.contact })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        this.loading = false;
+                        if (data.success) {
+                            if (data.has_password) {
+                                this.state = 'password';
+                            } else {
+                                this.sendOtp('register_otp');
+                            }
+                        } else {
+                            this.errorMessage = data.message || 'Error checking email.';
+                        }
+                    })
+                    .catch(() => {
+                        this.loading = false;
+                        this.errorMessage = 'Something went wrong. Please try again.';
+                    });
+                },
+
+                sendOtp(nextState) {
+                    if (!this.contact) return;
+                    this.loading = true;
+                    this.errorMessage = '';
                     fetch('{{ route('otp.send') }}', {
                         method: 'POST',
                         headers: {
@@ -33,31 +67,65 @@
                     })
                     .then(res => res.json())
                     .then(data => {
-                        this.sending = false;
+                        this.loading = false;
                         if (data.success) {
-                            this.otpSent = true;
+                            this.state = nextState;
                         } else {
-                            this.verifyError = data.message || 'Error sending OTP. Try again.';
+                            this.errorMessage = data.message || 'Error sending OTP. Try again.';
                         }
                     })
                     .catch(() => {
-                        this.sending = false;
-                        this.verifyError = 'Something went wrong. Please try again.';
+                        this.loading = false;
+                        this.errorMessage = 'Something went wrong. Please try again.';
                     });
+                },
+
+                resetState() {
+                    this.state = 'email';
+                    this.password = '';
+                    this.name = '';
+                    this.otp = '';
+                    this.errorMessage = '';
                 }
-             }">
+             }"
+             x-init="
+                @if($errors->has('password')) state = 'password'; @endif
+                @if($errors->has('otp')) state = '{{ old('name') ? 'register_otp' : 'forgot_otp' }}'; @endif
+             ">
 
             <!-- Logo & Header -->
             <div class="text-center mb-8">
                 <a href="/" class="inline-block mb-5">
                     <img src="{{ asset('images/logo.jpg') }}" alt="MunchGud" class="h-14 w-auto mx-auto object-contain rounded-xl">
                 </a>
-                <h1 class="text-2xl font-serif font-bold text-mg-dark">Welcome to MunchGud</h1>
-                <p class="text-mg-muted text-sm mt-1.5 font-light">Sign in or create your account in seconds</p>
+                <h1 class="text-2xl font-serif font-bold text-mg-dark" x-text="
+                    state === 'email' ? 'Welcome to MunchGud' :
+                    state === 'password' ? 'Welcome Back!' :
+                    state === 'register_otp' ? 'Create Account' : 'Reset Password'
+                "></h1>
+                <p class="text-mg-muted text-sm mt-1.5 font-light" x-text="
+                    state === 'email' ? 'Sign in or create your account in seconds' :
+                    state === 'password' ? 'Enter your password to sign in' :
+                    state === 'register_otp' ? 'Verify email and complete setup' : 'Verify email to set a new password'
+                "></p>
             </div>
 
-            <!-- Step 1: Send OTP -->
-            <form x-show="!otpSent" @submit.prevent="sendOtp()" class="space-y-5">
+            <!-- Error (JS) -->
+            <div x-show="errorMessage" x-cloak class="flex items-center gap-2 text-red-600 text-xs bg-red-50 border border-red-100 rounded-xl px-4 py-3 mb-5">
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                <span x-text="errorMessage"></span>
+            </div>
+
+            <!-- Error (Server) -->
+            @if($errors->any())
+                <div class="flex items-center gap-2 text-red-600 text-xs bg-red-50 border border-red-100 rounded-xl px-4 py-3 mb-5">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <span>{{ $errors->first() }}</span>
+                </div>
+            @endif
+
+            <!-- Step 1: Email -->
+            <form x-show="state === 'email'" @submit.prevent="checkEmail()" class="space-y-5">
                 <div>
                     <label for="contact" class="block text-[11px] font-bold text-mg-dark/60 uppercase tracking-widest mb-2">
                         Email Address
@@ -69,22 +137,16 @@
                         <input type="email" id="contact" x-model="contact" required
                                class="w-full pl-11 pr-4 py-3.5 border border-black/[0.1] rounded-xl text-sm text-mg-dark placeholder-mg-muted focus:border-mg-green focus:ring-2 focus:ring-mg-green/10 outline-none transition"
                                placeholder="hello@email.com"
-                               :disabled="sending">
+                               :disabled="loading">
                     </div>
                 </div>
 
-                <!-- Error -->
-                <div x-show="verifyError" x-cloak class="flex items-center gap-2 text-red-600 text-xs bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    <span x-text="verifyError"></span>
-                </div>
-
-                <button type="submit" :disabled="sending"
+                <button type="submit" :disabled="loading"
                         class="btn-primary w-full py-3.5 text-[13px] justify-center"
-                        :class="sending ? 'opacity-75 cursor-wait' : ''">
-                    <svg x-show="sending" class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 2a10 10 0 110 20A10 10 0 0112 2zm0 4v4l3 3"/></svg>
-                    <span x-show="!sending">Send OTP →</span>
-                    <span x-show="sending" x-cloak>Sending...</span>
+                        :class="loading ? 'opacity-75 cursor-wait' : ''">
+                    <svg x-show="loading" class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 2a10 10 0 110 20A10 10 0 0112 2zm0 4v4l3 3"/></svg>
+                    <span x-show="!loading">Continue →</span>
+                    <span x-show="loading" x-cloak>Please wait...</span>
                 </button>
 
                 <!-- Divider -->
@@ -107,54 +169,126 @@
                 </a>
             </form>
 
-            <!-- Step 2: Enter OTP -->
-            <form x-show="otpSent" x-cloak action="{{ route('otp.verify') }}" method="POST" class="space-y-5">
+            <!-- Step 2: Login with Password -->
+            <form x-show="state === 'password'" x-cloak action="{{ route('login.password') }}" method="POST" class="space-y-5">
                 @csrf
                 <input type="hidden" name="contact" :value="contact">
 
-                <!-- Back & Info -->
                 <div class="flex items-center gap-3 bg-mg-green/[0.05] border border-mg-green/10 rounded-xl px-4 py-3">
                     <div class="w-9 h-9 bg-mg-green/10 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg class="w-5 h-5 text-mg-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <svg class="w-4 h-4 text-mg-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-xs text-mg-green font-semibold">OTP sent to</p>
                         <p class="text-sm text-mg-dark font-bold truncate" x-text="contact"></p>
                     </div>
-                    <button type="button" @click="otpSent = false" class="text-xs text-mg-orange font-bold hover:underline uppercase tracking-wider flex-shrink-0">
+                    <button type="button" @click="resetState()" class="text-xs text-mg-orange font-bold hover:underline uppercase tracking-wider flex-shrink-0">
                         Change
                     </button>
                 </div>
 
-                <!-- Error from server -->
-                @error('otp')
-                    <div class="flex items-center gap-2 text-red-600 text-xs bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                        {{ $message }}
-                    </div>
-                @enderror
-
-                <!-- OTP Input -->
                 <div>
-                    <label for="otp" class="block text-[11px] font-bold text-mg-dark/60 uppercase tracking-widest mb-2 text-center">
-                        Enter 6-digit OTP
-                    </label>
-                    <input type="text" name="otp" id="otp" required x-model="otp" maxlength="6" inputmode="numeric" autocomplete="one-time-code"
-                           class="w-full border border-black/[0.1] rounded-xl py-4 text-center text-3xl font-mono font-bold text-mg-green tracking-[0.35em] focus:border-mg-green focus:ring-2 focus:ring-mg-green/10 outline-none transition placeholder-mg-muted/30 bg-mg-cream"
-                           placeholder="• • • • • •">
-                    <p class="text-center text-xs text-mg-muted mt-2">Valid for 10 minutes</p>
+                    <div class="flex justify-between mb-2">
+                        <label for="login_password" class="block text-[11px] font-bold text-mg-dark/60 uppercase tracking-widest">
+                            Password
+                        </label>
+                        <button type="button" @click="sendOtp('forgot_otp')" class="text-[11px] font-bold text-mg-green hover:underline">
+                            Forgot Password?
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute left-4 top-1/2 -translate-y-1/2 text-mg-muted pointer-events-none flex items-center justify-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+                        </div>
+                        <input type="password" id="login_password" name="password" required
+                               class="w-full pl-11 pr-4 py-3.5 border border-black/[0.1] rounded-xl text-sm text-mg-dark placeholder-mg-muted focus:border-mg-green focus:ring-2 focus:ring-mg-green/10 outline-none transition"
+                               placeholder="Enter your password">
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-primary w-full py-3.5 text-[13px] justify-center">
-                    Verify & Sign In →
+                    Sign In →
                 </button>
+            </form>
 
-                <p class="text-center text-xs text-mg-muted">
-                    Didn't receive the code?
-                    <button type="button" @click="sendOtp()" class="text-mg-orange font-bold hover:underline ml-1">
-                        Resend OTP
+            <!-- Step 3: Register OTP + Setup -->
+            <form x-show="state === 'register_otp'" x-cloak action="{{ route('register.store') }}" method="POST" class="space-y-4">
+                @csrf
+                <input type="hidden" name="contact" :value="contact">
+
+                <div class="flex items-center gap-3 bg-mg-green/[0.05] border border-mg-green/10 rounded-xl px-4 py-3">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs text-mg-green font-semibold">OTP sent to</p>
+                        <p class="text-sm text-mg-dark font-bold truncate" x-text="contact"></p>
+                    </div>
+                    <button type="button" @click="resetState()" class="text-xs text-mg-orange font-bold hover:underline uppercase tracking-wider flex-shrink-0">
+                        Change
                     </button>
-                </p>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-mg-dark/60 uppercase tracking-widest mb-1.5">Enter 6-digit OTP</label>
+                    <input type="text" name="otp" required maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+                           class="w-full border border-black/[0.1] rounded-xl py-3 text-center text-xl font-mono font-bold tracking-[0.35em] focus:border-mg-green outline-none transition bg-mg-cream"
+                           placeholder="••••••">
+                    <div class="text-right mt-1">
+                        <button type="button" @click="sendOtp('register_otp')" class="text-[10px] text-mg-orange font-bold hover:underline" :disabled="loading">Resend OTP</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-mg-dark/60 uppercase tracking-widest mb-1.5">Full Name</label>
+                    <input type="text" name="name" required value="{{ old('name') }}"
+                           class="w-full px-4 py-3 border border-black/[0.1] rounded-xl text-sm focus:border-mg-green outline-none"
+                           placeholder="John Doe">
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-mg-dark/60 uppercase tracking-widest mb-1.5">Create Password</label>
+                    <input type="password" name="password" required minlength="6"
+                           class="w-full px-4 py-3 border border-black/[0.1] rounded-xl text-sm focus:border-mg-green outline-none"
+                           placeholder="At least 6 characters">
+                </div>
+
+                <button type="submit" class="btn-primary w-full py-3.5 text-[13px] justify-center mt-2">
+                    Create Account →
+                </button>
+            </form>
+
+            <!-- Step 4: Forgot Password OTP + Reset -->
+            <form x-show="state === 'forgot_otp'" x-cloak action="{{ route('password.reset') }}" method="POST" class="space-y-4">
+                @csrf
+                <input type="hidden" name="contact" :value="contact">
+
+                <div class="flex items-center gap-3 bg-mg-orange/[0.05] border border-mg-orange/10 rounded-xl px-4 py-3">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs text-mg-orange font-semibold">Recovery OTP sent to</p>
+                        <p class="text-sm text-mg-dark font-bold truncate" x-text="contact"></p>
+                    </div>
+                    <button type="button" @click="state = 'password'" class="text-xs text-mg-dark font-bold hover:underline uppercase tracking-wider flex-shrink-0">
+                        Cancel
+                    </button>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-mg-dark/60 uppercase tracking-widest mb-1.5">Enter 6-digit OTP</label>
+                    <input type="text" name="otp" required maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+                           class="w-full border border-black/[0.1] rounded-xl py-3 text-center text-xl font-mono font-bold tracking-[0.35em] focus:border-mg-green outline-none transition bg-mg-cream"
+                           placeholder="••••••">
+                    <div class="text-right mt-1">
+                        <button type="button" @click="sendOtp('forgot_otp')" class="text-[10px] text-mg-orange font-bold hover:underline" :disabled="loading">Resend OTP</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-mg-dark/60 uppercase tracking-widest mb-1.5">New Password</label>
+                    <input type="password" name="password" required minlength="6"
+                           class="w-full px-4 py-3 border border-black/[0.1] rounded-xl text-sm focus:border-mg-green outline-none"
+                           placeholder="At least 6 characters">
+                </div>
+
+                <button type="submit" class="btn-primary w-full py-3.5 text-[13px] justify-center mt-2">
+                    Reset & Sign In →
+                </button>
             </form>
 
             <!-- Footer note -->
@@ -173,12 +307,8 @@
                 256-bit encrypted
             </div>
             <div class="flex items-center gap-1.5 text-[11px] text-mg-dark/50 font-medium">
-                <svg class="w-3.5 h-3.5 text-mg-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3" stroke-linecap="round"/></svg>
-                OTP valid 10 mins
-            </div>
-            <div class="flex items-center gap-1.5 text-[11px] text-mg-dark/50 font-medium">
-                <svg class="w-3.5 h-3.5 text-mg-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round"/></svg>
-                No password needed
+                <svg class="w-3.5 h-3.5 text-mg-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+                Secure Login
             </div>
         </div>
     </div>

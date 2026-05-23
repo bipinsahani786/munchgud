@@ -20,6 +20,9 @@ class Product extends Model
         'nutritional_info',
         'is_active',
         'is_featured',
+        'tax_type',
+        'gst_percent',
+        'cod_allowed',
         'tags',
         'meta_title',
         'meta_description'
@@ -29,6 +32,8 @@ class Product extends Model
         'tags' => 'array',
         'is_active' => 'boolean',
         'is_featured' => 'boolean',
+        'cod_allowed' => 'boolean',
+        'gst_percent' => 'decimal:2',
     ];
 
     public function category()

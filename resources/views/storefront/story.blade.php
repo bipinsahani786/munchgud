@@ -57,12 +57,12 @@
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.5)_0%,transparent_70%)]"></div>
 
     <div class="relative z-10 text-center max-w-5xl mx-auto px-4 reveal">
-        <span class="inline-block bg-mg-green/10 text-mg-green text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-6 border border-mg-green/20">Our Genesis</span>
+        <span class="inline-block bg-mg-green/10 text-mg-green text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-6 border border-mg-green/20">{{ $page->sections['hero_badge'] ?? 'Our Genesis' }}</span>
         <h1 class="font-heading text-6xl md:text-8xl font-black text-mg-dark leading-tight mb-8">
-            Rooted in <span class="italic text-mg-green">Tradition.</span><br>Crafted for <span class="italic text-mg-orange">Today.</span>
+            {!! $page->sections['hero_title'] ?? 'Rooted in <span class="italic text-mg-green">Tradition.</span><br>Crafted for <span class="italic text-mg-orange">Today.</span>' !!}
         </h1>
         <p class="text-xl md:text-2xl text-mg-muted font-medium max-w-3xl mx-auto leading-relaxed">
-            We are on a mission to bring India's ancient superfood to the world, roasted to absolute perfection.
+            {{ $page->sections['hero_subtitle'] ?? 'We are on a mission to bring India\'s ancient superfood to the world, roasted to absolute perfection.' }}
         </p>
     </div>
 </section>
@@ -73,15 +73,15 @@
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div class="relative reveal">
                 <div class="aspect-square rounded-[3rem] overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Junk Food">
+                    <img src="{{ isset($page->sections['problem_image']) ? Storage::url($page->sections['problem_image']) : 'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?q=80&w=1000&auto=format&fit=crop' }}" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Junk Food">
                 </div>
                 <div class="absolute -bottom-8 -right-8 bg-white p-8 rounded-[2rem] shadow-2xl max-w-xs">
-                    <p class="font-heading text-2xl font-black text-mg-dark mb-2">The Snacking Dilemma</p>
-                    <p class="text-mg-muted text-sm">Healthy meant boring. Tasty meant unhealthy. We refused to compromise.</p>
+                    <p class="font-heading text-2xl font-black text-mg-dark mb-2">{{ $page->sections['problem_badge'] ?? 'The Snacking Dilemma' }}</p>
+                    <p class="text-mg-muted text-sm">{{ $page->sections['problem_desc'] ?? 'Healthy meant boring. Tasty meant unhealthy. We refused to compromise.' }}</p>
                 </div>
             </div>
             <div class="reveal" style="transition-delay: 0.2s">
-                <h2 class="font-heading text-5xl font-black text-mg-dark mb-8">The spark that started it all.</h2>
+                <h2 class="font-heading text-5xl font-black text-mg-dark mb-8">{!! $page->sections['problem_title'] ?? 'The spark that started it all.' !!}</h2>
                 <div class="prose prose-lg text-mg-dark/70">
                     <p>For decades, the snack aisle has been dominated by deep-fried chips, artificial flavors, and empty calories. When we sought a guilt-free alternative for our 4 PM cravings, we found ourselves staring at a stark choice: tasteless diet snacks or heavily processed junk food.</p>
                     <p>We realized that modern snacking was fundamentally broken. We needed something that was genuinely nutritious, incredibly satisfying, and didn't leave a greasy residue on our fingers.</p>
@@ -97,7 +97,7 @@
     <div class="max-w-5xl mx-auto px-4 text-center reveal">
         <span class="text-4xl mb-8 block">💡</span>
         <h2 class="font-heading text-4xl md:text-6xl font-black mb-10 leading-tight">
-            Then, we looked back at our roots and rediscovered <span class="text-mg-gold italic">Makhana</span>.
+            {!! $page->sections['discovery_title'] ?? 'Then, we looked back at our roots and rediscovered <span class="text-mg-gold italic">Makhana</span>.' !!}
         </h2>
         <p class="text-xl text-white/80 font-light max-w-3xl mx-auto leading-relaxed">
             Fox nuts have been a staple of Ayurvedic medicine and Indian fasting rituals for centuries. They are a powerhouse of protein, inherently gluten-free, and lighter than popcorn. But for too long, they were confined to traditional, uninspiring preparations. We decided to change that.
@@ -111,25 +111,25 @@
         <div class="grid lg:grid-cols-2 gap-16 items-center flex-row-reverse">
             <div class="order-2 lg:order-1 reveal">
                 <div class="inline-flex items-center gap-2 bg-mg-green/10 text-mg-green text-xs font-bold px-4 py-2 rounded-full mb-6 uppercase tracking-wider">
-                    📍 Mithilanchal, Bihar
+                    {{ $page->sections['roots_badge'] ?? '📍 Mithilanchal, Bihar' }}
                 </div>
-                <h2 class="font-heading text-5xl font-black text-mg-dark mb-6">Sourced from the Makhana Capital of the World.</h2>
-                <p class="text-lg text-mg-muted mb-8">Over 80% of the world's Makhana is grown in the pristine water bodies of Bihar, India. We bypassed the middlemen and established direct relationships with the generational farmers of the Mithilanchal region.</p>
+                <h2 class="font-heading text-5xl font-black text-mg-dark mb-6">{!! $page->sections['roots_title'] ?? 'Sourced from the Makhana Capital of the World.' !!}</h2>
+                <p class="text-lg text-mg-muted mb-8">{{ $page->sections['roots_desc'] ?? 'Over 80% of the world\'s Makhana is grown in the pristine water bodies of Bihar, India. We bypassed the middlemen and established direct relationships with the generational farmers of the Mithilanchal region.' }}</p>
                 <div class="flex gap-8">
                     <div>
-                        <p class="text-4xl font-black text-mg-green mb-2">200+</p>
-                        <p class="text-sm font-bold text-mg-dark uppercase tracking-wider">Partner Farmers</p>
+                        <p class="text-4xl font-black text-mg-green mb-2">{{ $page->sections['roots_stat_1_num'] ?? '200+' }}</p>
+                        <p class="text-sm font-bold text-mg-dark uppercase tracking-wider">{{ $page->sections['roots_stat_1_label'] ?? 'Partner Farmers' }}</p>
                     </div>
                     <div>
-                        <p class="text-4xl font-black text-mg-orange mb-2">100%</p>
-                        <p class="text-sm font-bold text-mg-dark uppercase tracking-wider">Traceable</p>
+                        <p class="text-4xl font-black text-mg-orange mb-2">{{ $page->sections['roots_stat_2_num'] ?? '100%' }}</p>
+                        <p class="text-sm font-bold text-mg-dark uppercase tracking-wider">{{ $page->sections['roots_stat_2_label'] ?? 'Traceable' }}</p>
                     </div>
                 </div>
             </div>
             <div class="order-1 lg:order-2 reveal relative">
-                <img src="{{ asset('images/story_farmer.png') }}" alt="Farmers in Bihar" class="rounded-[2rem] shadow-2xl w-full object-cover aspect-[4/5]">
+                <img src="{{ isset($page->sections['roots_image_main']) ? Storage::url($page->sections['roots_image_main']) : asset('images/story_farmer.png') }}" alt="Farmers in Bihar" class="rounded-[2rem] shadow-2xl w-full object-cover aspect-[4/5]">
                 <div class="absolute -left-12 top-12 bg-white/90 backdrop-blur p-4 rounded-2xl shadow-xl rotate-[-5deg]">
-                    <img src="https://images.unsplash.com/photo-1596647225141-8f5bc6518a4a?q=80&w=200&auto=format&fit=crop" class="w-24 h-24 rounded-xl object-cover">
+                    <img src="{{ isset($page->sections['roots_image_small']) ? Storage::url($page->sections['roots_image_small']) : 'https://images.unsplash.com/photo-1596647225141-8f5bc6518a4a?q=80&w=200&auto=format&fit=crop' }}" class="w-24 h-24 rounded-xl object-cover">
                 </div>
             </div>
         </div>
@@ -140,16 +140,16 @@
 <section class="py-24 bg-mg-cream grain">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-20 reveal">
-            <h2 class="font-heading text-5xl font-black text-mg-dark mb-4">The Seed to Snack Journey</h2>
-            <p class="text-lg text-mg-muted max-w-2xl mx-auto">It takes meticulous care and traditional wisdom to craft the perfect crunch.</p>
+            <h2 class="font-heading text-5xl font-black text-mg-dark mb-4">{!! $page->sections['process_title'] ?? 'The Seed to Snack Journey' !!}</h2>
+            <p class="text-lg text-mg-muted max-w-2xl mx-auto">{{ $page->sections['process_desc'] ?? 'It takes meticulous care and traditional wisdom to craft the perfect crunch.' }}</p>
         </div>
         
         <div class="grid md:grid-cols-4 gap-8 relative timeline-dot">
             @php $steps = [
-                ['icon' => '🪷', 'title' => 'Harvesting', 'desc' => 'Seeds are hand-collected from the bottom of water lily ponds by skilled divers.'],
-                ['icon' => '☀️', 'title' => 'Sun-Drying', 'desc' => 'The raw seeds are cleaned and left to dry naturally under the Indian sun.'],
-                ['icon' => '💥', 'title' => 'Popping', 'desc' => 'Roasted in earthen pots and cracked open manually to reveal the white puff.'],
-                ['icon' => '🔥', 'title' => 'Flavoring', 'desc' => 'Slow-air-roasted (never fried) and coated in our proprietary gourmet spice blends.']
+                ['icon' => '🪷', 'title' => $page->sections['process_step_1_title'] ?? 'Harvesting', 'desc' => $page->sections['process_step_1_desc'] ?? 'Seeds are hand-collected from the bottom of water lily ponds by skilled divers.'],
+                ['icon' => '☀️', 'title' => $page->sections['process_step_2_title'] ?? 'Sun-Drying', 'desc' => $page->sections['process_step_2_desc'] ?? 'The raw seeds are cleaned and left to dry naturally under the Indian sun.'],
+                ['icon' => '💥', 'title' => $page->sections['process_step_3_title'] ?? 'Popping', 'desc' => $page->sections['process_step_3_desc'] ?? 'Roasted in earthen pots and cracked open manually to reveal the white puff.'],
+                ['icon' => '🔥', 'title' => $page->sections['process_step_4_title'] ?? 'Flavoring', 'desc' => $page->sections['process_step_4_desc'] ?? 'Slow-air-roasted (never fried) and coated in our proprietary gourmet spice blends.']
             ]; @endphp
             
             @foreach($steps as $index => $step)
@@ -169,27 +169,27 @@
 <section class="py-24 bg-white relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16 reveal">
-            <span class="inline-block bg-mg-green/10 text-mg-green text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-4 border border-mg-green/20">Our DNA</span>
-            <h2 class="font-heading text-5xl font-black text-mg-dark mb-6">Our Philosophy</h2>
+            <span class="inline-block bg-mg-green/10 text-mg-green text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-4 border border-mg-green/20">{{ $page->sections['values_badge'] ?? 'Our DNA' }}</span>
+            <h2 class="font-heading text-5xl font-black text-mg-dark mb-6">{!! $page->sections['values_title'] ?? 'Our Philosophy' !!}</h2>
         </div>
         
         <div class="grid md:grid-cols-3 gap-8">
             <div class="bg-mg-cream/50 border border-mg-dark/5 rounded-[2.5rem] p-10 reveal hover:-translate-y-2 hover:shadow-2xl hover:shadow-mg-green/10 transition-all duration-300">
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-3xl mb-8 shadow-sm border border-mg-dark/5">🌱</div>
-                <h3 class="text-2xl font-heading font-black text-mg-dark mb-4">Unapologetically Natural</h3>
-                <p class="text-mg-muted leading-relaxed">If an ingredient sounds like a science experiment, it doesn't go in our bags. No artificial colors, flavors, or preservatives. Ever.</p>
+                <h3 class="text-2xl font-heading font-black text-mg-dark mb-4">{!! $page->sections['values_1_title'] ?? 'Unapologetically Natural' !!}</h3>
+                <p class="text-mg-muted leading-relaxed">{{ $page->sections['values_1_desc'] ?? 'If an ingredient sounds like a science experiment, it doesn\'t go in our bags. No artificial colors, flavors, or preservatives. Ever.' }}</p>
             </div>
             
             <div class="bg-mg-cream/50 border border-mg-dark/5 rounded-[2.5rem] p-10 reveal hover:-translate-y-2 hover:shadow-2xl hover:shadow-mg-green/10 transition-all duration-300" style="transition-delay: 0.1s;">
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-3xl mb-8 shadow-sm border border-mg-dark/5">⚖️</div>
-                <h3 class="text-2xl font-heading font-black text-mg-dark mb-4">Fair Trade Always</h3>
-                <p class="text-mg-muted leading-relaxed">We believe in shared prosperity. By partnering directly with farmers, we ensure they receive a premium price for their painstaking labor.</p>
+                <h3 class="text-2xl font-heading font-black text-mg-dark mb-4">{!! $page->sections['values_2_title'] ?? 'Fair Trade Always' !!}</h3>
+                <p class="text-mg-muted leading-relaxed">{{ $page->sections['values_2_desc'] ?? 'We believe in shared prosperity. By partnering directly with farmers, we ensure they receive a premium price for their painstaking labor.' }}</p>
             </div>
             
             <div class="bg-mg-cream/50 border border-mg-dark/5 rounded-[2.5rem] p-10 reveal hover:-translate-y-2 hover:shadow-2xl hover:shadow-mg-green/10 transition-all duration-300" style="transition-delay: 0.2s;">
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-3xl mb-8 shadow-sm border border-mg-dark/5">🏆</div>
-                <h3 class="text-2xl font-heading font-black text-mg-dark mb-4">Flavor First</h3>
-                <p class="text-mg-muted leading-relaxed">Healthy shouldn't taste like cardboard. We spend months perfecting our spice blends to ensure every bite is an explosion of flavor.</p>
+                <h3 class="text-2xl font-heading font-black text-mg-dark mb-4">{!! $page->sections['values_3_title'] ?? 'Flavor First' !!}</h3>
+                <p class="text-mg-muted leading-relaxed">{{ $page->sections['values_3_desc'] ?? 'Healthy shouldn\'t taste like cardboard. We spend months perfecting our spice blends to ensure every bite is an explosion of flavor.' }}</p>
             </div>
         </div>
     </div>
@@ -199,33 +199,33 @@
 <section class="py-24 bg-mg-cream grain">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 reveal">
-            <h2 class="font-heading text-5xl font-black text-mg-dark mb-4">The Faces Behind the Crunch</h2>
-            <p class="text-lg text-mg-muted max-w-2xl mx-auto">A team of snack-enthusiasts, nutrition nerds, and flavor scientists.</p>
+            <h2 class="font-heading text-5xl font-black text-mg-dark mb-4">{!! $page->sections['team_title'] ?? 'The Faces Behind the Crunch' !!}</h2>
+            <p class="text-lg text-mg-muted max-w-2xl mx-auto">{{ $page->sections['team_desc'] ?? 'A team of snack-enthusiasts, nutrition nerds, and flavor scientists.' }}</p>
         </div>
         
         <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
             <!-- Founder 1 -->
             <div class="reveal group">
                 <div class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 relative">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <img src="{{ isset($page->sections['team_1_image']) ? Storage::url($page->sections['team_1_image']) : 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                        <p class="text-white italic">"We wanted to build a brand that our own families could trust blindly."</p>
+                        <p class="text-white italic">{!! $page->sections['team_1_quote'] ?? '"We wanted to build a brand that our own families could trust blindly."' !!}</p>
                     </div>
                 </div>
-                <h3 class="font-heading text-3xl font-black text-mg-dark">Rahul Sharma</h3>
-                <p class="text-mg-green font-bold uppercase tracking-wider text-sm mt-1">Co-Founder & CEO</p>
+                <h3 class="font-heading text-3xl font-black text-mg-dark">{{ $page->sections['team_1_name'] ?? 'Rahul Sharma' }}</h3>
+                <p class="text-mg-green font-bold uppercase tracking-wider text-sm mt-1">{{ $page->sections['team_1_role'] ?? 'Co-Founder & CEO' }}</p>
             </div>
             
             <!-- Founder 2 -->
             <div class="reveal group" style="transition-delay: 0.2s">
                 <div class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 relative">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <img src="{{ isset($page->sections['team_2_image']) ? Storage::url($page->sections['team_2_image']) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                        <p class="text-white italic">"Creating guilt-free snacks that actually taste amazing was the ultimate puzzle."</p>
+                        <p class="text-white italic">{!! $page->sections['team_2_quote'] ?? '"Creating guilt-free snacks that actually taste amazing was the ultimate puzzle."' !!}</p>
                     </div>
                 </div>
-                <h3 class="font-heading text-3xl font-black text-mg-dark">Priya Patel</h3>
-                <p class="text-mg-orange font-bold uppercase tracking-wider text-sm mt-1">Co-Founder & Head of Product</p>
+                <h3 class="font-heading text-3xl font-black text-mg-dark">{{ $page->sections['team_2_name'] ?? 'Priya Patel' }}</h3>
+                <p class="text-mg-orange font-bold uppercase tracking-wider text-sm mt-1">{{ $page->sections['team_2_role'] ?? 'Co-Founder & Head of Product' }}</p>
             </div>
         </div>
     </div>
@@ -239,18 +239,18 @@
             
             <div class="grid lg:grid-cols-2 gap-16 relative z-10 items-center">
                 <div>
-                    <h2 class="font-heading text-4xl lg:text-5xl font-black mb-6">Snacking that gives back.</h2>
-                    <p class="text-white/80 text-lg mb-8 leading-relaxed">We are committed to leaving the planet better than we found it. From utilizing eco-friendly packaging materials to empowering rural farming communities, sustainability is baked into our DNA.</p>
+                    <h2 class="font-heading text-4xl lg:text-5xl font-black mb-6">{!! $page->sections['impact_title'] ?? 'Snacking that gives back.' !!}</h2>
+                    <p class="text-white/80 text-lg mb-8 leading-relaxed">{{ $page->sections['impact_desc'] ?? 'We are committed to leaving the planet better than we found it. From utilizing eco-friendly packaging materials to empowering rural farming communities, sustainability is baked into our DNA.' }}</p>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-8">
                     <div>
-                        <p class="text-5xl font-black text-mg-gold mb-2">100%</p>
-                        <p class="text-sm font-bold uppercase tracking-wider text-white/70">Recyclable Pouches</p>
+                        <p class="text-5xl font-black text-mg-gold mb-2">{{ $page->sections['impact_stat_1_num'] ?? '100%' }}</p>
+                        <p class="text-sm font-bold uppercase tracking-wider text-white/70">{{ $page->sections['impact_stat_1_label'] ?? 'Recyclable Pouches' }}</p>
                     </div>
                     <div>
-                        <p class="text-5xl font-black text-mg-leaf mb-2">0%</p>
-                        <p class="text-sm font-bold uppercase tracking-wider text-white/70">Carbon Footprint (Offset)</p>
+                        <p class="text-5xl font-black text-mg-leaf mb-2">{{ $page->sections['impact_stat_2_num'] ?? '0' }}</p>
+                        <p class="text-sm font-bold uppercase tracking-wider text-white/70">{{ $page->sections['impact_stat_2_label'] ?? 'Plastic Waste' }}</p>
                     </div>
                     <div>
                         <p class="text-5xl font-black text-mg-orange mb-2">30%</p>
@@ -276,11 +276,11 @@
         <div class="marquee-content gap-6 px-3">
             @php
                 $gallery = [
-                    'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=400&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?q=80&w=400&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1539125530496-3ca408f9c2d9?q=80&w=400&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1464863979621-258859e62245?q=80&w=400&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1502323777036-f29e3972d82f?q=80&w=400&auto=format&fit=crop',
+                    isset($page->sections['gallery_1']) ? Storage::url($page->sections['gallery_1']) : 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=400&auto=format&fit=crop',
+                    isset($page->sections['gallery_2']) ? Storage::url($page->sections['gallery_2']) : 'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?q=80&w=400&auto=format&fit=crop',
+                    isset($page->sections['gallery_3']) ? Storage::url($page->sections['gallery_3']) : 'https://images.unsplash.com/photo-1539125530496-3ca408f9c2d9?q=80&w=400&auto=format&fit=crop',
+                    isset($page->sections['gallery_4']) ? Storage::url($page->sections['gallery_4']) : 'https://images.unsplash.com/photo-1464863979621-258859e62245?q=80&w=400&auto=format&fit=crop',
+                    isset($page->sections['gallery_5']) ? Storage::url($page->sections['gallery_5']) : 'https://images.unsplash.com/photo-1502323777036-f29e3972d82f?q=80&w=400&auto=format&fit=crop',
                 ];
             @endphp
             {{-- Loop twice for infinite effect --}}

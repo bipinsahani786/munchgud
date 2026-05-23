@@ -62,10 +62,14 @@ class AdminProductController extends Controller
             'nutritional_info' => 'nullable|string',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
+            'tax_type' => 'in:inclusive,exclusive',
+            'gst_percent' => 'nullable|numeric|min:0|max:100',
+            'cod_allowed' => 'boolean',
             'tags' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string'
         ]);
+        $validated['cod_allowed'] = $request->has('cod_allowed') ? 1 : 0;
 
         $validated['slug'] = $this->generateUniqueSlug($validated['name']);
         if ($validated['tags']) {
@@ -101,10 +105,14 @@ class AdminProductController extends Controller
             'nutritional_info' => 'nullable|string',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
+            'tax_type' => 'in:inclusive,exclusive',
+            'gst_percent' => 'nullable|numeric|min:0|max:100',
+            'cod_allowed' => 'boolean',
             'tags' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string'
         ]);
+        $validated['cod_allowed'] = $request->has('cod_allowed') ? 1 : 0;
 
         if ($validated['name'] !== $product->name) {
             $validated['slug'] = $this->generateUniqueSlug($validated['name'], $product->id);

@@ -305,11 +305,34 @@
                                          return;
                                      }
                                      this.checking = true;
-                                     setTimeout(() => {
-                                         this.deliveryOk = true;
-                                         this.deliveryMsg = 'Delivery available! Estimated 3-5 business days.';
+                                     this.deliveryOk = null;
+                                     this.deliveryMsg = '';
+                                     
+                                     fetch('/api/check-pincode', {
+                                         method: 'POST',
+                                         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                                         body: JSON.stringify({ pincode: this.pincode })
+                                     })
+                                     .then(res => res.json())
+                                     .then(data => {
                                          this.checking = false;
-                                     }, 800);
+                                         if(data.deliverable) {
+                                             this.deliveryOk = true;
+                                             let msg = `Delivery available in ${data.state}! Estimated ${data.delivery_days} days.`;
+                                             if(data.cod_available) {
+                                                 msg += ' COD available.';
+                                             }
+                                             this.deliveryMsg = msg;
+                                         } else {
+                                             this.deliveryOk = false;
+                                             this.deliveryMsg = data.message || 'Sorry, we do not deliver to this pincode.';
+                                         }
+                                     })
+                                     .catch(err => {
+                                         this.checking = false;
+                                         this.deliveryOk = false;
+                                         this.deliveryMsg = 'Something went wrong. Please try again.';
+                                     });
                                  }
                              }">
                             <h4 class="font-bold text-sm text-mg-dark mb-3 flex items-center gap-2">

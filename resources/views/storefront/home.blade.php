@@ -18,13 +18,13 @@
             <div class="reveal">
                 <div class="inline-flex items-center gap-2 bg-mg-green/8 text-mg-green text-xs font-bold px-4 py-2 rounded-full mb-6 tracking-widest uppercase border border-mg-green/10">
                     <span class="w-2 h-2 bg-mg-green rounded-full animate-pulse"></span>
-                    Direct from Bihar Farms
+                    {{ $page->sections['hero_badge'] ?? 'Direct from Bihar Farms' }}
                 </div>
                 <h1 class="font-heading text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-black text-mg-dark leading-[0.95] tracking-tight mb-6">
-                    Munch Gud.<br><span class="text-mg-green italic">Feel Gud.</span>
+                    {!! $page->sections['hero_title'] ?? 'Munch Gud.<br><span class="text-mg-green italic">Feel Gud.</span>' !!}
                 </h1>
                 <p class="text-lg sm:text-xl text-mg-dark/50 max-w-lg mb-8 leading-relaxed font-light">
-                    Premium roasted makhana — high protein, gluten-free, and irresistibly crunchy. Snack smarter with India's most loved fox nut brand.
+                    {{ $page->sections['hero_subtitle'] ?? "Premium roasted makhana — high protein, gluten-free, and irresistibly crunchy. Snack smarter with India's most loved fox nut brand." }}
                 </p>
                 <div class="flex flex-wrap gap-4 mb-10">
                     <a href="{{ route('products.index') }}" class="inline-flex items-center gap-2.5 bg-mg-green text-white font-bold text-base px-8 py-4 rounded-full hover:bg-mg-green-dark hover:scale-105 active:scale-95 transition-all shadow-lg shadow-mg-green/20">
@@ -52,7 +52,7 @@
             <div class="relative flex justify-center reveal">
                 <div class="w-72 h-72 sm:w-80 sm:h-80 lg:w-[400px] lg:h-[400px] rounded-full bg-gradient-to-br from-mg-green/15 via-mg-leaf/10 to-mg-cream flex items-center justify-center parallax-hero">
                     <div class="w-56 h-56 sm:w-64 sm:h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-mg-green/20 to-mg-cream flex items-center justify-center float overflow-hidden">
-                        <img src="{{ asset('images/hero_bg.png') }}" class="w-full h-full object-cover" alt="Hero Makhana">
+                        <img src="{{ isset($page->sections['hero_image']) ? Storage::url($page->sections['hero_image']) : asset('images/hero_bg.png') }}" class="w-full h-full object-cover" alt="Hero Makhana">
                     </div>
                 </div>
                 <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-2xl shadow-lg float" style="animation-delay:0.5s">
@@ -79,15 +79,14 @@
 <div class="bg-mg-green-dark py-3.5 overflow-hidden">
     <div class="flex whitespace-nowrap">
         <div class="marquee-track flex items-center gap-8 text-white/80 text-sm font-medium">
+            @php 
+                $marqueeText = $page->sections['marquee_text'] ?? '🌿 No Artificial Flavours✦✨ High Protein✦🔥 Air Roasted✦💚 Gluten Free✦⭐ 5,000+ Happy Snackers✦🇮🇳 Made in India✦🌱 100% Vegan✦♻️ Eco-Friendly Packaging';
+                $marqueeItems = explode('✦', $marqueeText);
+            @endphp
             @for($i=0; $i<2; $i++)
-            <span>🌿 No Artificial Flavours</span><span class="text-mg-leaf">✦</span>
-            <span>✨ High Protein</span><span class="text-mg-leaf">✦</span>
-            <span>🔥 Air Roasted</span><span class="text-mg-leaf">✦</span>
-            <span>💚 Gluten Free</span><span class="text-mg-leaf">✦</span>
-            <span>⭐ 5,000+ Happy Snackers</span><span class="text-mg-leaf">✦</span>
-            <span>🇮🇳 Made in India</span><span class="text-mg-leaf">✦</span>
-            <span>🌱 100% Vegan</span><span class="text-mg-leaf">✦</span>
-            <span>♻️ Eco-Friendly Packaging</span><span class="text-mg-leaf">✦</span>
+                @foreach($marqueeItems as $item)
+                    <span>{{ trim($item) }}</span><span class="text-mg-leaf">✦</span>
+                @endforeach
             @endfor
         </div>
     </div>
@@ -100,9 +99,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-3 gap-10 lg:gap-20">
             @php $pillars = [
-                ['icon'=>'🔥','num'=>'0g','title'=>'Oil Used','desc'=>'Pure hot-air roasting technology. Zero oil, maximum crunch, guilt-free snacking at its finest.'],
-                ['icon'=>'🌿','num'=>'100%','title'=>'Natural','desc'=>'What you see on the label is what\'s inside. No preservatives, no artificial colours, nothing hidden.'],
-                ['icon'=>'💪','num'=>'15g','title'=>'Protein per 100g','desc'=>'The perfect post-workout or evening snack. Plant-based protein that actually tastes incredible.'],
+                ['icon'=>'🔥', 'num'=>$page->sections['pillar_1_num'] ?? '0g', 'title'=>$page->sections['pillar_1_title'] ?? 'Oil Used', 'desc'=>$page->sections['pillar_1_desc'] ?? 'Pure hot-air roasting technology. Zero oil, maximum crunch, guilt-free snacking at its finest.'],
+                ['icon'=>'🌿', 'num'=>$page->sections['pillar_2_num'] ?? '100%', 'title'=>$page->sections['pillar_2_title'] ?? 'Natural', 'desc'=>$page->sections['pillar_2_desc'] ?? 'What you see on the label is what\'s inside. No preservatives, no artificial colours, nothing hidden.'],
+                ['icon'=>'💪', 'num'=>$page->sections['pillar_3_num'] ?? '15g', 'title'=>$page->sections['pillar_3_title'] ?? 'Protein per 100g', 'desc'=>$page->sections['pillar_3_desc'] ?? 'The perfect post-workout or evening snack. Plant-based protein that actually tastes incredible.'],
             ]; @endphp
             @foreach($pillars as $i=>$p)
             <div class="reveal text-center group" style="transition-delay:{{ $i*0.15 }}s">
@@ -122,14 +121,19 @@
 <section id="products" class="py-20 lg:py-28 bg-mg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-14 reveal">
-            <span class="inline-block bg-mg-green/8 text-mg-green text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-4 border border-mg-green/10">Our Collection</span>
-            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark mb-4">Our Star <span class="italic text-mg-green">Flavours</span></h2>
-            <p class="text-mg-muted max-w-md mx-auto text-sm">Six uniquely crafted flavours. Popped, seasoned, and sealed at peak freshness.</p>
+            <span class="inline-block bg-mg-green/8 text-mg-green text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-4 border border-mg-green/10">{{ $page->sections['collections_badge'] ?? 'Our Collection' }}</span>
+            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark mb-4">{!! $page->sections['collections_title'] ?? 'Our Star <span class="italic text-mg-green">Flavours</span>' !!}</h2>
+            <p class="text-mg-muted max-w-md mx-auto text-sm">{{ $page->sections['collections_subtitle'] ?? 'Six uniquely crafted flavours. Popped, seasoned, and sealed at peak freshness.' }}</p>
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7">
             @foreach($featuredProducts as $i=>$p)
             @php
-                $sku = $p->skus->first();
+                // Get default SKU, or fallback to an in-stock one
+                $sku = $p->skus->where('is_default', true)->first();
+                if (!$sku || $sku->stock_qty <= 0) {
+                    $sku = $p->skus->where('stock_qty', '>', 0)->first() ?? $p->skus->first();
+                }
+                
                 $price = $sku ? $sku->sale_price : 0;
                 $mrp = $sku ? $sku->mrp : 0;
                 $discount = $mrp > 0 ? round((1 - $price / $mrp) * 100) : 0;
@@ -138,6 +142,7 @@
                 $g = 'from-orange-50 to-red-50';
                 $rating = $p->average_rating;
                 $reviewsCount = $p->review_count;
+                $isOutOfStock = !$sku || $sku->stock_qty <= 0;
             @endphp
             <div class="reveal group bg-white rounded-3xl border border-mg-dark/[0.04] overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:shadow-mg-green/8 transition-all duration-500" style="transition-delay:{{ $i*0.07 }}s">
                 <a href="{{ route('products.show', $p->slug) }}" class="relative aspect-square bg-gradient-to-br {{ $g }} flex items-center justify-center overflow-hidden block">
@@ -194,11 +199,18 @@
                         <span class="text-[10px] font-bold text-mg-green bg-mg-green/8 px-2 py-0.5 rounded-full">SAVE {{ $discount }}%</span>
                         @endif
                     </div>
+                    @if($isOutOfStock)
+                    <button type="button" disabled
+                            class="w-full py-3 bg-gray-200 text-gray-500 text-sm font-bold rounded-2xl flex items-center justify-center cursor-not-allowed">
+                        Out of Stock
+                    </button>
+                    @else
                     <button type="button" x-data @click="window.addToCart({{ $sku ? $sku->id : 0 }}, 1, $event.currentTarget)" 
                             class="w-full py-3 bg-mg-green text-white text-sm font-bold rounded-2xl hover:bg-mg-green-dark active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-sm shadow-mg-green/15">
                         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0" stroke-linecap="round"/></svg>
-                        Add to Cart
+                        Quick Add
                     </button>
+                    @endif
                 </div>
             </div>
             @endforeach
@@ -215,16 +227,21 @@
             <div class="reveal relative">
                 <div class="absolute -inset-6 bg-mg-green/8 rounded-[3rem] -rotate-3"></div>
                 <div class="relative aspect-[4/5] rounded-3xl bg-gradient-to-br from-mg-green/20 via-mg-leaf/10 to-mg-cream flex items-center justify-center overflow-hidden">
-                    <img src="{{ asset('images/ingredient_macro.png') }}" class="w-full h-full object-cover">
+                    <img src="{{ isset($page->sections['bestseller_image']) ? Storage::url($page->sections['bestseller_image']) : asset('images/ingredient_macro.png') }}" class="w-full h-full object-cover">
                 </div>
             </div>
             <div class="reveal">
-                <span class="inline-block bg-mg-green/8 text-mg-green text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-6 border border-mg-green/10">★ #1 Bestseller</span>
-                <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark mb-6 leading-tight">The One That<br><span class="italic text-mg-green">Started It All</span></h2>
-                <p class="text-mg-muted leading-relaxed mb-6 text-[17px]">Our Peri Peri Makhana is where the MunchGud story began. Bold, spicy, and impossibly addictive — the flavour that launched a revolution.</p>
+                <span class="inline-block bg-mg-green/8 text-mg-green text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-6 border border-mg-green/10">{{ $page->sections['bestseller_badge'] ?? '★ #1 Bestseller' }}</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark mb-6 leading-tight">{!! $page->sections['bestseller_title'] ?? 'The One That<br><span class="italic text-mg-green">Started It All</span>' !!}</h2>
+                <p class="text-mg-muted leading-relaxed mb-6 text-[17px]">{{ $page->sections['bestseller_desc'] ?? 'Our Peri Peri Makhana is where the MunchGud story began. Bold, spicy, and impossibly addictive — the flavour that launched a revolution.' }}</p>
                 <ul class="space-y-3 mb-8">
-                    @foreach(['Hand-picked lotus seeds from Bihar ponds','Air-roasted at 180°C for maximum crunch','Bold peri peri seasoning — not for the faint-hearted','Sealed within 2 hours of roasting'] as $b)
-                    <li class="flex items-start gap-3"><span class="mt-0.5 w-5 h-5 bg-mg-green/10 rounded-full flex items-center justify-center flex-shrink-0"><svg width="12" height="12" fill="none" stroke="#2B6E2F" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="text-sm text-mg-dark/55">{{ $b }}</span></li>
+                    @php
+                        $bestsellerBenefits = isset($page->sections['bestseller_benefits']) 
+                            ? explode("\n", $page->sections['bestseller_benefits']) 
+                            : ['Hand-picked lotus seeds from Bihar ponds','Air-roasted at 180°C for maximum crunch','Bold peri peri seasoning — not for the faint-hearted','Sealed within 2 hours of roasting'];
+                    @endphp
+                    @foreach($bestsellerBenefits as $b)
+                    <li class="flex items-start gap-3"><span class="mt-0.5 w-5 h-5 bg-mg-green/10 rounded-full flex items-center justify-center flex-shrink-0"><svg width="12" height="12" fill="none" stroke="#2B6E2F" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="text-sm text-mg-dark/55">{{ trim($b) }}</span></li>
                     @endforeach
                 </ul>
                 <div class="flex items-center gap-4 mb-8">
@@ -245,22 +262,28 @@
     <div class="absolute top-0 right-0 w-96 h-96 bg-mg-leaf/5 rounded-full blur-3xl"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16 reveal">
-            <span class="inline-block bg-white/10 text-white text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-4">Science-Backed</span>
-            <h2 class="font-heading text-4xl sm:text-5xl font-black mb-4">Why <span class="italic text-mg-leaf">Makhana</span>?</h2>
-            <p class="text-white/40 max-w-md mx-auto text-sm">The ancient Indian superfood, now in flavours you'll actually crave.</p>
+            <span class="inline-block bg-white/10 text-white text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-4">{{ $page->sections['health_badge'] ?? 'Science-Backed' }}</span>
+            <h2 class="font-heading text-4xl sm:text-5xl font-black mb-4">{!! $page->sections['health_title'] ?? 'Why <span class="italic text-mg-leaf">Makhana</span>?' !!}</h2>
+            <p class="text-white/40 max-w-md mx-auto text-sm">{{ $page->sections['health_subtitle'] ?? 'The ancient Indian superfood, now in flavours you\'ll actually crave.' }}</p>
         </div>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-16">
-            @php $stats = [
-                ['num'=>4,'suffix'=>'g','label'=>'Protein per serving','icon'=>'💪'],
-                ['num'=>89,'suffix'=>'','label'=>'Calories per 30g','icon'=>'🔥'],
-                ['num'=>0,'suffix'=>'g','label'=>'Trans Fat','icon'=>'✅'],
-                ['num'=>67,'suffix'=>'mg','label'=>'Magnesium per 100g','icon'=>'🧬'],
-            ]; @endphp
-            @foreach($stats as $s)
+            @php 
+                $benefits = isset($page->sections['health_benefits_json']) 
+                    ? json_decode($page->sections['health_benefits_json'], true)
+                    : [
+                        ['n'=>'Protein Power', 'v'=>'15g', 'd'=>'Per 100g. Excellent for muscle recovery.'],
+                        ['n'=>'Antioxidant Rich', 'v'=>'High', 'd'=>'Fights free radicals and aging.'],
+                        ['n'=>'Glycemic Index', 'v'=>'Low', 'd'=>'Perfect for sustained energy levels.'],
+                        ['n'=>'Gluten Free', 'v'=>'100%', 'd'=>'Naturally free from gluten.'],
+                        ['n'=>'Fat Content', 'v'=>'Low', 'd'=>'Significantly lower than popcorn.'],
+                        ['n'=>'Minerals', 'v'=>'Iron+', 'd'=>'Rich in Magnesium & Potassium.']
+                    ]; 
+            @endphp
+            @foreach($benefits as $index => $b)
             <div class="reveal text-center bg-white/5 backdrop-blur-sm rounded-3xl p-6 border border-white/8 hover:bg-white/10 transition-all">
-                <span class="text-3xl mb-2 block">{{ $s['icon'] }}</span>
-                <p class="font-heading text-4xl lg:text-5xl font-black text-mg-leaf"><span class="counter-num" data-target="{{ $s['num'] }}" data-suffix="{{ $s['suffix'] }}">0{{ $s['suffix'] }}</span></p>
-                <p class="text-white/40 text-xs mt-2">{{ $s['label'] }}</p>
+                <p class="font-heading text-4xl lg:text-5xl font-black text-mg-leaf">{{ $b['v'] }}</p>
+                <h4 class="font-bold text-white mt-3 mb-1">{{ $b['n'] }}</h4>
+                <p class="text-white/40 text-xs">{{ $b['d'] }}</p>
             </div>
             @endforeach
         </div>
@@ -290,7 +313,7 @@
             
             <!-- Image Side -->
             <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-[3/4] shadow-2xl">
-                <img src="{{ asset('images/story_farmer.png') }}" class="w-full h-full object-cover" alt="Makhana Harvesting">
+                <img src="{{ isset($page->sections['process_image']) ? Storage::url($page->sections['process_image']) : asset('images/story_farmer.png') }}" class="w-full h-full object-cover" alt="Makhana Harvesting">
                 <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/80 via-mg-dark/20 to-transparent flex flex-col justify-end p-10 lg:p-14">
                     <h3 class="text-white font-heading text-3xl font-bold mb-3">Rooted in Tradition</h3>
                     <p class="text-white/80 font-medium text-lg leading-snug max-w-md">Every batch is hand-harvested by our farmer partners in Bihar, ensuring the highest quality from pond to pouch.</p>
@@ -300,17 +323,17 @@
             <!-- Timeline Side -->
             <div>
                 <div class="mb-14 reveal">
-                    <span class="text-mg-green font-bold tracking-widest uppercase text-sm mb-3 block">The Process</span>
-                    <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark leading-tight">From Pond <br/><span class="italic text-mg-green font-light">to Pouch</span></h2>
+                    <span class="text-mg-green font-bold tracking-widest uppercase text-sm mb-3 block">{{ $page->sections['process_badge'] ?? 'The Process' }}</span>
+                    <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark leading-tight">{!! $page->sections['process_title'] ?? 'From Pond <br/><span class="italic text-mg-green font-light">to Pouch</span>' !!}</h2>
                 </div>
                 
                 <div class="space-y-0">
                     @php $steps = [
-                        ['n'=>'01','t'=>'Harvested','d'=>'Hand-harvested from pristine ponds in Mithilanchal, Bihar.','i'=>'🌿'],
-                        ['n'=>'02','t'=>'Sun-Dried','d'=>'Naturally sun-dried for 48 hours to lock in nutrients.','i'=>'☀️'],
-                        ['n'=>'03','t'=>'Air-Roasted','d'=>'Roasted at 180°C with zero oil. Maximum crunch guaranteed.','i'=>'🔥'],
-                        ['n'=>'04','t'=>'Seasoned','d'=>'Tossed in natural spice blends. No MSG, no artificial colours.','i'=>'🧂'],
-                        ['n'=>'05','t'=>'Sealed & Shipped','d'=>'Nitrogen-flushed and sealed fresh. Door delivery in 3-5 days.','i'=>'📦'],
+                        ['n'=>'01', 't'=>$page->sections['process_1_title'] ?? 'Harvested', 'd'=>$page->sections['process_1_desc'] ?? 'Hand-harvested from pristine ponds in Mithilanchal, Bihar.', 'i'=>'🌿'],
+                        ['n'=>'02', 't'=>$page->sections['process_2_title'] ?? 'Sun-Dried', 'd'=>$page->sections['process_2_desc'] ?? 'Naturally sun-dried for 48 hours to lock in nutrients.', 'i'=>'☀️'],
+                        ['n'=>'03', 't'=>$page->sections['process_3_title'] ?? 'Air-Roasted', 'd'=>$page->sections['process_3_desc'] ?? 'Roasted at 180°C with zero oil. Maximum crunch guaranteed.', 'i'=>'🔥'],
+                        ['n'=>'04', 't'=>$page->sections['process_4_title'] ?? 'Seasoned', 'd'=>$page->sections['process_4_desc'] ?? 'Tossed in natural spice blends. No MSG, no artificial colours.', 'i'=>'🧂'],
+                        ['n'=>'05', 't'=>$page->sections['process_5_title'] ?? 'Sealed & Shipped', 'd'=>$page->sections['process_5_desc'] ?? 'Nitrogen-flushed and sealed fresh. Door delivery in 3-5 days.', 'i'=>'📦'],
                     ]; @endphp
                     @foreach($steps as $i=>$s)
                     <div class="reveal flex gap-8 {{ $i<4 ? 'pb-10' : '' }}" style="transition-delay:{{ $i*0.1 }}s">
@@ -339,8 +362,8 @@
     <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-mg-cream/50 via-white to-white pointer-events-none"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16 reveal">
-            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">Know What's <span class="italic text-mg-green">Inside</span></h2>
-            <p class="text-mg-muted mt-4 max-w-2xl mx-auto text-lg">We believe in complete transparency. What you see on the label is exactly what goes into your body.</p>
+            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">{!! $page->sections['ingredients_title'] ?? 'Know What\'s <span class="italic text-mg-green">Inside</span>' !!}</h2>
+            <p class="text-mg-muted mt-4 max-w-2xl mx-auto text-lg">{{ $page->sections['ingredients_subtitle'] ?? 'We believe in complete transparency. What you see on the label is exactly what goes into your body.' }}</p>
         </div>
         
         <div class="grid lg:grid-cols-3 gap-8 lg:gap-10 items-center">
@@ -349,15 +372,20 @@
             <div class="reveal bg-mg-green/5 border-2 border-mg-green/10 rounded-[2.5rem] p-10 hover:-translate-y-2 hover:shadow-xl hover:shadow-mg-green/10 transition-all duration-300 h-full flex flex-col justify-center">
                 <h3 class="font-heading text-2xl font-black text-mg-green mb-8 flex items-center gap-4"><span class="w-12 h-12 bg-mg-green text-white rounded-2xl flex items-center justify-center shadow-lg shadow-mg-green/20">✓</span>What's IN</h3>
                 <div class="space-y-4">
-                @foreach(['Premium Makhana (Fox Nuts)','Himalayan Pink Salt','Cold-pressed spice extracts','Natural flavour powders','Love & good vibes ✨'] as $item)
-                <p class="flex items-center gap-4 text-base font-semibold text-mg-dark/80"><span class="w-6 h-6 bg-mg-green/15 rounded-full flex items-center justify-center flex-shrink-0"><svg width="12" height="12" fill="none" stroke="#2B6E2F" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>{{ $item }}</p>
+                @php
+                    $ingredientsList = isset($page->sections['ingredients_list']) 
+                        ? explode("\n", $page->sections['ingredients_list']) 
+                        : ['Premium Makhana (Fox Nuts)','Himalayan Pink Salt','Cold-pressed spice extracts','Natural flavour powders','Love & good vibes ✨'];
+                @endphp
+                @foreach($ingredientsList as $item)
+                <p class="flex items-center gap-4 text-base font-semibold text-mg-dark/80"><span class="w-6 h-6 bg-mg-green/15 rounded-full flex items-center justify-center flex-shrink-0"><svg width="12" height="12" fill="none" stroke="#2B6E2F" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>{{ trim($item) }}</p>
                 @endforeach
                 </div>
             </div>
 
             <!-- Center Image -->
             <div class="reveal hidden lg:block rounded-[3rem] overflow-hidden aspect-[4/5] shadow-2xl relative" style="transition-delay: 0.1s">
-                <img src="{{ asset('images/ingredient_macro.png') }}" class="w-full h-full object-cover" alt="Pure Ingredients">
+                <img src="{{ isset($page->sections['ingredients_image']) ? Storage::url($page->sections['ingredients_image']) : asset('images/ingredient_macro.png') }}" class="w-full h-full object-cover" alt="Pure Ingredients">
                 <div class="absolute inset-0 border-4 border-white/20 rounded-[3rem] m-4 pointer-events-none"></div>
             </div>
 
@@ -365,8 +393,13 @@
             <div class="reveal bg-red-50 border-2 border-red-100 rounded-[2.5rem] p-10 hover:-translate-y-2 hover:shadow-xl hover:shadow-red-500/10 transition-all duration-300 h-full flex flex-col justify-center" style="transition-delay: 0.2s">
                 <h3 class="font-heading text-2xl font-black text-red-600 mb-8 flex items-center gap-4"><span class="w-12 h-12 bg-red-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/20">✕</span>What's NOT</h3>
                 <div class="space-y-4">
-                @foreach(['No MSG or Ajinomoto','No artificial colours','No trans fats or palm oil','No preservatives — ever','No refined sugar'] as $item)
-                <p class="flex items-center gap-4 text-base font-semibold text-mg-dark/80"><span class="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0"><svg width="12" height="12" fill="none" stroke="#DC2626" stroke-width="3" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg></span>{{ $item }}</p>
+                @php
+                    $whatsNotList = isset($page->sections['whats_not_list']) 
+                        ? explode("\n", $page->sections['whats_not_list']) 
+                        : ['No MSG or Ajinomoto','No artificial colours','No trans fats or palm oil','No preservatives — ever','No refined sugar'];
+                @endphp
+                @foreach($whatsNotList as $item)
+                <p class="flex items-center gap-4 text-base font-semibold text-mg-dark/80"><span class="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0"><svg width="12" height="12" fill="none" stroke="#DC2626" stroke-width="3" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg></span>{{ trim($item) }}</p>
                 @endforeach
                 </div>
             </div>
@@ -381,14 +414,18 @@
 <section class="py-20 lg:py-28 bg-mg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-14 reveal">
-            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">Mix, Match & <span class="italic text-mg-green">Save</span></h2>
+            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">{!! $page->sections['combo_title'] ?? 'Mix, Match & <span class="italic text-mg-green">Save</span>' !!}</h2>
         </div>
         <div class="grid md:grid-cols-3 gap-6">
-            @php $bundles = [
-                ['n'=>'Starter Pack','it'=>'3 Flavours','p'=>399,'m'=>519,'s'=>120,'pop'=>false],
-                ['n'=>'Snack Box','it'=>'6 Flavours','p'=>699,'m'=>999,'s'=>300,'pop'=>true],
-                ['n'=>'Family Pack','it'=>'12 Units','p'=>1199,'m'=>1799,'s'=>600,'pop'=>false],
-            ]; @endphp
+            @php 
+                $bundles = isset($page->sections['combo_packs_json'])
+                    ? json_decode($page->sections['combo_packs_json'], true)
+                    : [
+                        ['n'=>'Starter Pack','it'=>'3 Flavours','p'=>399,'m'=>519,'s'=>120,'pop'=>false],
+                        ['n'=>'Snack Box','it'=>'6 Flavours','p'=>699,'m'=>999,'s'=>300,'pop'=>true],
+                        ['n'=>'Family Pack','it'=>'12 Units','p'=>1199,'m'=>1799,'s'=>600,'pop'=>false],
+                    ]; 
+            @endphp
             @foreach($bundles as $i=>$b)
             <div class="reveal relative bg-white rounded-3xl border {{ $b['pop']?'border-mg-green border-2 shadow-xl shadow-mg-green/8':'border-mg-dark/5' }} p-8 text-center hover:-translate-y-2 hover:shadow-2xl transition-all duration-500">
                 @if($b['pop'])<span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-mg-green text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">Most Popular</span>@endif
@@ -405,35 +442,81 @@
 </section>
 
 {{-- ══════════════════════════════════════════
+     11.5 BEYOND SNACKING (RECIPES)
+     ══════════════════════════════════════════ --}}
+@if(isset($recipes) && $recipes->count() > 0)
+<section class="py-20 lg:py-28 bg-mg-cream">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14 reveal">
+            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">Beyond <span class="italic text-mg-green">Snacking</span></h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @php 
+                $bgColors = ['bg-amber-50', 'bg-cyan-50', 'bg-emerald-50', 'bg-rose-50']; 
+            @endphp
+            @foreach($recipes as $index => $recipe)
+            <div class="reveal bg-white rounded-[2rem] border border-black/5 overflow-hidden hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group flex flex-col h-full" style="transition-delay: {{ $index * 0.1 }}s">
+                <a href="{{ route('recipes.show', $recipe->slug) }}" class="flex-grow flex flex-col">
+                    <div class="h-48 relative overflow-hidden flex items-center justify-center p-6 {{ $bgColors[$index % count($bgColors)] }}">
+                        <img src="{{ str_starts_with($recipe->image, 'http') ? $recipe->image : asset($recipe->image) }}" class="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500 shadow-sm" alt="{{ $recipe->title }}">
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <p class="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+                                {{ $recipe->time }} <span class="mx-1">•</span> {{ $recipe->difficulty }}
+                            </p>
+                            <h3 class="font-heading text-xl font-black text-mg-dark group-hover:text-mg-green transition-colors line-clamp-2 mb-4">{{ $recipe->title }}</h3>
+                        </div>
+                        <span class="text-sm font-bold text-mg-green flex items-center gap-1 group-hover:gap-2 transition-all">View Recipe <span aria-hidden="true">&rarr;</span></span>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+        </div>
+        
+        <div class="text-center mt-12 reveal">
+            <a href="{{ route('recipes') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-mg-dark/10 text-mg-dark text-sm font-bold rounded-full hover:bg-mg-dark hover:text-white transition-all shadow-sm">
+                View All Recipes
+            </a>
+        </div>
+    </div>
+</section>
+@endif
+
+{{-- ══════════════════════════════════════════
      12. REVIEWS
      ══════════════════════════════════════════ --}}
 <section id="reviews" class="py-20 lg:py-28 bg-mg-green-dark text-white overflow-hidden grain">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-14 reveal">
-            <h2 class="font-heading text-4xl sm:text-5xl font-black">Snackers <span class="italic text-mg-leaf">Speak</span></h2>
+            <h2 class="font-heading text-4xl sm:text-5xl font-black">{!! $page->sections['reviews_title'] ?? 'Snackers <span class="italic text-mg-leaf">Speak</span>' !!}</h2>
             <div class="flex items-center justify-center gap-2 mt-4">
                 <span class="text-mg-gold text-lg">★★★★★</span>
-                <span class="text-white/35 text-sm">4.9/5 from 2,847 reviews</span>
+                <span class="text-white/35 text-sm">{{ $page->sections['reviews_subtitle'] ?? '4.9/5 from 2,847 reviews' }}</span>
             </div>
         </div>
-        <div class="flex gap-5 overflow-x-auto snap-snap-mandatory scrollbar-hide pb-4 -mx-4 px-4">
+        <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
             @forelse($testimonials as $i => $r)
             @php 
                 $colors = ['from-pink-400 to-rose-500', 'from-blue-400 to-indigo-500', 'from-green-400 to-emerald-500', 'from-orange-400 to-amber-500'];
                 $cl = $colors[$i % count($colors)];
             @endphp
-            <div class="min-w-[300px] sm:min-w-[360px] snap-center bg-white/5 backdrop-blur-sm border border-white/8 rounded-3xl p-6 flex-shrink-0 hover:bg-white/10 transition-all">
-                <div class="text-mg-gold text-sm mb-3">
-                    @for($k=0; $k<$r->rating; $k++)★@endfor
-                </div>
-                <p class="text-white/65 text-sm leading-relaxed mb-5">"{{ $r->review }}"</p>
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-full bg-gradient-to-br {{ $cl }} flex items-center justify-center text-white text-xs font-bold">{{ substr($r->user->name ?? 'Guest',0,1) }}</div>
-                    <div>
-                        <p class="font-semibold text-sm text-white">{{ $r->user->name ?? 'Guest' }}</p>
-                        <p class="text-[10px] text-white/35">Verified Customer · <span class="text-mg-leaf">Verified</span></p>
+            <div class="break-inside-avoid bg-white/5 backdrop-blur-sm border border-white/8 rounded-3xl p-8 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-black/10 group">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br {{ $cl }} flex items-center justify-center text-white text-lg font-bold shadow-inner group-hover:scale-110 transition-transform">{{ substr($r->user->name ?? 'Guest',0,1) }}</div>
+                        <div>
+                            <p class="font-bold text-base text-white">{{ $r->user->name ?? 'Guest' }}</p>
+                            <p class="text-xs text-white/50 flex items-center gap-1 mt-0.5"><svg class="w-3.5 h-3.5 text-mg-leaf" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Verified Buyer</p>
+                        </div>
+                    </div>
+                    <div class="text-mg-gold text-sm flex gap-0.5">
+                        @for($k=0; $k<$r->rating; $k++)<span>★</span>@endfor
                     </div>
                 </div>
+                <p class="text-white/80 text-base leading-relaxed font-medium italic">"{{ $r->review }}"</p>
             </div>
             @empty
             @php
@@ -441,22 +524,26 @@
                     ['r' => 5, 't' => 'The peri-peri makhana is dangerously addictive! Perfect midnight snack without the guilt. I\'ve already ordered my second batch.', 'n' => 'Priya S.', 'c' => 'from-pink-400 to-rose-500'],
                     ['r' => 5, 't' => 'Finally a brand that gets roasting right. Not too oily, incredibly crunchy, and the flavors are spot on. Highly recommend the cream & onion.', 'n' => 'Rahul M.', 'c' => 'from-blue-400 to-indigo-500'],
                     ['r' => 5, 't' => 'My kids love these in their lunchbox and I love that it\'s actually healthy. The subscription box is a lifesaver.', 'n' => 'Anita K.', 'c' => 'from-green-400 to-emerald-500'],
-                    ['r' => 4, 't' => 'Great quality makhanas. The classic salted is my favorite with evening chai. Very fresh and crunchy.', 'n' => 'Vikram D.', 'c' => 'from-orange-400 to-amber-500']
+                    ['r' => 4, 't' => 'Great quality makhanas. The classic salted is my favorite with evening chai. Very fresh and crunchy.', 'n' => 'Vikram D.', 'c' => 'from-orange-400 to-amber-500'],
+                    ['r' => 5, 't' => 'I swapped out my evening potato chips with these and I already feel lighter. The cheese flavor is so good!', 'n' => 'Simran J.', 'c' => 'from-purple-400 to-fuchsia-500'],
+                    ['r' => 5, 't' => 'Best packaging and super fast delivery. The makhana stayed crisp for weeks. 10/10 would recommend to anyone.', 'n' => 'Karan T.', 'c' => 'from-teal-400 to-cyan-500']
                 ];
             @endphp
             @foreach($staticReviews as $sr)
-            <div class="min-w-[300px] sm:min-w-[360px] snap-center bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 flex-shrink-0 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-black/10">
-                <div class="text-mg-gold text-sm mb-3">
-                    @for($k=0; $k<$sr['r']; $k++)★@endfor
-                </div>
-                <p class="text-white/80 text-sm leading-relaxed mb-6 font-medium">"{{ $sr['t'] }}"</p>
-                <div class="flex items-center gap-3 mt-auto">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br {{ $sr['c'] }} flex items-center justify-center text-white text-sm font-bold shadow-inner">{{ substr($sr['n'],0,1) }}</div>
-                    <div>
-                        <p class="font-bold text-sm text-white">{{ $sr['n'] }}</p>
-                        <p class="text-[10px] text-white/50 flex items-center gap-1"><svg class="w-3 h-3 text-mg-leaf" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Verified Buyer</p>
+            <div class="break-inside-avoid bg-white/5 backdrop-blur-sm border border-white/8 rounded-3xl p-8 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-black/10 group">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br {{ $sr['c'] }} flex items-center justify-center text-white text-lg font-bold shadow-inner group-hover:scale-110 transition-transform">{{ substr($sr['n'],0,1) }}</div>
+                        <div>
+                            <p class="font-bold text-base text-white">{{ $sr['n'] }}</p>
+                            <p class="text-xs text-white/50 flex items-center gap-1 mt-0.5"><svg class="w-3.5 h-3.5 text-mg-leaf" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Verified Buyer</p>
+                        </div>
+                    </div>
+                    <div class="text-mg-gold text-sm flex gap-0.5">
+                        @for($k=0; $k<$sr['r']; $k++)<span>★</span>@endfor
                     </div>
                 </div>
+                <p class="text-white/80 text-base leading-relaxed font-medium italic">"{{ $sr['t'] }}"</p>
             </div>
             @endforeach
             @endforelse
@@ -468,7 +555,16 @@
      13. INSTAGRAM
      ══════════════════════════════════════════ --}}
 @php
-    $instagramEmbedUrl = \App\Models\Setting::get('instagram_embed_url');
+    $instagramEmbedUrl = $page->sections['instagram_video_1'] ?? \App\Models\Setting::get('instagram_embed_url', '');
+    if ($instagramEmbedUrl) {
+        if (strpos($instagramEmbedUrl, '?') !== false) {
+            $instagramEmbedUrl = substr($instagramEmbedUrl, 0, strpos($instagramEmbedUrl, '?'));
+        }
+        $instagramEmbedUrl = rtrim($instagramEmbedUrl, '/');
+        if (!str_ends_with($instagramEmbedUrl, '/embed')) {
+            $instagramEmbedUrl .= '/embed';
+        }
+    }
 @endphp
 
 <section class="py-20 lg:py-24 bg-mg-cream relative overflow-hidden">
@@ -478,9 +574,9 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-12 reveal">
-            <span class="inline-block bg-mg-green/10 text-mg-green text-[11px] font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-3">#MunchGudMoments</span>
-            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">Tag Us <a href="https://instagram.com/munchgud" target="_blank" rel="noopener" class="italic text-mg-green hover:underline">@munchgud</a></h2>
-            <p class="text-mg-muted text-sm mt-3 max-w-md mx-auto">Share your snack love and get featured! Join our premium snacking community.</p>
+            <span class="inline-block bg-mg-green/10 text-mg-green text-[11px] font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-3">{{ $page->sections['instagram_badge'] ?? '#MunchGudMoments' }}</span>
+            <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">{!! $page->sections['instagram_title'] ?? 'Tag Us <a href="https://instagram.com/munchgud" target="_blank" rel="noopener" class="italic text-mg-green hover:underline">@munchgud</a>' !!}</h2>
+            <p class="text-mg-muted text-sm mt-3 max-w-md mx-auto">{{ $page->sections['instagram_subtitle'] ?? 'Share your snack love and get featured! Join our premium snacking community.' }}</p>
         </div>
 
         @if($instagramEmbedUrl)
@@ -565,6 +661,7 @@
 {{-- ══════════════════════════════════════════
      14. SUBSCRIPTION
      ══════════════════════════════════════════ --}}
+{{-- 
 <section class="py-20 lg:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -597,6 +694,7 @@
         </div>
     </div>
 </section>
+--}}
 
 {{-- ══════════════════════════════════════════
      15. RECIPES
@@ -721,13 +819,9 @@
         <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
             <!-- Left Side: Question List (Tabs) -->
             <div class="lg:col-span-5 space-y-3 reveal">
-                @php $faqs = [
-                    ['q'=>'Are MunchGud makhanas suitable for weight loss?','a'=>'Absolutely! Air-roasted with zero oil, only 89 calories per 30g, high in fiber and protein — the perfect weight-loss snack.'],
-                    ['q'=>'What is the shelf life?','a'=>'6 months from manufacturing. Best consumed within 15 days of opening for optimal crunch.'],
-                    ['q'=>'Do you ship pan-India?','a'=>'Yes! Free shipping on orders above ₹999. Standard delivery 3-5 business days across India.'],
-                    ['q'=>'Are products suitable for diabetics?','a'=>'Makhana has a low GI of ~40, making it diabetes-friendly. Please consult your physician for personalized advice.'],
-                    ['q'=>'What payment methods do you accept?','a'=>'UPI, credit/debit cards, net banking, wallets, and Cash on Delivery (COD) via Razorpay.'],
-                ]; @endphp
+                @php 
+                    $faqs = \App\Models\Faq::active()->orderBy('sort_order')->get(); 
+                @endphp
                 
                 @foreach($faqs as $i=>$f)
                 <button @click="active = {{ $i }}" 
@@ -735,7 +829,7 @@
                         :class="active === {{ $i }} ? 'border-mg-green bg-mg-green/5 text-mg-green shadow-md' : 'border-transparent hover:bg-mg-cream text-mg-dark/70 hover:text-mg-dark'">
                     <div class="flex items-center gap-4">
                         <span class="font-mono text-sm font-bold opacity-40">0{{ $i+1 }}</span>
-                        <span class="font-heading text-lg font-bold">{{ $f['q'] }}</span>
+                        <span class="font-heading text-lg font-bold">{{ $f->question }}</span>
                     </div>
                 </button>
                 @endforeach
@@ -756,8 +850,8 @@
                      style="{{ $i === 0 ? '' : 'display: none;' }}">
                      
                     <span class="inline-block w-16 h-1.5 bg-mg-green mb-8 rounded-full"></span>
-                    <h3 class="font-heading text-3xl lg:text-4xl font-black text-mg-dark mb-6 leading-tight">{{ $f['q'] }}</h3>
-                    <p class="text-xl text-mg-muted leading-relaxed font-medium">{{ $f['a'] }}</p>
+                    <h3 class="font-heading text-3xl lg:text-4xl font-black text-mg-dark mb-6 leading-tight">{{ $f->question }}</h3>
+                    <p class="text-xl text-mg-muted leading-relaxed font-medium">{{ $f->answer }}</p>
                     
                     @if($i === 0)
                         <div class="mt-10 flex gap-4">
@@ -811,15 +905,22 @@
     </div>
 </section>
 
-{{-- ══════════════════════════════════════════
-     23. INSTAGRAM FEED
-     ══════════════════════════════════════════ --}}
 @php
-    $instagramUrl = \App\Models\Setting::get('instagram_embed_url', '');
-    if ($instagramUrl) {
-        $instagramUrl = rtrim($instagramUrl, '/');
-        if (!str_ends_with($instagramUrl, '/embed')) {
-            $instagramUrl .= '/embed';
+    $instaLinks = [];
+    foreach(['instagram_video_1', 'instagram_video_2', 'instagram_video_3'] as $key) {
+        $url = $page->sections[$key] ?? '';
+        if (!$url && $key === 'instagram_video_1') {
+            $url = \App\Models\Setting::get('instagram_embed_url', '');
+        }
+        if ($url) {
+            if (strpos($url, '?') !== false) {
+                $url = substr($url, 0, strpos($url, '?'));
+            }
+            $url = rtrim($url, '/');
+            if (!str_ends_with($url, '/embed')) {
+                $url .= '/embed';
+            }
+            $instaLinks[] = $url;
         }
     }
 @endphp
@@ -838,9 +939,13 @@
         </div>
         
         <div class="reveal">
-            @if($instagramUrl)
-                <div class="w-full max-w-2xl mx-auto bg-white rounded-[2rem] shadow-2xl shadow-mg-dark/5 overflow-hidden border border-mg-dark/5 p-4 md:p-8">
-                    <iframe src="{{ $instagramUrl }}" width="100%" height="500" frameborder="0" scrolling="no" allowtransparency="true" class="rounded-xl"></iframe>
+            @if(count($instaLinks) > 0)
+                <div class="grid grid-cols-1 md:grid-cols-[{{ count($instaLinks) == 1 ? 'minmax(0,1fr)' : 'repeat('.count($instaLinks).',minmax(0,1fr))' }}] gap-8 max-w-{{ count($instaLinks) == 1 ? '2xl' : '7xl' }} mx-auto">
+                    @foreach($instaLinks as $link)
+                    <div class="w-full bg-white rounded-[2rem] shadow-2xl shadow-mg-dark/5 overflow-hidden border border-mg-dark/5 p-2 sm:p-4 md:p-6 lg:p-8">
+                        <iframe src="{{ $link }}" width="100%" height="750" frameborder="0" scrolling="no" allowtransparency="true" class="rounded-xl bg-white"></iframe>
+                    </div>
+                    @endforeach
                 </div>
             @else
                 @php $ph = ['images/hero_bg.png', 'images/product_shot.png', 'images/story_farmer.png', 'images/ingredient_macro.png']; @endphp

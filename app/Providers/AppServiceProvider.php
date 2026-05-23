@@ -37,17 +37,30 @@ class AppServiceProvider extends ServiceProvider
         // Share categories and cart count with storefront views
         if (!app()->runningInConsole()) {
             \Illuminate\Support\Facades\View::composer('*', function ($view) {
+                $view->with('global_settings', \App\Models\Setting::pluck('value', 'key')->toArray());
+                
+                // Only inject $page for storefront routes to prevent overriding admin controllers
+                if (!request()->is('admin/*') && !request()->is('login') && !request()->is('register')) {
+                    $path = request()->path();
+                    if ($path == '/') $path = 'home';
+                    $page = \App\Models\Page::where('slug', $path)->first();
+                    if (!$page) {
+                        $routeName = request()->route() ? request()->route()->getName() : null;
+                        if ($routeName) {
+                            $page = \App\Models\Page::where('slug', $routeName)->first();
+                        }
+                    }
+                    if ($page) {
+                        $view->with('page', $page);
+                    }
+                }
+
                 if (\Illuminate\Support\Facades\Schema::hasTable('categories')) {
                     $view->with('global_categories', \App\Models\Category::active()->whereNull('parent_id')->orderBy('sort_order', 'asc')->get());
                 } else {
                     $view->with('global_categories', collect());
                 }
 
-                if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
-                    $view->with('global_settings', \App\Models\Setting::allCached());
-                } else {
-                    $view->with('global_settings', []);
-                }
 
                 try {
                     $cartService = app(\App\Services\CartService::class);
