@@ -23,6 +23,7 @@
         .section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(107,114,128,0.8); margin-bottom: 0.5rem; padding: 0 0.75rem; }
     </style>
     @livewireStyles
+    @yield('styles')
 </head>
 <body class="bg-[#f5f6fa] flex h-screen overflow-hidden text-gray-800" x-data="{ sidebarOpen: false }">
     
@@ -86,6 +87,12 @@
                         <a href="{{ route('admin.recipes.index') }}" class="nav-item {{ request()->routeIs('admin.recipes.*') ? 'nav-item-active' : 'nav-item-inactive' }}">
                             <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                             Recipes
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.blogs.index') }}" class="nav-item {{ request()->routeIs('admin.blogs.*') ? 'nav-item-active' : 'nav-item-inactive' }}">
+                            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11l3 3m0 0l3-3m-3 3V8"/></svg>
+                            Blogs
                         </a>
                     </li>
                 </ul>
@@ -346,5 +353,6 @@
     </main>
 
     @livewireScripts
+    @yield('scripts')
 </body>
 </html>

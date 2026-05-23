@@ -89,8 +89,13 @@ class AdminOrderController extends Controller
     }
 
     public function invoice(Order $order) {
-        // Assume GenerateInvoiceJob or listener has created the PDF
-        return redirect()->route('account.orders.invoice', $order);
+        $filename = 'invoices/INV-' . $order->order_number . '.pdf';
+        
+        if (!\Illuminate\Support\Facades\Storage::exists($filename)) {
+            return back()->with('error', 'Invoice not generated yet.');
+        }
+        
+        return \Illuminate\Support\Facades\Storage::download($filename);
     }
 
     public function printLabel(Order $order) {

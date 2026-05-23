@@ -132,6 +132,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::resource('recipes', AdminRecipeController::class)->except(['show']);
         Route::patch('recipes/{recipe}/approve', [AdminRecipeController::class, 'approve'])->name('recipes.approve');
         Route::patch('recipes/{recipe}/reject', [AdminRecipeController::class, 'reject'])->name('recipes.reject');
+        
+        // Blogs
+        Route::resource('blogs', \App\Http\Controllers\Admin\BlogController::class)->except(['show']);
 
         // System Tools
         Route::get('system/tools', [AdminSystemController::class, 'tools'])->name('system.tools');

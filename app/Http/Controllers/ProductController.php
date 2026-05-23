@@ -11,7 +11,8 @@ class ProductController extends Controller
     public function index(Request $request) {
         $query = Product::active()->with('primaryImage','skus','category');
         
-        if ($request->search) $query->where('name','like',"%{$request->search}%");
+        $searchTerm = $request->q ?? $request->search;
+        if ($searchTerm) $query->where('name','like',"%{$searchTerm}%");
         if ($request->category) $query->whereHas('category', fn($q)=>$q->where('slug',$request->category));
         if ($request->min_price || $request->max_price) {
             $query->whereHas('skus', function($q) use ($request) {
@@ -65,5 +66,23 @@ class ProductController extends Controller
     public function category(string $slug)
     {
         return redirect()->route('products.index', ['category' => $slug]);
+    }
+
+    public function searchSuggestions(Request $request) {
+        $q = $request->q;
+        if(!$q) return response()->json([]);
+        $products = Product::active()
+                    ->where('name', 'like', "%{$q}%")
+                    ->with('primaryImage')
+                    ->take(5)
+                    ->get()
+                    ->map(function($p) {
+                        return [
+                            'name' => $p->name,
+                            'url' => route('products.show', $p->slug),
+                            'image' => $p->primaryImage ? \Illuminate\Support\Facades\Storage::url($p->primaryImage->path) : asset('images/product_shot.png')
+                        ];
+                    });
+        return response()->json($products);
     }
 }

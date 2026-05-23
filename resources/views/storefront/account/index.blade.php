@@ -1,7 +1,7 @@
 @extends('storefront.account.layout')
 
 @section('account_content')
-<h2 class="font-heading text-3xl font-bold text-mg-dark mb-8">Dashboard Overview</h2>
+<h2 class="font-heading text-2xl sm:text-3xl font-bold text-mg-dark mb-6 sm:mb-8">Dashboard Overview</h2>
 
 <div class="grid sm:grid-cols-3 gap-6 mb-10">
     <div class="bg-white rounded-3xl p-6 border border-mg-dark/5 shadow-xl shadow-mg-dark/5">
@@ -27,7 +27,7 @@
     </div>
 </div>
 
-<div class="bg-white rounded-3xl p-8 border border-mg-dark/5 shadow-xl shadow-mg-dark/5">
+<div class="bg-white rounded-3xl p-5 sm:p-8 border border-mg-dark/5 shadow-xl shadow-mg-dark/5">
     <div class="flex items-center justify-between mb-6">
         <h3 class="font-heading text-xl font-bold text-mg-dark">Recent Orders</h3>
         <a href="{{ route('account.orders') }}" class="text-sm font-semibold text-mg-green hover:underline">View All</a>

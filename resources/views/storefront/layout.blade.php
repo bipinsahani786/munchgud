@@ -233,7 +233,22 @@
             shopOpen: false, 
             searchOpen: false,
             searchQuery: '',
-            scrolled: false 
+            suggestions: [],
+            loading: false,
+            scrolled: false,
+            fetchSuggestions() {
+                if(this.searchQuery.length < 2) {
+                    this.suggestions = [];
+                    return;
+                }
+                this.loading = true;
+                fetch('/search-suggestions?q=' + encodeURIComponent(this.searchQuery))
+                    .then(res => res.json())
+                    .then(data => {
+                        this.suggestions = data;
+                        this.loading = false;
+                    });
+            }
         }"
         x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 50; if(scrolled) $el.classList.add('scrolled'); else $el.classList.remove('scrolled'); })">
     
@@ -251,10 +266,11 @@
         <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl p-2 border border-black/5"
              x-transition:enter="transition ease-out duration-250"
              x-transition:enter-start="opacity-0 scale-95 -translate-y-4"
-             x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             @click.away="searchOpen = false">
             <div class="flex items-center gap-3 px-4 py-3">
                 <svg class="w-5 h-5 text-mg-green flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35" stroke-linecap="round"/></svg>
-                <input x-model="searchQuery" type="text" placeholder="Search makhana flavours, combos…" autofocus
+                <input x-model="searchQuery" @input.debounce.300ms="fetchSuggestions()" type="text" placeholder="Search makhana flavours, combos…" autofocus
                        class="flex-1 text-base text-mg-dark placeholder-mg-muted outline-none font-medium bg-transparent"
                        @keydown.enter="if(searchQuery) window.location.href='/products?q='+encodeURIComponent(searchQuery)">
                 <button @click="searchOpen = false" class="p-1.5 text-mg-muted hover:text-mg-dark rounded-lg transition">
@@ -262,11 +278,31 @@
                 </button>
             </div>
             <div class="px-4 pb-3 pt-1 border-t border-black/5">
-                <p class="text-xs text-mg-muted font-medium mb-2 uppercase tracking-wider">Quick Links</p>
-                <div class="flex flex-wrap gap-2">
-                    @foreach(['Classic Salted','Cheese & Herbs','Himalayan Pink Salt','Combo Pack'] as $q)
-                    <a href="/products?q={{ urlencode($q) }}" @click="searchOpen = false" class="text-xs bg-mg-green/5 text-mg-green border border-mg-green/10 rounded-full px-3 py-1.5 font-medium hover:bg-mg-green/10 transition">{{ $q }}</a>
-                    @endforeach
+                <!-- Quick Links -->
+                <div x-show="!searchQuery" x-cloak>
+                    <p class="text-xs text-mg-muted font-medium mb-2 uppercase tracking-wider">Quick Links</p>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach(['Classic Salted','Cheese & Herbs','Himalayan Pink Salt','Combo Pack'] as $q)
+                        <a href="/products?q={{ urlencode($q) }}" @click="searchOpen = false" class="text-xs bg-mg-green/5 text-mg-green border border-mg-green/10 rounded-full px-3 py-1.5 font-medium hover:bg-mg-green/10 transition">{{ $q }}</a>
+                        @endforeach
+                    </div>
+                </div>
+                
+                <!-- Suggestions List -->
+                <div x-show="searchQuery" x-cloak class="mt-2">
+                    <p class="text-xs text-mg-muted font-medium mb-2 uppercase tracking-wider" x-text="loading ? 'Searching...' : 'Suggestions'"></p>
+                    <div class="space-y-1">
+                        <template x-for="item in suggestions" :key="item.url">
+                            <a :href="item.url" class="flex items-center gap-3 p-2 hover:bg-mg-cream rounded-xl transition">
+                                <img :src="item.image" class="w-10 h-10 rounded-lg object-cover bg-gray-50 border border-black/5">
+                                <span class="font-bold text-sm text-mg-dark" x-text="item.name"></span>
+                            </a>
+                        </template>
+                        <div x-show="suggestions.length === 0 && !loading" class="p-2 text-sm text-mg-muted font-medium">
+                            No products found matching your search.
+                        </div>
+                    </div>
+                    <a :href="'/products?q=' + encodeURIComponent(searchQuery)" class="block mt-2 text-center text-xs font-bold text-mg-green hover:underline">View all results &rarr;</a>
                 </div>
             </div>
         </div>
@@ -347,6 +383,7 @@
                 </div>
 
                 <a href="{{ route('story') }}" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Our Story</a>
+                <a href="{{ route('blogs.index') }}" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Blog</a>
                 <a href="{{ route('health') }}" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Health</a>
                 <a href="{{ route('recipes') }}" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Recipes</a>
                 <a href="{{ route('contact') }}" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Contact</a>
@@ -504,7 +541,7 @@
                     </div>
                 </div>
 
-                @foreach([['Our Story', route('story')], ['Health Benefits', route('health')], ['Recipes', route('recipes')], ['Reviews', route('reviews')], ['Contact Us', route('contact')]] as [$label, $href])
+                @foreach([['Our Story', route('story')], ['Blog', route('blogs.index')], ['Health Benefits', route('health')], ['Recipes', route('recipes')], ['Reviews', route('reviews')], ['Contact Us', route('contact')]] as [$label, $href])
                 <a href="{{ $href }}" @click="mobileOpen=false" class="flex items-center gap-3 px-4 py-3.5 rounded-xl hover:bg-mg-green/[0.05] text-mg-dark font-semibold text-[14.5px] transition">
                     {{ $label }}
                 </a>
@@ -668,6 +705,7 @@
                 <h5 class="text-white text-[11px] font-bold uppercase tracking-[0.12em] mb-5">Company</h5>
                 <ul class="space-y-3">
                     <li><a href="{{ route('story') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Our Story</a></li>
+                    <li><a href="{{ route('blogs.index') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Blog</a></li>
                     <li><a href="{{ route('health') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Health Benefits</a></li>
                     <li><a href="{{ route('recipes') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Recipes</a></li>
                     <li><a href="{{ route('reviews') }}" class="footer-link text-sm text-white/40 hover:text-mg-leaf inline-block">Reviews</a></li>

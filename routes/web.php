@@ -22,6 +22,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/category/{slug}', [ProductController::class, 'category'])->name('products.category');
+Route::get('/search-suggestions', [ProductController::class, 'searchSuggestions'])->name('search.suggestions');
 
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -98,6 +99,10 @@ Route::get('/recipes', [App\Http\Controllers\RecipeController::class, 'index'])-
 Route::get('/recipes/submit', [App\Http\Controllers\RecipeController::class, 'create'])->name('recipes.create');
 Route::post('/recipes/submit', [App\Http\Controllers\RecipeController::class, 'submit'])->name('recipes.submit');
 Route::get('/recipes/{slug}', [App\Http\Controllers\RecipeController::class, 'show'])->name('recipes.show');
+
+// Blogs
+Route::get('/blogs', [App\Http\Controllers\BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blogs/{slug}', [App\Http\Controllers\BlogController::class, 'show'])->name('blogs.show');
 Route::view('/reviews', 'storefront.reviews')->name('reviews');
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');

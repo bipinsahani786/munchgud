@@ -1,15 +1,15 @@
 @extends('storefront.account.layout')
 
 @section('account_content')
-<div class="flex items-center justify-between mb-8">
-    <h2 class="font-heading text-3xl font-bold text-mg-dark">Support Tickets</h2>
+<div class="flex flex-wrap sm:flex-nowrap items-center justify-between gap-4 mb-6 sm:mb-8">
+    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-mg-dark">Support Tickets</h2>
     <a href="{{ route('account.tickets.create') }}" class="bg-mg-green text-white font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-mg-green-dark transition-all flex items-center gap-2">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         New Ticket
     </a>
 </div>
 
-<div class="bg-white rounded-3xl p-8 border border-mg-dark/5 shadow-xl shadow-mg-dark/5">
+<div class="bg-white rounded-3xl p-5 sm:p-8 border border-mg-dark/5 shadow-xl shadow-mg-dark/5">
     @if($tickets->isEmpty())
         <div class="text-center py-10">
             <p class="text-mg-muted mb-4">You have no active support tickets.</p>

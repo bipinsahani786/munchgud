@@ -125,7 +125,7 @@
             <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark mb-4">{!! $page->sections['collections_title'] ?? 'Our Star <span class="italic text-mg-green">Flavours</span>' !!}</h2>
             <p class="text-mg-muted max-w-md mx-auto text-sm">{{ $page->sections['collections_subtitle'] ?? 'Six uniquely crafted flavours. Popped, seasoned, and sealed at peak freshness.' }}</p>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7">
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-7">
             @foreach($featuredProducts as $i=>$p)
             @php
                 // Get default SKU, or fallback to an in-stock one
@@ -183,31 +183,31 @@
                     <svg width="15" height="15" :class="inWishlist ? 'fill-mg-orange' : 'fill-none'" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
                 
-                <div class="p-5">
-                    <p class="text-[10px] font-semibold text-mg-muted uppercase tracking-[0.15em] mb-1">{{ $p->category->name ?? 'Roasted Makhana' }}</p>
-                    <a href="{{ route('products.show', $p->slug) }}" class="block"><h4 class="font-heading text-[17px] font-bold text-mg-dark mb-1.5 leading-snug hover:text-mg-green transition-colors">{{ $p->name }}</h4></a>
-                    <div class="flex items-center gap-1 mb-3 text-mg-gold text-[13px]">
+                <div class="p-3 sm:p-5">
+                    <p class="text-[9px] sm:text-[10px] font-semibold text-mg-muted uppercase tracking-[0.15em] mb-1">{{ $p->category->name ?? 'Roasted Makhana' }}</p>
+                    <a href="{{ route('products.show', $p->slug) }}" class="block"><h4 class="font-heading text-[14px] sm:text-[17px] font-bold text-mg-dark mb-1.5 leading-snug hover:text-mg-green transition-colors line-clamp-2">{{ $p->name }}</h4></a>
+                    <div class="flex items-center gap-1 mb-2 sm:mb-3 text-mg-gold text-[10px] sm:text-[13px]">
                         @for($r=1; $r<=5; $r++)
                             <span class="{{ $r <= round($rating) ? 'text-mg-gold' : 'text-mg-dark/10' }}">★</span>
                         @endfor
-                        <span class="text-mg-muted text-[11px] ml-1">({{ $reviewsCount }})</span>
+                        <span class="text-mg-muted text-[9px] sm:text-[11px] ml-1">({{ $reviewsCount }})</span>
                     </div>
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="font-mono text-xl font-bold text-mg-dark">₹{{ $price }}</span>
-                        <span class="font-mono text-sm text-mg-muted line-through">₹{{ $mrp }}</span>
+                    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                        <span class="font-mono text-base sm:text-xl font-bold text-mg-dark">₹{{ $price }}</span>
+                        <span class="font-mono text-xs sm:text-sm text-mg-muted line-through">₹{{ $mrp }}</span>
                         @if($discount > 0)
-                        <span class="text-[10px] font-bold text-mg-green bg-mg-green/8 px-2 py-0.5 rounded-full">SAVE {{ $discount }}%</span>
+                        <span class="text-[8px] sm:text-[10px] font-bold text-mg-green bg-mg-green/8 px-1.5 sm:px-2 py-0.5 rounded-full">SAVE {{ $discount }}%</span>
                         @endif
                     </div>
                     @if($isOutOfStock)
                     <button type="button" disabled
-                            class="w-full py-3 bg-gray-200 text-gray-500 text-sm font-bold rounded-2xl flex items-center justify-center cursor-not-allowed">
+                            class="w-full py-2 sm:py-3 bg-gray-200 text-gray-500 text-[11px] sm:text-sm font-bold rounded-xl sm:rounded-2xl flex items-center justify-center cursor-not-allowed">
                         Out of Stock
                     </button>
                     @else
                     <button type="button" x-data @click="window.addToCart({{ $sku ? $sku->id : 0 }}, 1, $event.currentTarget)" 
-                            class="w-full py-3 bg-mg-green text-white text-sm font-bold rounded-2xl hover:bg-mg-green-dark active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-sm shadow-mg-green/15">
-                        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0" stroke-linecap="round"/></svg>
+                            class="w-full py-2 sm:py-3 bg-mg-green text-white text-[11px] sm:text-sm font-bold rounded-xl sm:rounded-2xl hover:bg-mg-green-dark active:scale-[0.98] transition-all flex items-center justify-center gap-1 sm:gap-2 shadow-sm shadow-mg-green/15">
+                        <svg class="w-3.5 h-3.5 sm:w-[15px] sm:h-[15px]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0" stroke-linecap="round"/></svg>
                         Quick Add
                     </button>
                     @endif

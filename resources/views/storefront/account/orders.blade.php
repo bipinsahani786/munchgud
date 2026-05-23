@@ -1,9 +1,9 @@
 @extends('storefront.account.layout')
 
 @section('account_content')
-<h2 class="font-heading text-3xl font-bold text-mg-dark mb-8">Orders & Tracking</h2>
+<h2 class="font-heading text-2xl sm:text-3xl font-bold text-mg-dark mb-6 sm:mb-8">Orders & Tracking</h2>
 
-<div class="bg-white rounded-3xl p-8 border border-mg-dark/5 shadow-xl shadow-mg-dark/5">
+<div class="bg-white rounded-3xl p-5 sm:p-8 border border-mg-dark/5 shadow-xl shadow-mg-dark/5">
     @if($orders->isEmpty())
         <div class="text-center py-10">
             <p class="text-mg-muted mb-4">You haven't placed any orders yet.</p>

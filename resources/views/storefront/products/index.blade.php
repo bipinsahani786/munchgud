@@ -60,7 +60,7 @@
 
             <!-- Product Grid -->
             <div class="flex-1">
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                     @forelse($products as $p)
                     @php
                         // Get default SKU, or fallback to an in-stock one
@@ -84,7 +84,7 @@
                                 <img src="{{ asset('images/product_shot.png') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             @endif
                             @if($discount > 0)
-                                <span class="absolute top-4 left-4 bg-mg-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">-{{ $discount }}% OFF</span>
+                                <span class="absolute top-3 left-3 sm:top-4 sm:left-4 bg-mg-orange text-white text-[9px] sm:text-[10px] font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full uppercase tracking-wider">-{{ $discount }}% OFF</span>
                             @endif
                         </a>
                         
@@ -114,35 +114,35 @@
                                     }
                                 }" 
                                 @click.prevent="toggle"
-                                class="absolute top-4 right-4 w-9 h-9 backdrop-blur-sm rounded-full flex items-center justify-center transition-all shadow-sm z-10"
+                                class="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 backdrop-blur-sm rounded-full flex items-center justify-center transition-all shadow-sm z-10"
                                 :class="inWishlist ? 'opacity-100 bg-white text-mg-orange' : 'opacity-0 group-hover:opacity-100 bg-white/80 text-mg-dark hover:bg-mg-cream hover:text-mg-orange'">
-                            <svg width="15" height="15" :class="inWishlist ? 'fill-mg-orange' : 'fill-none'" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <svg class="w-3.5 h-3.5 sm:w-[15px] sm:h-[15px]" :class="inWishlist ? 'fill-mg-orange' : 'fill-none'" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         </button>
-                        <div class="p-6 flex flex-col flex-1">
-                            <p class="text-[10px] font-semibold text-mg-muted uppercase tracking-[0.15em] mb-1">{{ $p->category->name ?? 'Makhana' }}</p>
-                            <a href="{{ route('products.show', $p->slug) }}"><h4 class="font-heading text-[19px] font-bold text-mg-dark mb-1.5 leading-snug">{{ $p->name }}</h4></a>
-                            <div class="flex items-center gap-1 mb-3 text-mg-gold text-[13px]">
+                        <div class="p-3 sm:p-6 flex flex-col flex-1">
+                            <p class="text-[9px] sm:text-[10px] font-semibold text-mg-muted uppercase tracking-[0.15em] mb-1">{{ $p->category->name ?? 'Makhana' }}</p>
+                            <a href="{{ route('products.show', $p->slug) }}"><h4 class="font-heading text-[14px] sm:text-[19px] font-bold text-mg-dark mb-1.5 leading-snug line-clamp-2">{{ $p->name }}</h4></a>
+                            <div class="flex items-center gap-1 mb-2 sm:mb-3 text-mg-gold text-[10px] sm:text-[13px]">
                                 @for($r=1; $r<=5; $r++)
                                     <span class="{{ $r <= round($rating) ? 'text-mg-gold' : 'text-mg-dark/10' }}">★</span>
                                 @endfor
-                                <span class="text-mg-muted text-[11px] ml-1">({{ $reviewsCount }})</span>
+                                <span class="text-mg-muted text-[9px] sm:text-[11px] ml-1">({{ $reviewsCount }})</span>
                             </div>
-                            <div class="flex items-center gap-2 mb-6 mt-auto">
-                                <span class="font-mono text-xl font-bold text-mg-dark">₹{{ $price }}</span>
+                            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3 sm:mb-6 mt-auto">
+                                <span class="font-mono text-base sm:text-xl font-bold text-mg-dark">₹{{ $price }}</span>
                                 @if($mrp > $price)
-                                <span class="font-mono text-sm text-mg-muted line-through">₹{{ $mrp }}</span>
+                                <span class="font-mono text-xs sm:text-sm text-mg-muted line-through">₹{{ $mrp }}</span>
                                 @endif
                             </div>
                             
                             @if($isOutOfStock)
                             <button type="button" disabled
-                                    class="w-full py-3 bg-gray-200 text-gray-500 text-sm font-bold rounded-2xl flex items-center justify-center cursor-not-allowed">
+                                    class="w-full py-2 sm:py-3 bg-gray-200 text-gray-500 text-[11px] sm:text-sm font-bold rounded-xl sm:rounded-2xl flex items-center justify-center cursor-not-allowed">
                                 Out of Stock
                             </button>
                             @else
                             <button type="button" x-data @click="window.addToCart({{ $sku ? $sku->id : 0 }}, 1, $event.currentTarget)" 
-                                    class="w-full py-3 bg-mg-green/10 text-mg-green hover:bg-mg-green hover:text-white text-sm font-bold rounded-2xl transition-all flex items-center justify-center gap-2">
-                                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0" stroke-linecap="round"/></svg>
+                                    class="w-full py-2 sm:py-3 bg-mg-green/10 text-mg-green hover:bg-mg-green hover:text-white text-[11px] sm:text-sm font-bold rounded-xl sm:rounded-2xl transition-all flex items-center justify-center gap-1 sm:gap-2">
+                                <svg class="w-3.5 h-3.5 sm:w-[15px] sm:h-[15px]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0" stroke-linecap="round"/></svg>
                                 Quick Add
                             </button>
                             @endif
