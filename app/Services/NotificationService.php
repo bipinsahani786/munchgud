@@ -41,8 +41,12 @@ class NotificationService
     public function sendOtp(string $contact, string $otp): void
     {
         if (filter_var($contact, FILTER_VALIDATE_EMAIL)) {
-            Mail::to($contact)->send(new \App\Mail\OtpMail($otp));
-            Log::info("Sent OTP to email: $contact");
+            try {
+                Mail::to($contact)->send(new \App\Mail\OtpMail($otp));
+                Log::info("Sent OTP to email: $contact");
+            } catch (\Exception $e) {
+                Log::error("Failed to send OTP email to $contact: " . $e->getMessage());
+            }
         } else {
             // Send SMS via MSG91
             $key = config('services.msg91.key');

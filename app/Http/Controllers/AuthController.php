@@ -31,6 +31,25 @@ class AuthController extends Controller
         return response()->json(['success' => true, 'message' => 'OTP sent successfully']);
     }
 
+    public function verifyOtp(Request $request) {
+        $request->validate([
+            'contact' => 'required|email',
+            'otp' => 'required|numeric'
+        ]);
+
+        $cached = Cache::get("otp:{$request->contact}");
+        
+        if (app()->environment('local') && $request->otp == '123456') {
+            $cached = $request->otp;
+        }
+
+        if ($cached && $cached == $request->otp) {
+            return response()->json(['success' => true]);
+        }
+        
+        return response()->json(['success' => false, 'message' => 'Invalid or expired OTP']);
+    }
+
     public function checkEmail(Request $request) {
         $request->validate(['contact' => 'required|email']);
         
@@ -69,7 +88,6 @@ class AuthController extends Controller
         ]);
 
         $cached = Cache::get("otp:{$request->contact}");
-        
         if (app()->environment('local') && $request->otp == '123456') {
             $cached = $request->otp;
         }
@@ -77,7 +95,6 @@ class AuthController extends Controller
         if (!$cached || $cached != $request->otp) {
             return back()->withErrors(['otp' => 'Invalid or expired OTP.'])->withInput();
         }
-        
         Cache::forget("otp:{$request->contact}");
         
         // Find existing guest user or create new
@@ -87,7 +104,7 @@ class AuthController extends Controller
         );
 
         $user->name = $request->name;
-        $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
+        $user->password = $request->password;
         $user->email_verified_at = now();
         $user->save();
         
@@ -120,7 +137,7 @@ class AuthController extends Controller
         
         $user = User::where('email', $request->contact)->first();
         if ($user) {
-            $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
+            $user->password = $request->password;
             $user->save();
             $oldSessionId = session()->getId();
             Auth::login($user, true);

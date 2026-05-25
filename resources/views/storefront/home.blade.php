@@ -211,8 +211,9 @@
     }
 @endphp
 
-<section class="py-20 lg:py-24 bg-mg-cream relative overflow-hidden">
-    <!-- Subtle background blob -->
+ <!-- Subtle background blob -->
+<!-- <section class="py-20 lg:py-24 bg-mg-cream relative overflow-hidden">
+   
     <div class="absolute -top-10 -right-10 w-72 h-72 bg-mg-green/5 rounded-full blur-3xl"></div>
     <div class="absolute -bottom-10 -left-10 w-72 h-72 bg-mg-orange/5 rounded-full blur-3xl"></div>
 
@@ -221,34 +222,34 @@
             <span class="inline-block bg-mg-green/10 text-mg-green text-[11px] font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-3">{{ $page->sections['instagram_badge'] ?? '#MunchGudMoments' }}</span>
             <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">{!! $page->sections['instagram_title'] ?? 'Tag Us <a href="https://instagram.com/munchgud" target="_blank" rel="noopener" class="italic text-mg-green hover:underline">@munchgud</a>' !!}</h2>
             <p class="text-mg-muted text-sm mt-3 max-w-md mx-auto">{{ $page->sections['instagram_subtitle'] ?? 'Share your snack love and get featured! Join our premium snacking community.' }}</p>
-        </div>
-
+        </div> -->
+<!-- 
         @if($instagramEmbedUrl)
             <div class="grid lg:grid-cols-12 gap-8 items-center">
-                <!-- Column 1: Live Instagram Post Smartphone Frame -->
-                <div class="lg:col-span-5 flex justify-center reveal">
+                Column 1: Live Instagram Post Smartphone Frame -->
+                <!-- <div class="lg:col-span-5 flex justify-center reveal">
                     <div class="relative w-full max-w-[360px] aspect-[9/16] bg-mg-dark rounded-[48px] p-3 shadow-2xl border-4 border-mg-dark/80 ring-8 ring-mg-dark/10 overflow-hidden">
-                        <!-- Top Speaker / Notch -->
+                       Top Speaker / Notch -->
                         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-mg-dark rounded-b-2xl z-50 flex items-center justify-center">
                             <span class="w-12 h-1 bg-white/20 rounded-full"></span>
-                        </div>
+                        </div> 
                         <!-- Status Bar -->
-                        <div class="absolute top-6 left-6 right-6 flex justify-between text-[10px] text-white/40 font-semibold font-mono z-40">
+                        <!-- <div class="absolute top-6 left-6 right-6 flex justify-between text-[10px] text-white/40 font-semibold font-mono z-40">
                             <span>MunchGud 5G</span>
                             <div class="flex items-center gap-1">
                                 <span>📶</span>
                                 <span>100% 🔋</span>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- Iframe container -->
-                        <div class="w-full h-full rounded-[38px] overflow-hidden bg-white pt-10 relative">
+                        <!-- <div class="w-full h-full rounded-[38px] overflow-hidden bg-white pt-10 relative">
                             <iframe src="{{ $instagramEmbedUrl }}" class="w-full h-full border-0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Column 2: Gorgeous complementary feed grid -->
-                <div class="lg:col-span-7 reveal">
+                <!-- <div class="lg:col-span-7 reveal">
                     <div class="grid grid-cols-2 gap-4">
                         @foreach([
                             ['img' => '/images/story_farmer.png', 'likes' => '3.1K', 'comments' => '124', 'tag' => 'Mithila Sourced'],
@@ -271,9 +272,9 @@
                     </div>
                 </div>
             </div>
-        @else
+        @else -->
             <!-- Beautiful full interactive 6-column grid -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">
+            <!-- <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">
                 @foreach([
                     ['img' => '/images/story_farmer.png', 'likes' => '3.8K', 'comments' => '189', 'tag' => 'Source', 'label' => 'Mithila Sourced'],
                     ['img' => '/images/ingredient_macro.png', 'likes' => '2.4K', 'comments' => '95', 'tag' => 'Healthy', 'label' => 'Pure Protein'],
@@ -281,13 +282,13 @@
                     ['img' => '/images/hero_bg.png', 'likes' => '1.9K', 'comments' => '73', 'tag' => 'Vibe', 'label' => 'Air Roasted'],
                     ['img' => '/images/story_farmer.png', 'likes' => '2.9K', 'comments' => '104', 'tag' => 'Farms', 'label' => 'Direct to You'],
                     ['img' => '/images/ingredient_macro.png', 'likes' => '3.5K', 'comments' => '142', 'tag' => 'Nature', 'label' => 'Gluten Free']
-                ] as $item)
-                    <div class="reveal aspect-square rounded-3xl bg-white relative group overflow-hidden border border-mg-dark/5 shadow-md shadow-mg-dark/[0.02]">
+                ] as $item) -->
+                    <!-- <div class="reveal aspect-square rounded-3xl bg-white relative group overflow-hidden border border-mg-dark/5 shadow-md shadow-mg-dark/[0.02]">
                         <img src="{{ $item['img'] }}" class="w-full h-full object-cover group-hover:scale-115 transition-transform duration-700" alt="Instagram Post">
-                        <!-- Custom Tag -->
-                        <span class="absolute top-3.5 left-3.5 bg-white/90 backdrop-blur-sm text-[9px] font-black text-mg-dark px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">{{ $item['tag'] }}</span>
+                         Custom Tag -->
+                        <!-- <span class="absolute top-3.5 left-3.5 bg-white/90 backdrop-blur-sm text-[9px] font-black text-mg-dark px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">{{ $item['tag'] }}</span> --> 
                         <!-- Glassmorphic hover overlay -->
-                        <div class="absolute inset-0 bg-mg-green-dark/70 opacity-0 group-hover:opacity-100 transition-all duration-400 flex flex-col items-center justify-center p-4 text-center z-20">
+                        <!-- <div class="absolute inset-0 bg-mg-green-dark/70 opacity-0 group-hover:opacity-100 transition-all duration-400 flex flex-col items-center justify-center p-4 text-center z-20">
                             <span class="text-white/80 text-[10px] font-bold uppercase tracking-widest mb-1">{{ $item['label'] }}</span>
                             <div class="flex items-center gap-3 text-white mb-4">
                                 <span class="font-bold text-xs flex items-center gap-1 select-none cursor-pointer hover:scale-110 active:scale-95 transition-all">❤️ {{ $item['likes'] }}</span>
@@ -300,7 +301,7 @@
             </div>
         @endif
     </div>
-</section>
+</section>  -->
 
 <!-- SEO Text Block 1: Hero -->
 <section class="py-20 lg:py-28 bg-white border-b border-mg-dark/5">
@@ -734,57 +735,86 @@
                 <span class="text-white/35 text-sm">{{ $page->sections['reviews_subtitle'] ?? '4.9/5 from 2,847 reviews' }}</span>
             </div>
         </div>
-        <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-            @forelse($testimonials as $i => $r)
-            @php 
-                $colors = ['from-pink-400 to-rose-500', 'from-blue-400 to-indigo-500', 'from-green-400 to-emerald-500', 'from-orange-400 to-amber-500'];
-                $cl = $colors[$i % count($colors)];
-            @endphp
-            <div class="break-inside-avoid bg-white/5 backdrop-blur-sm border border-white/8 rounded-3xl p-8 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-black/10 group">
-                <div class="flex items-center justify-between mb-6">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br {{ $cl }} flex items-center justify-center text-white text-lg font-bold shadow-inner group-hover:scale-110 transition-transform">{{ substr($r->user->name ?? 'Guest',0,1) }}</div>
-                        <div>
-                            <p class="font-bold text-base text-white">{{ $r->user->name ?? 'Guest' }}</p>
-                            <p class="text-xs text-white/50 flex items-center gap-1 mt-0.5"><svg class="w-3.5 h-3.5 text-mg-leaf" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Verified Buyer</p>
+        @php
+            $staticReviews = collect([
+                ['r' => 5, 't' => 'The peri-peri makhana is dangerously addictive! Perfect midnight snack without the guilt. I\'ve already ordered my second batch.', 'n' => 'Priya S.', 'c' => 'from-pink-400 to-rose-500'],
+                ['r' => 5, 't' => 'Finally a brand that gets roasting right. Not too oily, incredibly crunchy, and the flavors are spot on. Highly recommend the cream & onion.', 'n' => 'Rahul M.', 'c' => 'from-blue-400 to-indigo-500'],
+                ['r' => 5, 't' => 'My kids love these in their lunchbox and I love that it\'s actually healthy. The subscription box is a lifesaver.', 'n' => 'Anita K.', 'c' => 'from-green-400 to-emerald-500'],
+                ['r' => 4, 't' => 'Great quality makhanas. The classic salted is my favorite with evening chai. Very fresh and crunchy.', 'n' => 'Vikram D.', 'c' => 'from-orange-400 to-amber-500'],
+                ['r' => 5, 't' => 'I swapped out my evening potato chips with these and I already feel lighter. The cheese flavor is so good!', 'n' => 'Simran J.', 'c' => 'from-purple-400 to-fuchsia-500'],
+                ['r' => 5, 't' => 'Best packaging and super fast delivery. The makhana stayed crisp for weeks. 10/10 would recommend to anyone.', 'n' => 'Karan T.', 'c' => 'from-teal-400 to-cyan-500']
+            ]);
+            $displayReviews = collect($testimonials->all())->merge($staticReviews);
+            $colors = ['from-pink-400 to-rose-500', 'from-blue-400 to-indigo-500', 'from-green-400 to-emerald-500', 'from-orange-400 to-amber-500'];
+        @endphp
+
+        <style>
+            .marquee-container {
+                overflow: hidden;
+                width: 100%;
+                position: relative;
+                /* Add a fade mask on the edges for a nicer effect */
+                mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+                -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            }
+            .marquee-track {
+                display: flex;
+                width: max-content;
+                animation: marquee 25s linear infinite;
+                gap: 1.5rem;
+            }
+            .marquee-track:hover {
+                animation-play-state: paused;
+            }
+            @keyframes marquee {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+            .review-card {
+                width: 320px;
+                height: 280px;
+                flex-shrink: 0;
+                white-space: normal;
+                display: flex;
+                flex-direction: column;
+            }
+        </style>
+
+        <div class="marquee-container mt-10 px-4">
+            <div class="marquee-track">
+                @for($j = 0; $j < 2; $j++)
+                    @foreach($displayReviews as $i => $item)
+                        @php
+                            $isDynamic = is_object($item);
+                            $cl = $colors[$i % count($colors)];
+                            $rating = $isDynamic ? $item->rating : $item['r'];
+                            $text = $isDynamic ? ($item->body ?? $item->title ?? 'Great product!') : $item['t'];
+                            $name = $isDynamic ? ($item->user->name ?? $item->name ?? 'Guest') : $item['n'];
+                            $initial = substr(trim($name), 0, 1);
+                            if (!$isDynamic) {
+                                $cl = $item['c'];
+                            }
+                        @endphp
+                        <div class="review-card bg-white/5 backdrop-blur-sm border border-white/8 rounded-2xl p-6 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-black/10 group cursor-default">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br {{ $cl }} flex items-center justify-center text-white text-lg font-bold shadow-inner group-hover:scale-110 transition-transform">{{ $initial }}</div>
+                                    <div>
+                                        <p class="font-bold text-base text-white">{{ $name }}</p>
+                                        <p class="text-xs text-white/50 flex items-center gap-1 mt-0.5">
+                                            <svg class="w-3.5 h-3.5 text-mg-leaf" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Verified Buyer
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="text-mg-gold text-sm flex gap-0.5">
+                                    @for($k=0; $k<$rating; $k++)<span>★</span>@endfor
+                                </div>
+                            </div>
+                            <p class="text-white/80 text-sm leading-relaxed font-medium italic mt-auto line-clamp-5">"{{ $text }}"</p>
                         </div>
-                    </div>
-                    <div class="text-mg-gold text-sm flex gap-0.5">
-                        @for($k=0; $k<$r->rating; $k++)<span>★</span>@endfor
-                    </div>
-                </div>
-                <p class="text-white/80 text-base leading-relaxed font-medium italic">"{{ $r->review }}"</p>
+                    @endforeach
+                @endfor
             </div>
-            @empty
-            @php
-                $staticReviews = [
-                    ['r' => 5, 't' => 'The peri-peri makhana is dangerously addictive! Perfect midnight snack without the guilt. I\'ve already ordered my second batch.', 'n' => 'Priya S.', 'c' => 'from-pink-400 to-rose-500'],
-                    ['r' => 5, 't' => 'Finally a brand that gets roasting right. Not too oily, incredibly crunchy, and the flavors are spot on. Highly recommend the cream & onion.', 'n' => 'Rahul M.', 'c' => 'from-blue-400 to-indigo-500'],
-                    ['r' => 5, 't' => 'My kids love these in their lunchbox and I love that it\'s actually healthy. The subscription box is a lifesaver.', 'n' => 'Anita K.', 'c' => 'from-green-400 to-emerald-500'],
-                    ['r' => 4, 't' => 'Great quality makhanas. The classic salted is my favorite with evening chai. Very fresh and crunchy.', 'n' => 'Vikram D.', 'c' => 'from-orange-400 to-amber-500'],
-                    ['r' => 5, 't' => 'I swapped out my evening potato chips with these and I already feel lighter. The cheese flavor is so good!', 'n' => 'Simran J.', 'c' => 'from-purple-400 to-fuchsia-500'],
-                    ['r' => 5, 't' => 'Best packaging and super fast delivery. The makhana stayed crisp for weeks. 10/10 would recommend to anyone.', 'n' => 'Karan T.', 'c' => 'from-teal-400 to-cyan-500']
-                ];
-            @endphp
-            @foreach($staticReviews as $sr)
-            <div class="break-inside-avoid bg-white/5 backdrop-blur-sm border border-white/8 rounded-3xl p-8 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-black/10 group">
-                <div class="flex items-center justify-between mb-6">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br {{ $sr['c'] }} flex items-center justify-center text-white text-lg font-bold shadow-inner group-hover:scale-110 transition-transform">{{ substr($sr['n'],0,1) }}</div>
-                        <div>
-                            <p class="font-bold text-base text-white">{{ $sr['n'] }}</p>
-                            <p class="text-xs text-white/50 flex items-center gap-1 mt-0.5"><svg class="w-3.5 h-3.5 text-mg-leaf" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Verified Buyer</p>
-                        </div>
-                    </div>
-                    <div class="text-mg-gold text-sm flex gap-0.5">
-                        @for($k=0; $k<$sr['r']; $k++)<span>★</span>@endfor
-                    </div>
-                </div>
-                <p class="text-white/80 text-base leading-relaxed font-medium italic">"{{ $sr['t'] }}"</p>
-            </div>
-            @endforeach
-            @endforelse
-        </div>
     </div>
 </section>
 
@@ -829,7 +859,7 @@
 {{-- ══════════════════════════════════════════
      15. RECIPES
      ══════════════════════════════════════════ --}}
-<section id="recipes" class="py-20 lg:py-28 bg-mg-cream">
+<!-- <section id="recipes" class="py-20 lg:py-28 bg-mg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-14 reveal">
             <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">Beyond <span class="italic text-mg-green">Snacking</span></h2>
@@ -847,7 +877,7 @@
             @endforeach
         </div>
     </div>
-</section>
+</section> -->
 
 {{-- ══════════════════════════════════════════
      16. FOUNDER
@@ -866,7 +896,8 @@
             <div class="lg:col-span-3 reveal">
                 <span class="inline-block bg-mg-green/8 text-mg-green text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-6 border border-mg-green/10">Our Story</span>
                 <h2 class="font-heading text-3xl sm:text-4xl font-black text-mg-dark mb-6 italic leading-snug">"India deserves a snack that's actually good for you — and tastes incredible."</h2>
-                <p class="text-mg-muted leading-relaxed mb-4">Growing up in Bihar, makhana was always on our table — but always plain. We knew this superfood deserved bold flavours, premium quality, and a brand young India could be proud of.</p>
+                <p class="text-mg-muted leading-relaxed mb-4"> Choose MunchGud
+MunchGud is made for people who love snacks and want taste, good quality and a smarter option for daily life. We know many snacks in the market are too oily or heavily processed. So we created MunchGud to be lighter but still full of flavour and crunch. Our goal is to give you premium makhana that you can enjoy anytime without losing taste. When buying premium roasted makhana online, customers look for freshness, flavour, and quality. At MunchGud we prepare our makhana carefully to get the crunchy texture and rich taste. Every flavour is balanced so you enjoy seasoning and satisfying taste from the first bite to the last. We know people want convenient healthy snacks in India that fit into busy routines. Our roasted makhana fits perfectly into busy everyday routines. Whether you're working, travelling, having evening chai, watching movies, studying late or just feeling hungry. Our packaging keeps the product fresh. It is easy to carry and store. At MunchGud we think healthy snacking should be enjoyable, flavourful, and satisfying. That's why we focus on freshness, consistency, quality ingredients and perfect crunch. This allows you to enjoy fresh and flavourful snacking every day. We take pride in offering premium makhana made for modern snack lovers. We created MunchGud to make everyday snacking more exciting..</p>
                 <p class="text-mg-muted leading-relaxed mb-6">Today, MunchGud sources from 200+ farming families across Mithilanchal. Every pack represents our promise: real food, real taste, real impact.</p>
                 <p class="font-heading font-bold text-mg-dark">— The MunchGud Team 🌿</p>
             </div>
@@ -913,7 +944,7 @@
     </div>
 </section>
 
-{{-- ══════════════════════════════════════════
+<!-- {{-- ══════════════════════════════════════════
      18. GIFTING
      ══════════════════════════════════════════ --}}
 <section class="py-20 lg:py-28 bg-gradient-to-br from-mg-green/5 via-mg-cream to-mg-leaf/5">
@@ -932,12 +963,12 @@
             <div class="reveal"><div class="aspect-square rounded-3xl bg-gradient-to-br from-mg-green/15 via-mg-leaf/10 to-mg-cream flex items-center justify-center"><span class="text-[8rem]">🎁</span></div></div>
         </div>
     </div>
-</section>
+</section> -->
 
 {{-- ══════════════════════════════════════════
      19. NEWSLETTER
      ══════════════════════════════════════════ --}}
-<section class="py-24 lg:py-32 bg-mg-green-dark text-white grain overflow-hidden relative">
+<section class="py-12 lg:py-16 bg-mg-green-dark text-white grain overflow-hidden relative">
     <!-- Decorative background elements -->
     <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-mg-leaf/10 via-transparent to-transparent pointer-events-none"></div>
     <div class="absolute -top-40 -right-40 w-96 h-96 bg-mg-leaf/20 rounded-full blur-[100px] pointer-events-none"></div>
@@ -972,7 +1003,15 @@
             <!-- Left Side: Question List (Tabs) -->
             <div class="lg:col-span-5 space-y-3 reveal">
                 @php 
-                    $faqs = \App\Models\Faq::active()->orderBy('sort_order')->get(); 
+                    $faqs = collect([
+                        (object)['question' => 'What are roasted fox nuts?', 'answer' => 'Roasted fox nuts are crispy snacks made from lotus seeds. People love them as an alternative to fried snacks. They are crispy, flavourful, and available in different exciting flavours. You can enjoy fox nuts any time of the day like during office breaks, tea time, when travelling or on movie nights.'],
+                        (object)['question' => 'Why is flavoured makhana becoming so popular?', 'answer' => 'Consumers today love flavoured makhana because they want snacks that are tasty and not too oily. Flavoured makhana comes in flavours, like Cream & Onion and Peri Peri. Makhana is crunchy and satisfying. It doesn\'t feel too heavy. That’s why many consumers now choose flavoured makhana as their go-to snack.'],
+                        (object)['question' => 'Can we have makhana as a snack?', 'answer' => 'Yes a lot of people like to eat makhana as part of their snacking routine. Makhana is popular because it feels light, crunchy, and easy to enjoy anytime. Many people enjoy makhana during evening tea, office breaks, travelling, or movie nights. in the evening when we feel like having something. Makhana is also a snack to take to the office or when we are traveling. We can even eat makhana with our tea. The crunchy texture of makhana and the many different flavours make it a great snack to eat every day.'],
+                        (object)['question' => 'Are makhana snacks a source of protein?', 'answer' => 'Modern consumers choose makhana when they are looking for protein rich snacks and easy to eat. Students and working people like to eat makhana because it is a healthy snack that tastes good and is light and crispy. People who like to stay fit also like to eat makhana because it\'s a lighter snack.'],
+                        (object)['question' => 'Why do people like to eat makhana when they are trying to lose weight?', 'answer' => 'People who want healthier food choices often choose makhana as a snack when they are trying to lose weight. Makhana is a choice because it is lighter than many other snacks that are fried. Makhana helps satisfy evening cravings when we feel like eating something. Makhana is popular because it offers a satisfying crunch and enjoyable flavour. We can eat makhana when we feel like having a snack. It will not make us feel too full. Makhana is often preferred by people looking for lighter and healthier snack alternatives.'],
+                        (object)['question' => 'Where can I get roasted makhana online?', 'answer' => 'You can easily order roasted makhana online from trusted brands like MunchGud. The brand offers multiple delicious flavours with fresh packaging and convenient doorstep delivery, making it easy to enjoy premium makhana anytime.'],
+                        (object)['question' => 'Where can I buy makhana in Pune?', 'answer' => 'You can easily buy MunchGud roasted makhana online in Pune and enjoy doorstep delivery with fresh packaging and exciting flavours. It is a convenient option for snack lovers looking for lighter and more flavourful everyday snacks.'],
+                    ]);
                 @endphp
                 
                 @foreach($faqs as $i=>$f)
@@ -1019,6 +1058,11 @@
                 </div>
                 @endforeach
             </div>
+        </div>
+        
+        <div class="mt-16 p-8 lg:p-10 bg-mg-green/5 rounded-3xl border border-mg-green/20 reveal">
+            <h3 class="font-heading text-2xl lg:text-3xl font-black text-mg-green mb-4">Make your snack time better with MunchGud</h3>
+            <p class="text-mg-dark/80 text-lg leading-relaxed">MunchGud offers delicious flavours of makhana to suit different tastes. You can explore different makhana flavours based on your taste preference. Each flavour offers a light texture with delicious seasoning and satisfying crunch. You can eat them anytime. They are also perfect for movie nights and evening cravings. The range includes exciting roasted makhana flavours for every taste preference. Enjoy fresh roasted makhana delivered directly to your doorstep. If you want to buy makhana in Pune, MunchGud makes online ordering simple and convenient. With MunchGud, you enjoy bold flavours, quality ingredients, and satisfying crunch in every bite. Enjoy a better everyday snacking experience with our roasted makhana.</p>
         </div>
     </div>
 </section>
@@ -1076,60 +1120,11 @@
             <div class="seo-content overflow-hidden transition-all duration-700 ease-in-out" 
                  :class="expanded ? 'max-h-[5000px] pb-12' : 'max-h-[300px]'">
                 
-                <h3>Buying Makhana in Pune</h3>
+                <!-- <h3>Buying Makhana in Pune</h3>
 
                 <h3>Why Choose MunchGud</h3>
-                <p>MunchGud is made for people who love snacks and want taste, good quality and a smarter option for daily life. We know many snacks in the market are too oily or heavily processed. So we created MunchGud to be lighter but still full of flavour and crunch. Our goal is to give you premium makhana that you can enjoy anytime without losing taste. When buying premium roasted makhana online, customers look for freshness, flavour, and quality. At MunchGud we prepare our makhana carefully to get the crunchy texture and rich taste. Every flavour is balanced so you enjoy seasoning and satisfying taste from the first bite to the last. We know people want convenient healthy snacks in India that fit into busy routines. Our roasted makhana fits perfectly into busy everyday routines. Whether you're working, travelling, having evening chai, watching movies, studying late or just feeling hungry. Our packaging keeps the product fresh. It is easy to carry and store. At MunchGud we think healthy snacking should be enjoyable, flavourful, and satisfying. That's why we focus on freshness, consistency, quality ingredients and perfect crunch. This allows you to enjoy fresh and flavourful snacking every day. We take pride in offering premium makhana made for modern snack lovers. We created MunchGud to make everyday snacking more exciting.</p>
+                <p>MunchGud is made for people who love snacks and want taste, good quality and a smarter option for daily life. We know many snacks in the market are too oily or heavily processed. So we created MunchGud to be lighter but still full of flavour and crunch. Our goal is to give you premium makhana that you can enjoy anytime without losing taste. When buying premium roasted makhana online, customers look for freshness, flavour, and quality. At MunchGud we prepare our makhana carefully to get the crunchy texture and rich taste. Every flavour is balanced so you enjoy seasoning and satisfying taste from the first bite to the last. We know people want convenient healthy snacks in India that fit into busy routines. Our roasted makhana fits perfectly into busy everyday routines. Whether you're working, travelling, having evening chai, watching movies, studying late or just feeling hungry. Our packaging keeps the product fresh. It is easy to carry and store. At MunchGud we think healthy snacking should be enjoyable, flavourful, and satisfying. That's why we focus on freshness, consistency, quality ingredients and perfect crunch. This allows you to enjoy fresh and flavourful snacking every day. We take pride in offering premium makhana made for modern snack lovers. We created MunchGud to make everyday snacking more exciting.</p> -->
 
-                <h3>Frequently Asked Questions</h3>
-                <div class="space-y-4 mt-6">
-                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
-                        <summary class="font-bold text-mg-dark outline-none">1. What are roasted fox nuts?</summary>
-                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">Roasted fox nuts are crispy snacks made from lotus seeds. People love them as an alternative to fried snacks. They are crispy, flavourful, and available in different exciting flavours. You can enjoy fox nuts any time of the day like during office breaks, tea time, when travelling or on movie nights.</p>
-                    </details>
-                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
-                        <summary class="font-bold text-mg-dark outline-none">2. Why is flavoured makhana becoming so popular?</summary>
-                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">Consumers today love flavoured makhana because they want snacks that are tasty and not too oily. Flavoured makhana comes in flavours, like Cream & Onion and Peri Peri. Makhana is crunchy and satisfying. It doesn't feel too heavy. That’s why many consumers now choose flavoured makhana as their go-to snack.</p>
-                    </details>
-                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
-                        <summary class="font-bold text-mg-dark outline-none">3. Can we have makhana as a snack?</summary>
-                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">Yes a lot of people like to eat makhana as part of their snacking routine. Makhana is popular because it feels light, crunchy, and easy to enjoy anytime. Many people enjoy makhana during evening tea, office breaks, travelling, or movie nights. in the evening when we feel like having something. Makhana is also a snack to take to the office or when we are traveling. We can even eat makhana with our tea. The crunchy texture of makhana and the many different flavours make it a great snack to eat every day.</p>
-                    </details>
-                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
-                        <summary class="font-bold text-mg-dark outline-none">4. Are makhana snacks a source of protein?</summary>
-                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">Modern consumers choose makhana when they are looking for protein rich snacks and easy to eat. Students and working people like to eat makhana because it is a healthy snack that tastes good and is light and crispy. People who like to stay fit also like to eat makhana because it's a lighter snack.</p>
-                    </details>
-                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
-                        <summary class="font-bold text-mg-dark outline-none">5. Why do people like to eat makhana when they are trying to lose weight?</summary>
-                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">People who want healthier food choices often choose makhana as a snack when they are trying to lose weight. Makhana is a choice because it is lighter than many other snacks that are fried. Makhana helps satisfy evening cravings when we feel like eating something. Makhana is popular because it offers a satisfying crunch and enjoyable flavour. We can eat makhana when we feel like having a snack. It will not make us feel too full. Makhana is often preferred by people looking for lighter and healthier snack alternatives.</p>
-                    </details>
-                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
-                        <summary class="font-bold text-mg-dark outline-none">6. Where can I get roasted makhana online?</summary>
-                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">You can easily order roasted makhana online from trusted brands like MunchGud. The brand offers multiple delicious flavours with fresh packaging and convenient doorstep delivery, making it easy to enjoy premium makhana anytime.</p>
-                    </details>
-                    <details class="bg-mg-cream/50 rounded-xl p-5 cursor-pointer border border-mg-dark/5">
-                        <summary class="font-bold text-mg-dark outline-none">7. Where can I buy makhana in Pune?</summary>
-                        <p class="mt-3 text-sm text-mg-muted leading-relaxed">You can easily buy MunchGud roasted makhana online in Pune and enjoy doorstep delivery with fresh packaging and exciting flavours. It is a convenient option for snack lovers looking for lighter and more flavourful everyday snacks.</p>
-                    </details>
-                </div>
-
-                <div class="mt-10 p-6 bg-mg-green/5 rounded-2xl border border-mg-green/20">
-                    <h3 class="!mt-0 text-mg-green">Make your snack time better with MunchGud</h3>
-                    <p class="!mb-0 text-sm">MunchGud offers delicious flavours of makhana to suit different tastes. You can explore different makhana flavours based on your taste preference. Each flavour offers a light texture with delicious seasoning and satisfying crunch. You can eat them anytime. They are also perfect for movie nights and evening cravings. The range includes exciting roasted makhana flavours for every taste preference. Enjoy fresh roasted makhana delivered directly to your doorstep. If you want to buy makhana in Pune, MunchGud makes online ordering simple and convenient. With MunchGud, you enjoy bold flavours, quality ingredients, and satisfying crunch in every bite. Enjoy a better everyday snacking experience with our roasted makhana.</p>
-                </div>
-
-            </div>
-            
-            <div class="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-white to-transparent pointer-events-none" x-show="!expanded"></div>
-        </div>
-        
-        <div class="text-center mt-8">
-            <button @click="expanded = !expanded" class="inline-flex items-center gap-2 px-8 py-3.5 border-2 border-mg-dark text-mg-dark font-bold text-sm rounded-full hover:bg-mg-dark hover:text-white transition-all shadow-sm">
-                <span x-text="expanded ? 'Read Less' : 'Read More About Us'"></span>
-                <svg :class="expanded ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </button>
-        </div>
-    </div>
 </section>
 
 @endsection

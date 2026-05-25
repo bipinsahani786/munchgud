@@ -11,11 +11,11 @@ namespace Database\Seeders;
         public function run(): void
         {
             Admin::create([
-                'name' => 'Super Admin',
+                'name' => 'Super Admin',    
                 'email' => 'admin@munchgud.com',
                 'password' => Hash::make('password'),
                 'role' => 'super_admin',
                 'is_active' => true,
             ]);
         }
-    }
+    }       
