@@ -25,7 +25,7 @@ public function callback(Request $request)
 
         $googleUser = Socialite::driver('google')
             ->stateless()
-            ->setHttpClient(new \GuzzleHttp\Client(['verify' => false]))
+            ->setHttpClient(new \GuzzleHttp\Client(['verify' => storage_path('cacert.pem')]))
             ->user();
 
         // Find or create the user
