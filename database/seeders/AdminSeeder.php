@@ -10,8 +10,10 @@ namespace Database\Seeders;
     {
         public function run(): void
         {
-            Admin::create([
-                'name' => 'Super Admin',    
+            Admin::updateOrCreate(
+                ['email' => 'admin@munchgud.com'],
+                [
+                    'name' => 'Super Admin',    
                 'email' => 'admin@munchgud.com',
                 'password' => Hash::make('password'),
                 'role' => 'super_admin',

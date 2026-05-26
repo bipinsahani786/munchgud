@@ -22,7 +22,8 @@ class User extends Authenticatable
         'phone',
         'avatar',
         'is_active',
-        'password' // included because sometimes default setups use it
+        'password', // included because sometimes default setups use it
+        'google_id'
     ];
 
     /**

@@ -25,27 +25,17 @@ class PincodeController extends Controller
             ]);
         }
 
-        // Fallback to global settings if no zones are configured
-        if (ServiceableZone::count() === 0) {
-            $settingPincodes = Setting::get('serviceable_pincodes');
-            
-            if (empty($settingPincodes)) {
+        // Also check global settings if the pincode is explicitly allowed there
+        $settingPincodes = Setting::get('serviceable_pincodes');
+        if (!empty($settingPincodes)) {
+            $allowedPincodes = array_map('trim', explode(',', $settingPincodes));
+            if (in_array($request->pincode, $allowedPincodes)) {
                 return response()->json([
                     'deliverable' => true,
                     'cod_available' => Setting::get('cod_enabled', '1') == '1',
                     'delivery_days' => 5,
-                    'state' => 'India',
+                    'state' => 'Your Area',
                 ]);
-            } else {
-                $allowedPincodes = array_map('trim', explode(',', $settingPincodes));
-                if (in_array($request->pincode, $allowedPincodes)) {
-                    return response()->json([
-                        'deliverable' => true,
-                        'cod_available' => Setting::get('cod_enabled', '1') == '1',
-                        'delivery_days' => 5,
-                        'state' => 'Your Area',
-                    ]);
-                }
             }
         }
 

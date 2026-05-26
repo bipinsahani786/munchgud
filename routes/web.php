@@ -16,6 +16,7 @@ use App\Http\Controllers\BuildABoxController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShiprocketController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\GoogleController;
 
 // Public
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -119,3 +120,10 @@ Route::post('/products/{product}/reviews', [ReviewController::class, 'store'])->
 Route::post('/api/check-pincode', [\App\Http\Controllers\PincodeController::class, 'check'])->name('api.pincode.check');
 
 require __DIR__.'/admin.php';
+
+
+
+
+
+Route::get('/auth/google', [GoogleController::class, 'redirect']);
+Route::get('/auth/google/callback', [GoogleController::class, 'callback']);

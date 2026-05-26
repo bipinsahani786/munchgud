@@ -34,16 +34,18 @@ class ProductSeeder extends Seeder
                 ['name' => ucwords(str_replace('-', ' ', $p['cat'])), 'sort_order' => rand(1,10)]
             );
             
-            $product = Product::create([
-                'category_id' => $cat->id,
-                'name' => $p['name'],
-                'slug' => Str::slug($p['name']),
-                'short_description' => $p['desc'],
-                'description' => 'Experience the perfect crunch with our ' . $p['name'] . '. Made from the finest fox nuts sourced directly from Bihar, slow roasted to perfection and tossed in premium ingredients.',
-                'ingredients' => 'Phool Makhana, Olive Oil, Natural Flavors, Spices, Salt.',
-                'is_active' => true,
-                'is_featured' => true,
-            ]);
+            $product = Product::updateOrCreate(
+                ['slug' => Str::slug($p['name'])],
+                [
+                    'category_id' => $cat->id,
+                    'name' => $p['name'],
+                    'short_description' => $p['desc'],
+                    'description' => 'Experience the perfect crunch with our ' . $p['name'] . '. Made from the finest fox nuts sourced directly from Bihar, slow roasted to perfection and tossed in premium ingredients.',
+                    'ingredients' => 'Phool Makhana, Olive Oil, Natural Flavors, Spices, Salt.',
+                    'is_active' => true,
+                    'is_featured' => true,
+                ]
+            );
 
             // Create SKUs with Weights
             $weights = [
@@ -55,16 +57,20 @@ class ProductSeeder extends Seeder
             $variantType = \App\Models\VariantType::firstOrCreate(['name' => 'Weight']);
 
             foreach ($weights as $index => $w) {
-                $sku = ProductSku::create([
-                    'product_id' => $product->id,
-                    'sku_code' => strtoupper(Str::random(5)) . '-' . $w['name'],
-                    'name' => $w['name'],
-                    'mrp' => round(($p['price'] * $w['price_multiplier']) + 50),
-                    'sale_price' => round($p['price'] * $w['price_multiplier']),
-                    'stock_qty' => rand(50, 200),
-                    'is_active' => true,
-                    'is_default' => $index === 0
-                ]);
+                $sku = ProductSku::updateOrCreate(
+                    [
+                        'product_id' => $product->id,
+                        'name' => $w['name']
+                    ],
+                    [
+                        'sku_code' => strtoupper(Str::random(5)) . '-' . $w['name'],
+                        'mrp' => round(($p['price'] * $w['price_multiplier']) + 50),
+                        'sale_price' => round($p['price'] * $w['price_multiplier']),
+                        'stock_qty' => rand(50, 200),
+                        'is_active' => true,
+                        'is_default' => $index === 0
+                    ]
+                );
                 
                 $opt = \App\Models\VariantOption::firstOrCreate([
                     'variant_type_id' => $variantType->id, 

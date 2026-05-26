@@ -9,8 +9,8 @@ namespace Database\Seeders;
     {
         public function run(): void
         {
-            Setting::create(['key' => 'site_name', 'value' => 'MunchGud', 'group' => 'general']);
-            Setting::create(['key' => 'contact_email', 'value' => 'hello@munchgud.com', 'group' => 'general']);
-            Setting::create(['key' => 'free_shipping_threshold', 'value' => '999', 'group' => 'shipping']);
+            Setting::updateOrCreate(['key' => 'site_name'], ['value' => 'MunchGud', 'group' => 'general']);
+            Setting::updateOrCreate(['key' => 'contact_email'], ['value' => 'hello@munchgud.com', 'group' => 'general']);
+            Setting::updateOrCreate(['key' => 'free_shipping_threshold'], ['value' => '999', 'group' => 'shipping']);
         }
     }

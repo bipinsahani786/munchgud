@@ -35,7 +35,7 @@ class ServiceableZone extends Model
         
         foreach ($zones as $zone) {
             if (empty($zone->pincodes)) {
-                // If pincodes is empty, the entire state is serviceable
+                // Ignore zones with no pincodes configured to enforce strict checking
                 continue;
             }
             $pins = array_map('trim', explode(',', $zone->pincodes));
@@ -43,13 +43,8 @@ class ServiceableZone extends Model
                 return $zone;
             }
         }
-
-        // Check if any zone has empty pincodes (means entire state, deliver anywhere)
-        $openZone = self::active()->where(function($q) {
-            $q->whereNull('pincodes')->orWhere('pincodes', '');
-        })->first();
         
-        return $openZone;
+        return null;
     }
 
     /**

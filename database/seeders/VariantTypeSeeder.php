@@ -9,8 +9,8 @@ namespace Database\Seeders;
     {
         public function run(): void
         {
-            VariantType::create(['name' => 'Flavour', 'slug' => 'flavour']);
-            VariantType::create(['name' => 'Weight', 'slug' => 'weight']);
-            VariantType::create(['name' => 'Pack Size', 'slug' => 'pack-size']);
+            VariantType::updateOrCreate(['slug' => 'flavour'], ['name' => 'Flavour']);
+            VariantType::updateOrCreate(['slug' => 'weight'], ['name' => 'Weight']);
+            VariantType::updateOrCreate(['slug' => 'pack-size'], ['name' => 'Pack Size']);
         }
     }

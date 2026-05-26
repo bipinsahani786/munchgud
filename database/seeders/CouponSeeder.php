@@ -9,12 +9,14 @@ namespace Database\Seeders;
     {
         public function run(): void
         {
-            Coupon::create([
-                'code' => 'WELCOME10',
-                'type' => 'percent',
-                'value' => 10,
-                'min_order_amount' => 500,
-                'is_active' => true,
-            ]);
+            Coupon::updateOrCreate(
+                ['code' => 'WELCOME10'],
+                [
+                    'type' => 'percent',
+                    'value' => 10,
+                    'min_order_amount' => 500,
+                    'is_active' => true,
+                ]
+            );
         }
     }

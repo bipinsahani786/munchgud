@@ -9,8 +9,8 @@ namespace Database\Seeders;
     {
         public function run(): void
         {
-            Category::create(['name' => 'Makhana Snacks', 'slug' => 'makhana-snacks', 'sort_order' => 1]);
-            Category::create(['name' => 'Combo Packs', 'slug' => 'combo-packs', 'sort_order' => 2]);
-            Category::create(['name' => 'Gift Boxes', 'slug' => 'gift-boxes', 'sort_order' => 3]);
+            Category::updateOrCreate(['slug' => 'makhana-snacks'], ['name' => 'Makhana Snacks', 'sort_order' => 1]);
+            Category::updateOrCreate(['slug' => 'combo-packs'], ['name' => 'Combo Packs', 'sort_order' => 2]);
+            Category::updateOrCreate(['slug' => 'gift-boxes'], ['name' => 'Gift Boxes', 'sort_order' => 3]);
         }
     }
