@@ -45,7 +45,9 @@
                             @endif
                         </td>
                         <td class="px-6 py-4">
-                            @if($coupon->type === 'percent')
+                            @if($coupon->type === 'free_shipping')
+                                <span class="font-bold text-emerald-600">FREE Delivery</span>
+                            @elseif($coupon->type === 'percent')
                                 <span class="font-bold text-emerald-600">{{ number_format($coupon->value, 0) }}% OFF</span>
                                 @if($coupon->max_discount_amount)
                                     <div class="text-[10px] text-gray-500 mt-0.5">Up to ₹{{ number_format($coupon->max_discount_amount, 0) }}</div>

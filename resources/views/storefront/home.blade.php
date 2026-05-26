@@ -62,7 +62,7 @@
                     <p class="text-xs font-bold text-mg-orange">🔥 Roasted, Not Fried</p>
                 </div>
                 <div class="absolute bottom-1/3 -right-2 bg-mg-green-dark text-white px-4 py-2 rounded-2xl shadow-lg float" style="animation-delay:0.8s">
-                    <p class="text-xs font-bold font-mono">₹199 <span class="text-mg-leaf">only</span></p>
+                    <p class="text-xs font-bold font-mono">Healthy and <span class="text-mg-leaf">Tasty</span></p>
                 </div>
             </div>
         </div>
@@ -230,9 +230,9 @@
                 <!-- <div class="lg:col-span-5 flex justify-center reveal">
                     <div class="relative w-full max-w-[360px] aspect-[9/16] bg-mg-dark rounded-[48px] p-3 shadow-2xl border-4 border-mg-dark/80 ring-8 ring-mg-dark/10 overflow-hidden">
                        Top Speaker / Notch -->
-                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-mg-dark rounded-b-2xl z-50 flex items-center justify-center">
+                        <!-- <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-mg-dark rounded-b-2xl z-50 flex items-center justify-center">
                             <span class="w-12 h-1 bg-white/20 rounded-full"></span>
-                        </div> 
+                        </div>  -->
                         <!-- Status Bar -->
                         <!-- <div class="absolute top-6 left-6 right-6 flex justify-between text-[10px] text-white/40 font-semibold font-mono z-40">
                             <span>MunchGud 5G</span>
@@ -433,7 +433,7 @@
 {{-- ══════════════════════════════════════════
      7. BESTSELLER SPOTLIGHT
      ══════════════════════════════════════════ --}}
-<section class="py-20 lg:py-28 bg-white overflow-hidden">
+<!-- <section class="py-20 lg:py-28 bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div class="reveal relative">
@@ -465,7 +465,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 {{-- ══════════════════════════════════════════
      8. HEALTH BENEFITS (Dark Green)
@@ -545,21 +545,21 @@
 {{-- ══════════════════════════════════════════
      9. PROCESS TIMELINE
      ══════════════════════════════════════════ --}}
-<section class="py-20 lg:py-32 bg-mg-cream">
+<!-- <section class="py-20 lg:py-32 bg-mg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center"> -->
             
             <!-- Image Side -->
-            <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-[3/4] shadow-2xl">
+            <!-- <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-[3/4] shadow-2xl">
                 <img src="{{ isset($page->sections['process_image']) ? Storage::url($page->sections['process_image']) : asset('images/story_farmer.png') }}" class="w-full h-full object-cover" alt="Makhana Harvesting">
                 <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/80 via-mg-dark/20 to-transparent flex flex-col justify-end p-10 lg:p-14">
                     <h3 class="text-white font-heading text-3xl font-bold mb-3">Rooted in Tradition</h3>
                     <p class="text-white/80 font-medium text-lg leading-snug max-w-md">Every batch is hand-harvested by our farmer partners in Bihar, ensuring the highest quality from pond to pouch.</p>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Timeline Side -->
-            <div>
+            <!-- <div>
                 <div class="mb-14 reveal">
                     <span class="text-mg-green font-bold tracking-widest uppercase text-sm mb-3 block">{{ $page->sections['process_badge'] ?? 'The Process' }}</span>
                     <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark leading-tight">{!! $page->sections['process_title'] ?? 'From Pond <br/><span class="italic text-mg-green font-light">to Pouch</span>' !!}</h2>
@@ -591,7 +591,7 @@
             
         </div>
     </div>
-</section>
+</section> -->
 
 {{-- ══════════════════════════════════════════
      10. INGREDIENTS TRANSPARENCY
@@ -649,7 +649,7 @@
 {{-- ══════════════════════════════════════════
      11. COMBO PACKS
      ══════════════════════════════════════════ --}}
-<section class="py-20 lg:py-28 bg-mg-cream">
+<!-- <section class="py-20 lg:py-28 bg-mg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-14 reveal">
             <h2 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark">{!! $page->sections['combo_title'] ?? 'Mix, Match & <span class="italic text-mg-green">Save</span>' !!}</h2>
@@ -677,7 +677,7 @@
             @endforeach
         </div>
     </div>
-</section>
+</section> -->
 
 {{-- ══════════════════════════════════════════
      11.5 BEYOND SNACKING (RECIPES)
@@ -1103,7 +1103,7 @@ MunchGud is made for people who love snacks and want taste, good quality and a s
 
 
 <!-- SEO Content Section -->
-<section class="py-16 bg-white border-t border-mg-dark/5" x-data="{ expanded: false }">
+<!-- <section class="py-16 bg-white border-t border-mg-dark/5" x-data="{ expanded: false }">
     <style>
         .seo-content h3 { font-size: 1.25rem; font-weight: 800; color: #2d3748; margin-top: 2rem; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif; }
         .seo-content p { margin-bottom: 1rem; line-height: 1.7; color: #4a5568; font-size: 0.95rem; }
@@ -1118,7 +1118,7 @@ MunchGud is made for people who love snacks and want taste, good quality and a s
         
         <div class="relative reveal">
             <div class="seo-content overflow-hidden transition-all duration-700 ease-in-out" 
-                 :class="expanded ? 'max-h-[5000px] pb-12' : 'max-h-[300px]'">
+                 :class="expanded ? 'max-h-[5000px] pb-12' : 'max-h-[300px]'"> -->
                 
                 <!-- <h3>Buying Makhana in Pune</h3>
 

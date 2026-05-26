@@ -34,6 +34,7 @@
                         <select name="type" x-model="type" class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
                             <option value="percent">Percentage (%)</option>
                             <option value="flat">Flat Amount (₹)</option>
+                            <option value="free_shipping">Free Shipping</option>
                         </select>
                         @error('type') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>

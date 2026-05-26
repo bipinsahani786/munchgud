@@ -321,13 +321,13 @@
             </a>
 
             <!-- Desktop Navigation -->
-            <nav class="hidden lg:flex items-center gap-2 flex-1 justify-center">
+            <nav class="hidden lg:flex items-center gap-1 xl:gap-2 flex-1 justify-center">
                 <!-- Home -->
-                <a href="/" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300 {{ request()->is('/') ? 'text-mg-green bg-mg-green/[0.04]' : '' }}">Home</a>
+                <a href="/" class="px-2 xl:px-3 2xl:px-5 py-2 text-[14px] xl:text-[15.5px] whitespace-nowrap font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300 {{ request()->is('/') ? 'text-mg-green bg-mg-green/[0.04]' : '' }}">Home</a>
 
                 <!-- Shop Mega Dropdown -->
                 <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                    <button class="flex items-center gap-1.5 px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300 select-none"
+                    <button class="flex items-center gap-1 px-2 xl:px-3 2xl:px-5 py-2 text-[14px] xl:text-[15.5px] whitespace-nowrap font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300 select-none"
                             :class="open ? 'text-mg-green bg-mg-green/[0.06]' : ''">
                         Shop
                         <svg class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -409,11 +409,11 @@
                     </div>
                 </div>
 
-                <a href="{{ route('story') }}" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Our Story</a>
-                <a href="{{ route('blogs.index') }}" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Blog</a>
-                <a href="{{ route('health') }}" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Health</a>
-                <a href="{{ route('recipes') }}" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Recipes</a>
-                <a href="{{ route('contact') }}" class="px-5 py-2.5 text-[15.5px] font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Contact</a>
+                <a href="{{ route('story') }}" class="px-2 xl:px-3 2xl:px-5 py-2 text-[14px] xl:text-[15.5px] whitespace-nowrap font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Our Story</a>
+                <a href="{{ route('blogs.index') }}" class="px-2 xl:px-3 2xl:px-5 py-2 text-[14px] xl:text-[15.5px] whitespace-nowrap font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Blog</a>
+                <a href="{{ route('health') }}" class="px-2 xl:px-3 2xl:px-5 py-2 text-[14px] xl:text-[15.5px] whitespace-nowrap font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Health</a>
+                <a href="{{ route('recipes') }}" class="px-2 xl:px-3 2xl:px-5 py-2 text-[14px] xl:text-[15.5px] whitespace-nowrap font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Recipes</a>
+                <a href="{{ route('contact') }}" class="px-2 xl:px-3 2xl:px-5 py-2 text-[14px] xl:text-[15.5px] whitespace-nowrap font-bold tracking-wide text-mg-dark/80 hover:text-mg-green hover:bg-mg-green/[0.06] rounded-2xl transition-all duration-300">Contact</a>
             </nav>
 
             <!-- Right Side Actions -->
@@ -706,6 +706,11 @@
                     @if(!empty($global_settings['social_youtube']))
                     <a href="{{ $global_settings['social_youtube'] }}" target="_blank" aria-label="YouTube" class="w-9 h-9 rounded-xl bg-white/[0.06] border border-white/[0.07] flex items-center justify-center text-white/40 hover:bg-[#FF0000] hover:text-white hover:border-transparent transition-all duration-200">
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
+                    @endif
+                    @if(!empty($global_settings['social_reels']))
+                    <a href="{{ $global_settings['social_reels'] }}" target="_blank" aria-label="Reels" class="w-9 h-9 rounded-xl bg-white/[0.06] border border-white/[0.07] flex items-center justify-center text-white/40 hover:bg-[#E1306C] hover:text-white hover:border-transparent transition-all duration-200">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4zm1 2h3.5l-2 3H3V6a1 1 0 0 1 1-1zm6 0h3.5l-2 3H8L11 5zm6 0h3l1 1v2h-2.5l-1.5-3zm1 5h-12v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8zm-8 1.5v5l4-2.5-4-2.5z"/></svg>
                     </a>
                     @endif
                 </div>

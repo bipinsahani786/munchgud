@@ -151,11 +151,14 @@ class CartService
         $itemDiscount = max(0, $mrpTotal - $subtotal);
 
         $afterDiscount = max(0, $subtotal - $discount);
-        
         $freeShippingThreshold = settings('free_shipping_threshold', 499);
         $shipping = ($afterDiscount >= $freeShippingThreshold || $afterDiscount == 0) 
             ? 0 
             : settings('flat_shipping_rate', 50);
+
+        if ($coupon && $coupon->type === 'free_shipping') {
+            $shipping = 0;
+        }
 
         // Per-product tax calculation
         $defaultGst = (float) settings('gst_percent', 18);

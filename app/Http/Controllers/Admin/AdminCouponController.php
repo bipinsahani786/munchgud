@@ -28,7 +28,7 @@ class AdminCouponController extends Controller
         $validated = $request->validate([
             'code' => 'required|string|unique:coupons,code|max:50',
             'description' => 'nullable|string',
-            'type' => 'required|in:percent,flat',
+            'type' => 'required|in:percent,flat,free_shipping',
             'value' => 'required|numeric|min:0',
             'min_order_amount' => 'required|numeric|min:0',
             'max_discount_amount' => 'nullable|numeric|min:0',
@@ -50,7 +50,7 @@ class AdminCouponController extends Controller
         $validated = $request->validate([
             'code' => 'required|string|max:50|unique:coupons,code,' . $coupon->id,
             'description' => 'nullable|string',
-            'type' => 'required|in:percent,flat',
+            'type' => 'required|in:percent,flat,free_shipping',
             'value' => 'required|numeric|min:0',
             'min_order_amount' => 'required|numeric|min:0',
             'max_discount_amount' => 'nullable|numeric|min:0',

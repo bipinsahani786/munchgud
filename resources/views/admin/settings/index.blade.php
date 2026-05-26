@@ -83,19 +83,23 @@
             <div class="p-6 grid md:grid-cols-2 gap-5">
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Facebook URL</label>
-                    <input type="url" name="social_facebook" value="{{ \App\Models\Setting::get('social_facebook', '#') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
+                    <input type="url" name="social_facebook" value="{{ \App\Models\Setting::get('social_facebook', '') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Instagram URL</label>
-                    <input type="url" name="social_instagram" value="{{ \App\Models\Setting::get('social_instagram', '#') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
+                    <input type="url" name="social_instagram" value="{{ \App\Models\Setting::get('social_instagram', '') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Twitter / X URL</label>
-                    <input type="url" name="social_twitter" value="{{ \App\Models\Setting::get('social_twitter', '#') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
+                    <input type="url" name="social_twitter" value="{{ \App\Models\Setting::get('social_twitter', '') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">YouTube URL</label>
-                    <input type="url" name="social_youtube" value="{{ \App\Models\Setting::get('social_youtube', '#') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
+                    <input type="url" name="social_youtube" value="{{ \App\Models\Setting::get('social_youtube', '') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Instagram Reels URL</label>
+                    <input type="url" name="social_reels" value="{{ \App\Models\Setting::get('social_reels', '') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
                 </div>
             </div>
         </div>

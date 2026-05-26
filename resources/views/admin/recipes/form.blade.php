@@ -116,7 +116,7 @@
         
         <div class="px-6 py-4 md:px-8 bg-gray-50/50 border-t border-gray-100 flex items-center justify-end gap-3">
             <a href="{{ route('admin.recipes.index') }}" class="px-5 py-2.5 text-sm font-bold text-gray-600 hover:text-gray-900 transition">Cancel</a>
-            <button type="submit" class="px-6 py-2.5 bg-mg-green text-white text-sm font-bold rounded-xl hover:bg-mg-green-dark transition shadow-sm">
+            <button type="submit" class="px-6 py-2.5 bg-gray-900 text-white text-sm font-bold rounded-xl hover:bg-gray-800 transition shadow-sm">
                 {{ $recipe->exists ? 'Update Recipe' : 'Publish Recipe' }}
             </button>
         </div>

@@ -73,20 +73,21 @@
                                     </div>
 
                                     @if($isImage)
-                                        <div class="flex items-center gap-6 bg-white p-4 rounded-lg border border-gray-100">
+                                        <div class="flex items-center gap-6 bg-white p-4 rounded-lg border border-gray-100" x-data="{ previewUrl: '{{ $value ? Storage::url($value) : '' }}' }">
                                             <div class="w-32 h-20 bg-gray-100 rounded-lg border border-gray-200 overflow-hidden flex items-center justify-center flex-shrink-0 text-gray-300">
-                                                @if($value)
-                                                    <img src="{{ Storage::url($value) }}" alt="{{ $formattedKey }}" class="w-full h-full object-cover">
-                                                @else
+                                                <template x-if="previewUrl">
+                                                    <img :src="previewUrl" alt="{{ $formattedKey }}" class="w-full h-full object-cover">
+                                                </template>
+                                                <template x-if="!previewUrl">
                                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                                @endif
+                                                </template>
                                             </div>
                                             <div class="flex-1">
                                                 <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">{{ $value ? 'Replace Image' : 'Upload Image' }}</label>
-                                                <input type="file" name="section_images[{{ $key }}]" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+                                                <input type="file" name="section_images[{{ $key }}]" accept="image/*" @change="if($event.target.files.length) previewUrl = URL.createObjectURL($event.target.files[0])" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
                                                 @if($value)
                                                 <label class="flex items-center gap-2 mt-3 cursor-pointer inline-flex">
-                                                    <input type="checkbox" name="remove_section_images[]" value="{{ $key }}" class="w-4 h-4 text-red-600 rounded border-gray-300 focus:ring-red-500">
+                                                    <input type="checkbox" name="remove_section_images[]" value="{{ $key }}" class="w-4 h-4 text-red-600 rounded border-gray-300 focus:ring-red-500" @change="if($el.checked) previewUrl = ''">
                                                     <span class="text-xs font-bold text-red-600">Remove Image Completely</span>
                                                 </label>
                                                 @endif
@@ -181,7 +182,12 @@
             <!-- We don't disable the input to maintain array index alignment in the controller -->
             <textarea x-show="type === 'text'" name="new_section_values[]" rows="2" placeholder="Enter content here..." class="w-full border border-emerald-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition"></textarea>
             
-            <input x-show="type === 'image'" type="file" name="new_section_images[]" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer border border-emerald-300 rounded-xl bg-white p-1">
+            <div x-show="type === 'image'" x-data="{ newPreview: '' }">
+                <div class="mb-3 w-32 h-20 bg-gray-100 rounded-lg border border-gray-200 overflow-hidden flex items-center justify-center text-gray-300" x-show="newPreview">
+                    <img :src="newPreview" class="w-full h-full object-cover">
+                </div>
+                <input type="file" name="new_section_images[]" accept="image/*" @change="if($event.target.files.length) newPreview = URL.createObjectURL($event.target.files[0])" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer border border-emerald-300 rounded-xl bg-white p-1">
+            </div>
         </div>
         <button type="button" @click="$el.closest('.section-block').remove()" class="absolute -top-3 -right-3 w-8 h-8 bg-white border border-gray-200 text-gray-500 hover:text-red-500 rounded-full flex items-center justify-center shadow-sm z-10">✕</button>
     </div>

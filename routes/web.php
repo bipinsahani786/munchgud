@@ -27,11 +27,11 @@ Route::get('/search-suggestions', [ProductController::class, 'searchSuggestions'
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/coupon', [CartController::class, 'applyCoupon'])->name('cart.coupon');
+Route::delete('/cart/coupon', [CartController::class, 'removeCoupon'])->name('cart.coupon.remove');
 Route::patch('/cart/{item}/qty', [CartController::class, 'updateQty'])->name('cart.update');
 Route::delete('/cart/{item}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/cart/{item}/move-to-wishlist', [CartController::class, 'moveToWishlist'])->name('cart.moveToWishlist');
-Route::post('/cart/coupon', [CartController::class, 'applyCoupon'])->name('cart.coupon');
-Route::delete('/cart/coupon', [CartController::class, 'removeCoupon'])->name('cart.coupon.remove');
 
 // Checkout (auth required)
 Route::middleware('auth')->group(function() {

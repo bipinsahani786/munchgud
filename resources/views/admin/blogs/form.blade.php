@@ -69,7 +69,7 @@
                         <span class="text-sm font-bold text-mg-dark">Publish immediately</span>
                     </label>
 
-                    <button type="submit" class="w-full bg-mg-green text-white py-3 rounded-xl font-bold hover:bg-mg-green-dark transition shadow-sm">
+                    <button type="submit" class="w-full bg-gray-900 text-white py-3 rounded-xl font-bold hover:bg-gray-800 transition shadow-sm">
                         {{ $blog->exists ? 'Update Blog Post' : 'Save Blog Post' }}
                     </button>
                 </div>

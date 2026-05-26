@@ -161,7 +161,11 @@
                                         <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
                                             <span class="font-extrabold text-sm text-mg-dark tracking-wider">{{ $coupon->code }}</span>
                                             <span class="text-[10px] font-bold bg-mg-green/10 text-mg-green px-2 py-0.5 rounded-full whitespace-nowrap">
-                                                {{ $coupon->type === 'percent' ? $coupon->value . '% OFF' : '₹' . $coupon->value . ' OFF' }}
+                                                @if($coupon->type === 'free_shipping')
+                                                    FREE Delivery
+                                                @else
+                                                    {{ $coupon->type === 'percent' ? $coupon->value . '% OFF' : '₹' . $coupon->value . ' OFF' }}
+                                                @endif
                                             </span>
                                         </div>
                                         <p class="text-[11px] text-mg-muted mt-0.5 truncate">
@@ -239,7 +243,7 @@
                                         <svg class="w-4 h-4 text-mg-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                                         <span class="text-sm font-bold text-mg-green" x-text="appliedCoupon"></span>
                                     </div>
-                                    <button @click="removeCoupon()" class="text-xs text-red-500 hover:text-red-700 font-bold transition">Remove</button>
+                                    <button type="button" @click.prevent="removeCoupon()" class="text-xs text-red-500 hover:text-red-700 font-bold transition">Remove</button>
                                 </div>
                             </template>
 
@@ -648,7 +652,7 @@ function cartPage() {
                 });
                 const data = await res.json();
                 if (data.success) {
-                    this.appliedCoupon = null;
+                    this.appliedCoupon = '';
                     this.updateSummary(data.summary);
                     this.toast('Coupon removed', 'removed');
                 }
@@ -657,15 +661,15 @@ function cartPage() {
             }
         },
 
-
-
         updateSummary(summary) {
             this.subtotal = summary.subtotal;
             this.discount = summary.discount;
             this.tax = summary.tax;
             this.shipping = summary.shipping;
             this.total = summary.total;
-            if (!summary.coupon) this.appliedCoupon = null;
+            if (!summary.coupon) {
+                this.appliedCoupon = '';
+            }
             window.dispatchEvent(new CustomEvent('cart-updated', { detail: { count: summary.items_count } }));
         },
 

@@ -3,26 +3,31 @@
 @section('title', 'Frequently Asked Questions - MunchGud')
 
 @section('content')
-<div class="bg-munch-cream min-h-screen pb-24" x-data="{ 
-    searchQuery: '',
-    activeCategory: 'all',
-    activeFaq: null,
-    faqs: @json(\App\Models\Faq::active()->orderBy('sort_order')->get()->map(function($f) {
-        return [
-            'category' => $f->category ?: 'general',
-            'q' => $f->question,
-            'a' => $f->answer
-        ];
-    })),
-    filteredFaqs() {
-        return this.faqs.filter(faq => {
-            const matchesSearch = faq.q.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-                                  faq.a.toLowerCase().includes(this.searchQuery.toLowerCase());
-            const matchesCategory = this.activeCategory === 'all' || faq.category === this.activeCategory;
-            return matchesSearch && matchesCategory;
-        });
-    }
-}">
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('faqData', () => ({
+            searchQuery: '',
+            activeCategory: 'all',
+            activeFaq: null,
+            faqs: @json(\App\Models\Faq::active()->orderBy('sort_order')->get()->map(function($f) {
+                return [
+                    'category' => $f->category ?: 'general',
+                    'q' => $f->question,
+                    'a' => $f->answer
+                ];
+            })),
+            filteredFaqs() {
+                return this.faqs.filter(faq => {
+                    const matchesSearch = faq.q.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+                                          faq.a.toLowerCase().includes(this.searchQuery.toLowerCase());
+                    const matchesCategory = this.activeCategory === 'all' || faq.category === this.activeCategory;
+                    return matchesSearch && matchesCategory;
+                });
+            }
+        }));
+    });
+</script>
+<div class="bg-munch-cream min-h-screen pb-24" x-data="faqData">
     <!-- Hero -->
     <div class="relative bg-munch-900 py-24 overflow-hidden text-center">
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#E07B2A 1px, transparent 1px); background-size: 40px 40px;"></div>
