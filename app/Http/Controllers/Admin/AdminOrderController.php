@@ -38,12 +38,18 @@ class AdminOrderController extends Controller
         $request->validate(['status' => 'required|in:pending,confirmed,processing,shipped,delivered,cancelled']);
         
         if ($request->status === 'cancelled') {
+            if (!$request->filled('cancelled_reason')) {
+                $request->merge(['cancelled_reason' => 'Cancelled by Admin']);
+            }
             return $this->cancel($request, $order);
         }
 
-        $this->orderService->updateStatus($order->id, $request->status, auth('admin')->id());
-        
-        return back()->with('success', 'Order status updated.');
+        try {
+            $this->orderService->updateStatus($order->id, $request->status, auth('admin')->id());
+            return back()->with('success', 'Order status updated.');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     public function markPayment(Request $request, Order $order) {
@@ -77,15 +83,23 @@ class AdminOrderController extends Controller
 
     public function cancel(Request $request, Order $order) {
         $request->validate(['cancelled_reason' => 'required|string']);
-        $this->orderService->cancelOrder($order->id, $request->cancelled_reason, auth('admin')->id());
-        return back()->with('success', 'Order cancelled and refunded (if applicable).');
+        try {
+            $this->orderService->cancelOrder($order->id, $request->cancelled_reason, auth('admin')->id());
+            return back()->with('success', 'Order cancelled and refunded (if applicable).');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     public function refund(Request $request, Order $order) {
         $request->validate(['refund_amount' => 'required|numeric|min:0', 'refund_reason' => 'required|string']);
         // Simplified refund logic
-        $this->orderService->cancelOrder($order->id, $request->refund_reason, auth('admin')->id());
-        return back()->with('success', 'Refund processed successfully.');
+        try {
+            $this->orderService->cancelOrder($order->id, $request->refund_reason, auth('admin')->id());
+            return back()->with('success', 'Refund processed successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     public function invoice(Order $order) {

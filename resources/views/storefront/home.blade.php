@@ -326,21 +326,60 @@
 
 @php
     $instaLinks = [];
-    foreach(['instagram_video_1', 'instagram_video_2', 'instagram_video_3'] as $key) {
-        $url = $page->sections[$key] ?? '';
-        if (!$url && $key === 'instagram_video_1') {
-            $url = \App\Models\Setting::get('instagram_embed_url', '');
+    
+    // 1. Check page sections for the multiple instagram reels list
+    $pageReelsText = $page->sections['instagram_reels_list'] ?? '';
+    if ($pageReelsText) {
+        $urls = array_filter(array_map('trim', explode("\n", $pageReelsText)));
+        foreach($urls as $url) {
+            if ($url) {
+                $instaLinks[] = $url;
+            }
         }
+    }
+    
+    // 2. If empty, check page sections for individual old keys
+    if (empty($instaLinks)) {
+        foreach(['instagram_video_1', 'instagram_video_2', 'instagram_video_3'] as $key) {
+            $url = $page->sections[$key] ?? '';
+            if ($url) {
+                $instaLinks[] = $url;
+            }
+        }
+    }
+    
+    // 3. If empty, check global settings list (instagram_reels_list)
+    if (empty($instaLinks)) {
+        $listText = \App\Models\Setting::get('instagram_reels_list', '');
+        if ($listText) {
+            $urls = array_filter(array_map('trim', explode("\n", $listText)));
+            foreach($urls as $url) {
+                if ($url) {
+                    $instaLinks[] = $url;
+                }
+            }
+        }
+    }
+    
+    // 4. Fallback to old single setting (instagram_embed_url)
+    if (empty($instaLinks)) {
+        $url = \App\Models\Setting::get('instagram_embed_url', '');
         if ($url) {
-            if (strpos($url, '?') !== false) {
-                $url = substr($url, 0, strpos($url, '?'));
-            }
-            $url = rtrim($url, '/');
-            if (!str_ends_with($url, '/embed')) {
-                $url .= '/embed';
-            }
             $instaLinks[] = $url;
         }
+    }
+    
+    // 4. Format all to embed URLs
+    $formattedLinks = [];
+    foreach($instaLinks as $url) {
+        if (strpos($url, '?') !== false) {
+            $url = substr($url, 0, strpos($url, '?'));
+        }
+        $url = rtrim($url, '/');
+        if (!str_ends_with($url, '/embed')) {
+            $url .= '/embed';
+        }
+        $formattedLinks[] = $url;
     }
 @endphp
 <section class="py-24 lg:py-32 bg-mg-cream">
@@ -357,14 +396,32 @@
             </a>
         </div>
         
-        <div class="reveal">
-            @if(count($instaLinks) > 0)
-                <div class="grid grid-cols-1 md:grid-cols-[{{ count($instaLinks) == 1 ? 'minmax(0,1fr)' : 'repeat('.count($instaLinks).',minmax(0,1fr))' }}] gap-8 max-w-{{ count($instaLinks) == 1 ? '2xl' : '7xl' }} mx-auto">
-                    @foreach($instaLinks as $link)
-                    <div class="w-full bg-white rounded-[2rem] shadow-2xl shadow-mg-dark/5 overflow-hidden border border-mg-dark/5 p-2 sm:p-4 md:p-6 lg:p-8">
-                        <iframe src="{{ $link }}" width="100%" height="750" frameborder="0" scrolling="no" allowtransparency="true" class="rounded-xl bg-white"></iframe>
+        <div class="reveal" x-data="{
+            scrollLeft() { $refs.slider.scrollBy({ left: -340, behavior: 'smooth' }) },
+            scrollRight() { $refs.slider.scrollBy({ left: 340, behavior: 'smooth' }) }
+        }">
+            @if(count($formattedLinks) > 0)
+                <div class="relative group/slider">
+                    <!-- Navigation Buttons -->
+                    @if(count($formattedLinks) > 1)
+                        <button @click="scrollLeft()" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-8 w-12 h-12 bg-white rounded-full shadow-lg border border-mg-dark/5 flex items-center justify-center text-mg-dark hover:text-mg-green hover:scale-105 active:scale-95 transition-all z-30 opacity-0 group-hover/slider:opacity-100 duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                        </button>
+                        <button @click="scrollRight()" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-8 w-12 h-12 bg-white rounded-full shadow-lg border border-mg-dark/5 flex items-center justify-center text-mg-dark hover:text-mg-green hover:scale-105 active:scale-95 transition-all z-30 opacity-0 group-hover/slider:opacity-100 duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                        </button>
+                    @endif
+                    
+                    <!-- Slider Container -->
+                    <div x-ref="slider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide py-4 px-2">
+                        @foreach($formattedLinks as $link)
+                            <div class="snap-center shrink-0 w-[290px] sm:w-[320px] bg-white rounded-[2rem] shadow-xl shadow-mg-dark/[0.03] overflow-hidden border border-mg-dark/5 p-2 sm:p-3 relative group/card transition-all duration-300 hover:shadow-2xl">
+                                <div class="w-full h-[510px] rounded-2xl overflow-hidden bg-gray-50 relative">
+                                    <iframe src="{{ $link }}" class="w-full h-full border-0 rounded-2xl bg-white" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
             @else
                 @php $ph = ['images/hero_bg.png', 'images/product_shot_new.png', 'images/story_farmer.png', 'images/ingredient_macro.png']; @endphp

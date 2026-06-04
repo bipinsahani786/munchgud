@@ -2,11 +2,35 @@
 
 @section('account_content')
 <div class="flex items-center justify-between mb-8">
-    <h2 class="font-heading text-3xl font-bold text-mg-dark">Order #{{ $order->order_number }}</h2>
+    <div>
+        <h2 class="font-heading text-3xl font-bold text-mg-dark flex items-center gap-3">
+            Order #{{ $order->order_number }}
+            <span class="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full 
+                {{ $order->status === 'delivered' ? 'bg-green-100 text-green-700' : 
+                   ($order->status === 'cancelled' ? 'bg-red-100 text-red-700' : 'bg-orange-100 text-orange-700') }}">
+                {{ $order->status }}
+            </span>
+        </h2>
+    </div>
     <a href="{{ route('account.orders') }}" class="text-sm font-semibold text-mg-muted hover:text-mg-green flex items-center gap-1">
         &larr; Back to Orders
     </a>
 </div>
+
+@if($order->status === 'cancelled')
+<div class="bg-red-50 border border-red-100 p-5 rounded-3xl text-red-800 text-sm font-medium mb-8 flex flex-col gap-2 shadow-sm">
+    <div class="flex items-center gap-2">
+        <span class="text-lg">❌</span>
+        <span class="font-bold text-red-900">This order has been cancelled.</span>
+    </div>
+    @if($order->cancelled_reason)
+        <p class="text-sm text-red-700 bg-white/60 p-4 rounded-xl border border-red-200/50 mt-1 font-semibold">
+            <span class="text-xs text-red-500 uppercase tracking-wider block mb-1">Reason for Cancellation</span>
+            {{ $order->cancelled_reason }}
+        </p>
+    @endif
+</div>
+@endif
 
 <div class="bg-white rounded-3xl p-8 border border-mg-dark/5 shadow-xl shadow-mg-dark/5 mb-8">
     <h3 class="font-bold text-mg-dark mb-6">Live Tracking</h3>

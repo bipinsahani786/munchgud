@@ -146,16 +146,29 @@
                 <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Order Status</h3>
             </div>
             <div class="p-6">
-                <form action="{{ route('admin.orders.status', $order) }}" method="POST">
+                <form action="{{ route('admin.orders.status', $order) }}" method="POST" x-data="{ status: '{{ $order->status }}' }">
                     @csrf
                     @method('PATCH')
-                    <select name="status" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium mb-3">
+                    <select name="status" x-model="status" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium mb-3">
                         @foreach(['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'] as $s)
                             <option value="{{ $s }}" {{ $order->status == $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
                         @endforeach
                     </select>
+                    
+                    <div x-show="status === 'cancelled'" class="mb-3" x-cloak>
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Cancellation Remarks</label>
+                        <textarea name="cancelled_reason" rows="2" placeholder="Reason for cancellation..." class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium">{{ $order->cancelled_reason }}</textarea>
+                    </div>
+                    
                     <button type="submit" class="w-full px-4 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-800 transition">Update Status</button>
                 </form>
+                
+                @if($order->status === 'cancelled' && $order->cancelled_reason)
+                    <div class="mt-4 p-4 bg-red-50 border border-red-100 rounded-xl text-red-800 text-sm">
+                        <span class="font-bold block mb-1">Cancellation Remarks:</span>
+                        {{ $order->cancelled_reason }}
+                    </div>
+                @endif
                 
                 <div class="mt-5 pt-5 border-t border-gray-100 space-y-3">
                     <div class="flex items-center justify-between">
