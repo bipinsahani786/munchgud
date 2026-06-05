@@ -34,7 +34,7 @@
         
         <!-- Header -->
         <div class="text-center mb-8">
-            <img src="{{ asset('images/logo.jpg') }}" alt="MunchGud" class="h-14 w-auto mx-auto object-contain rounded-xl shadow-sm mb-5">
+            <img src="{{ \App\Models\Setting::get('company_logo') ? Storage::url(\App\Models\Setting::get('company_logo')) : asset('images/logo.jpg') }}" alt="MunchGud" class="h-14 w-auto mx-auto object-contain rounded-xl shadow-sm mb-5">
             <h2 class="text-2xl font-bold tracking-tight text-mg-dark">
                 Admin Portal
             </h2>

@@ -29,7 +29,7 @@ class AdminSettingsController extends Controller
         }
         
         // Handle file uploads separately
-        $fileKeys = ['company_logo', 'company_favicon'];
+        $fileKeys = ['company_logo', 'company_favicon', 'company_signature', 'home_hero_image', 'default_product_image'];
         foreach ($fileKeys as $key) {
             if ($request->hasFile($key)) {
                 $oldFile = Setting::get($key);

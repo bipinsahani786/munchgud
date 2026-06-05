@@ -62,6 +62,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
         Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
+        Route::patch('orders/{order}/shipping', [AdminOrderController::class, 'updateShipping'])->name('orders.shipping');
         Route::post('orders/{order}/tracking', [AdminOrderController::class, 'addTracking'])->name('orders.tracking');
         Route::post('orders/{order}/cancel', [AdminOrderController::class, 'cancel'])->name('orders.cancel');
         Route::patch('orders/{order}/payment', [AdminOrderController::class, 'markPayment'])->name('orders.payment');

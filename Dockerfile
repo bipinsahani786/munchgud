@@ -16,7 +16,7 @@ RUN npm run build
 # ==========================================
 # STAGE 2: Build the Core PHP-FPM Application
 # ==========================================
-FROM php:8.3-fpm-bullseye
+FROM php:8.4-fpm-bullseye
 
 # Set working directory
 WORKDIR /var/www
@@ -48,6 +48,11 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     bcmath \
     gd \
     opcache
+
+# Set custom PHP settings for file uploads
+RUN echo "upload_max_filesize=64M" > /usr/local/etc/php/conf.d/uploads.ini \
+    && echo "post_max_size=64M" >> /usr/local/etc/php/conf.d/uploads.ini \
+    && echo "memory_limit=256M" >> /usr/local/etc/php/conf.d/uploads.ini
 
 # Copy Composer binary from official image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

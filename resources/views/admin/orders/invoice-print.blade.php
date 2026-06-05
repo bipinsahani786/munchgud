@@ -232,7 +232,14 @@
 <body>
 <div class="invoice-page">
 
-    <!-- Print Bar Removed for PDF -->
+    <!-- Print Bar -->
+    <div class="print-bar no-print">
+        <p>Preview the invoice below. Click to print or save as PDF.</p>
+        <button class="print-btn" onclick="window.print()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            Print Invoice
+        </button>
+    </div>
 
     @php
         $companyName   = \App\Models\Setting::get('company_name', 'MUNCHGUD');
@@ -248,21 +255,12 @@
         $gstinNo       = \App\Models\Setting::get('gstin', '');
         $stateCode     = \App\Models\Setting::get('state_code', '');
         $hsnCode       = '19041090';
-
-        $logoBase64 = null;
-        if($companyLogo) {
-            $path = storage_path('app/public/' . $companyLogo);
-            if(file_exists($path) && is_file($path)) {
-                $ext = pathinfo($path, PATHINFO_EXTENSION);
-                $logoBase64 = 'data:image/' . $ext . ';base64,' . base64_encode(file_get_contents($path));
-            }
-        }
     @endphp
 
     <!-- Logo -->
     <div class="logo-area">
-        @if($logoBase64)
-            <img src="{{ $logoBase64 }}" alt="{{ $companyName }}">
+        @if($companyLogo)
+            <img src="{{ Storage::url($companyLogo) }}" alt="{{ $companyName }}">
         @else
             <span class="fallback-logo">{{ strtoupper($companyName) }}</span>
         @endif
@@ -453,11 +451,26 @@
     <!-- Footer: Signature + Reverse Charge -->
     <div class="footer-section">
         <div class="footer-left">
-            <div class="sig-box"></div>
+            <div class="sig-box">
+                @if(\App\Models\Setting::get('company_signature'))
+                    @php
+                        $sigPath = storage_path('app/public/' . \App\Models\Setting::get('company_signature'));
+                        $sigData = '';
+                        if (file_exists($sigPath)) {
+                            $sigData = 'data:image/' . pathinfo($sigPath, PATHINFO_EXTENSION) . ';base64,' . base64_encode(file_get_contents($sigPath));
+                        }
+                    @endphp
+                    @if($sigData)
+                        <img src="{{ $sigData }}" style="max-height: 100%; max-width: 100%;">
+                    @else
+                        <img src="{{ Storage::url(\App\Models\Setting::get('company_signature')) }}" style="max-height: 100%; max-width: 100%;">
+                    @endif
+                @endif
+            </div>
             <div class="sig-text">Authorized Signature for<br>{{ strtoupper($companyName) }}</div>
         </div>
         <div class="footer-right">
-            <span class="reverse-text">Whether tax is payable under reverse charge- No</span>
+            <span class="reverse-text">Whether tax is payable under reverse charge - No</span>
         </div>
     </div>
 

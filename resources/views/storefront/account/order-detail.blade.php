@@ -93,7 +93,9 @@
     
     <div class="flex gap-4">
         <a href="{{ route('account.tickets.create', ['order_id' => $order->id]) }}" class="text-sm font-bold text-mg-orange bg-mg-orange/10 px-6 py-2.5 rounded-lg hover:bg-mg-orange hover:text-white transition-all">Report Issue</a>
-        <a href="{{ route('account.orders.invoice', $order->id) }}" class="text-sm font-bold text-mg-dark border border-mg-dark/10 px-6 py-2.5 rounded-lg hover:bg-mg-dark/5 transition-all">Download Invoice</a>
+        @if($order->status === 'delivered')
+        <a href="{{ route('account.orders.invoice', $order->id) }}" target="_blank" class="text-sm font-bold text-mg-dark border border-mg-dark/10 px-6 py-2.5 rounded-lg hover:bg-mg-dark/5 transition-all">Print Invoice</a>
+        @endif
     </div>
 </div>
 

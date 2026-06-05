@@ -47,7 +47,9 @@
                             @endif
                         </div>
                         <div class="flex items-center gap-3">
-                            <a href="{{ route('account.orders.invoice', $order->id) }}" class="hidden sm:inline-block text-xs font-bold text-mg-muted hover:text-mg-dark px-4 py-2 border border-mg-dark/10 rounded-lg">Invoice</a>
+                            @if($order->status === 'delivered')
+                            <a href="{{ route('account.orders.invoice', $order->id) }}" target="_blank" class="hidden sm:inline-block text-xs font-bold text-mg-muted hover:text-mg-dark px-4 py-2 border border-mg-dark/10 rounded-lg">Print Invoice</a>
+                            @endif
                             <a href="{{ route('account.orders.show', $order->id) }}" class="bg-mg-green text-white text-xs font-bold px-5 py-2 rounded-lg hover:bg-mg-green-dark transition-colors">Track Order</a>
                         </div>
                     </div>

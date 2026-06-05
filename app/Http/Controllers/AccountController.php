@@ -67,13 +67,12 @@ class AccountController extends Controller
             abort(403);
         }
         
-        $filename = 'invoices/INV-' . $order->order_number . '.pdf';
-        
-        if (!Storage::exists($filename)) {
-            return back()->with('error', 'Invoice not generated yet.');
+        // Only allow viewing if order is delivered
+        if ($order->status !== 'delivered') {
+            return back()->with('error', 'Invoice will be available for printing once the order is delivered.');
         }
         
-        return Storage::download($filename);
+        return view('admin.orders.invoice-print', compact('order'));
     }
 
     public function addresses() {

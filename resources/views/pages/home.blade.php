@@ -5,8 +5,12 @@
 <!-- 1. Hero Section -->
 <section class="relative h-[90vh] bg-munch-950 flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0 w-full h-full">
-        <!-- Using a placeholder gradient since we don't have a hero video -->
-        <div class="absolute inset-0 bg-gradient-to-r from-munch-900 to-munch-800 opacity-90"></div>
+        @if(\App\Models\Setting::get('home_hero_image'))
+            <img src="{{ Storage::url(\App\Models\Setting::get('home_hero_image')) }}" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover opacity-60">
+        @else
+            <!-- Using a placeholder gradient since we don't have a hero video -->
+            <div class="absolute inset-0 bg-gradient-to-r from-munch-900 to-munch-800 opacity-90"></div>
+        @endif
         <!-- Decorative pattern -->
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#E07B2A 1px, transparent 1px); background-size: 40px 40px;"></div>
     </div>

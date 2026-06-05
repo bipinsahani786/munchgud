@@ -96,7 +96,7 @@
                 <!-- Logo (Center) -->
                 <div class="flex-shrink-0 flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
                     <a href="{{ route('home') }}" class="block">
-                        <img src="{{ asset('images/logo.jpg') }}" alt="MunchGud Logo" class="h-12 w-auto object-contain">
+                        <img src="{{ \App\Models\Setting::get('company_logo') ? Storage::url(\App\Models\Setting::get('company_logo')) : asset('images/logo.jpg') }}" alt="MunchGud Logo" class="h-12 w-auto object-contain">
                     </a>
                 </div>
 
@@ -173,7 +173,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                 
                 <div class="space-y-6">
-                    <img src="{{ asset('images/logo.jpg') }}" alt="MunchGud" class="h-16 bg-white p-2 rounded">
+                    <img src="{{ \App\Models\Setting::get('company_logo') ? Storage::url(\App\Models\Setting::get('company_logo')) : asset('images/logo.jpg') }}" alt="MunchGud" class="h-16 bg-white p-2 rounded">
                     <p class="text-munch-300 font-light leading-relaxed">
                         Elevating the humble fox nut to a gourmet experience. Rooted in tradition, perfected for the modern palate.
                     </p>

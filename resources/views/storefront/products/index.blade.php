@@ -81,7 +81,7 @@
                             @if($p->primaryImage)
                                 <img src="{{ Storage::url($p->primaryImage->path) }}" alt="{{ $p->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             @else
-                                <img src="{{ asset('images/product_shot_new.png') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <img src="{{ \App\Models\Setting::get('default_product_image') ? Storage::url(\App\Models\Setting::get('default_product_image')) : asset('images/product_shot_new.png') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             @endif
                             @if($discount > 0)
                                 <span class="absolute top-3 left-3 sm:top-4 sm:left-4 bg-mg-orange text-white text-[9px] sm:text-[10px] font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full uppercase tracking-wider">-{{ $discount }}% OFF</span>

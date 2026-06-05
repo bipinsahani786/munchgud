@@ -182,7 +182,7 @@
                                         @if($item->sku->product->primaryImage)
                                             <img src="{{ Storage::url($item->sku->product->primaryImage->path) }}" class="w-full h-full object-cover">
                                         @else
-                                            <img src="{{ asset('images/product_shot_new.png') }}" class="w-full h-full object-cover">
+                                            <img src="{{ \App\Models\Setting::get('default_product_image') ? Storage::url(\App\Models\Setting::get('default_product_image')) : asset('images/product_shot_new.png') }}" class="w-full h-full object-cover">
                                         @endif
                                     </div>
                                     <span class="absolute -top-2 -right-2 bg-mg-dark text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center ring-2 ring-white">{{ $item->quantity }}</span>
@@ -322,7 +322,7 @@
                 "currency": "INR",
                 "name": "MunchGud",
                 "description": "Payment for Order",
-                "image": "{{ asset('images/logo.jpg') }}",
+                "image": "{{ \App\Models\Setting::get('company_logo') ? Storage::url(\App\Models\Setting::get('company_logo')) : asset('images/logo.jpg') }}",
                 "order_id": data.razorpay_order_id,
                 "handler": function (response){
                     // 3. Verify on server

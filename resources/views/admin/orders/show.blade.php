@@ -20,9 +20,9 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
             Print Label
         </a>
-        <a href="{{ route('admin.orders.invoice', $order) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-50 transition shadow-sm">
+        <a href="{{ route('admin.orders.invoice', $order) }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-50 transition shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            Invoice
+            Print Invoice
         </a>
     </div>
 </div>
@@ -206,6 +206,38 @@
                         </div>
                     @endif
                 </div>
+            </div>
+        </div>
+
+        <!-- Invoice Shipping Details -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100">
+                <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Shipping & Invoice Info</h3>
+            </div>
+            <div class="p-6">
+                <form action="{{ route('admin.orders.shipping', $order) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">AWB Number</label>
+                            <input type="text" name="tracking_number" value="{{ $order->tracking_number }}" placeholder="e.g. 1234567890" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Courier Name</label>
+                            <input type="text" name="courier_name" value="{{ $order->courier_name }}" placeholder="e.g. Delhivery Surface" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Invoice Remark</label>
+                            <textarea name="remark" rows="2" placeholder="e.g. Handle with care" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium">{{ $order->remark }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full mt-5 px-4 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 transition">Save Details</button>
+                </form>
             </div>
         </div>
 

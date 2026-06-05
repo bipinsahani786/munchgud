@@ -63,6 +63,21 @@ class AdminOrderController extends Controller
         return back()->with('success', 'Payment status updated successfully.');
     }
 
+    public function updateShipping(Request $request, Order $order) {
+        $request->validate([
+            'tracking_number' => 'nullable|string|max:255',
+            'courier_name'    => 'nullable|string|max:255',
+            'remark'          => 'nullable|string|max:500',
+        ]);
+
+        $order->tracking_number = $request->tracking_number;
+        $order->courier_name = $request->courier_name;
+        $order->remark = $request->remark;
+        $order->save();
+
+        return back()->with('success', 'Shipping & Invoice details updated successfully.');
+    }
+
     public function addTracking(Request $request, Order $order) {
         $request->validate([
             'status' => 'required|string|max:255',
@@ -103,13 +118,8 @@ class AdminOrderController extends Controller
     }
 
     public function invoice(Order $order) {
-        $filename = 'invoices/INV-' . $order->order_number . '.pdf';
-        
-        if (!\Illuminate\Support\Facades\Storage::exists($filename)) {
-            return back()->with('error', 'Invoice not generated yet.');
-        }
-        
-        return \Illuminate\Support\Facades\Storage::download($filename);
+        $order->load(['items.sku.product', 'user']);
+        return view('admin.orders.invoice-print', compact('order'));
     }
 
     public function printLabel(Order $order) {

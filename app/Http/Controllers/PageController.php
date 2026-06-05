@@ -8,8 +8,6 @@ class PageController extends Controller
 {
     public function show($slug)
     {
-        $page = Page::where('slug', $slug)->where('is_active', true)->firstOrFail();
-        
         // Map known slugs to their specific blade files
         $viewMap = [
             'about' => 'pages.about',
@@ -23,6 +21,16 @@ class PageController extends Controller
             'cream-and-onion' => 'storefront.cream-and-onion',
             'peri-peri-makhana' => 'storefront.peri-peri',
         ];
+
+        $page = Page::where('slug', $slug)->where('is_active', true)->first();
+        
+        if (!$page) {
+            // If the page isn't in the database but we have a hardcoded view for it, render it anyway.
+            if (isset($viewMap[$slug])) {
+                return view($viewMap[$slug]);
+            }
+            abort(404);
+        }
 
         // If the slug doesn't have a specific view, use a generic one
         $viewName = $viewMap[$slug] ?? 'pages.dynamic';
