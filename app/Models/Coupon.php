@@ -17,6 +17,7 @@ class Coupon extends Model
         'usage_limit',
         'used_count',
         'is_active',
+        'is_visible',
         'start_at',
         'end_at'
     ];
@@ -25,6 +26,7 @@ class Coupon extends Model
         'value' => 'decimal:2',
         'min_order_amount' => 'decimal:2',
         'is_active' => 'boolean',
+        'is_visible' => 'boolean',
         'start_at' => 'datetime',
         'end_at' => 'datetime'
     ];

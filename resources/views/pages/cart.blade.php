@@ -322,7 +322,7 @@
                                          this.checking = false;
                                          if(data.deliverable) {
                                              this.deliveryOk = true;
-                                             let msg = `Delivery available in ${data.state}! Estimated ${data.delivery_days} days.`;
+                                             let msg = `Delivery available! Estimated ${data.delivery_days} days.`;
                                              if(data.cod_available) {
                                                  msg += ' COD available.';
                                              }

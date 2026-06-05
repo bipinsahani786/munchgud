@@ -94,11 +94,19 @@
                     </div>
                 </div>
 
-                <!-- Visibility -->
-                <div class="flex items-center gap-2">
-                    <input type="hidden" name="is_active" value="0">
-                    <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }} class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-600">
-                    <label for="is_active" class="text-sm font-semibold text-gray-700">Active (Can be used by customers)</label>
+                <!-- Active & Visibility Checkboxes -->
+                <div class="flex flex-col gap-3">
+                    <div class="flex items-center gap-2">
+                        <input type="hidden" name="is_active" value="0">
+                        <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }} class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-600">
+                        <label for="is_active" class="text-sm font-semibold text-gray-700">Active (Can be used by customers)</label>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <input type="hidden" name="is_visible" value="0">
+                        <input type="checkbox" name="is_visible" id="is_visible" value="1" {{ old('is_visible', true) ? 'checked' : '' }} class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-600">
+                        <label for="is_visible" class="text-sm font-semibold text-gray-700">Show to users (Listed as available coupon on checkout/cart)</label>
+                    </div>
                 </div>
             </div>
 

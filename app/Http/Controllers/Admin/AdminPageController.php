@@ -31,6 +31,12 @@ class AdminPageController extends Controller
 
         $sections = $request->input('sections', []);
         
+        // Remove instagram-related fields from page sections to keep DB clean
+        unset($sections['instagram_reels_list']);
+        unset($sections['instagram_video_1']);
+        unset($sections['instagram_video_2']);
+        unset($sections['instagram_video_3']);
+        
         // Process dynamically added sections
         $newKeys = $request->input('new_section_keys', []);
         $newValues = $request->input('new_section_values', []);

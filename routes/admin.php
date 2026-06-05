@@ -33,6 +33,8 @@ Route::prefix('admin')->name('admin.')->group(function() {
     // Protected
     Route::middleware('admin')->group(function() {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
+        Route::patch('/profile', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
 
         // Products
         Route::resource('products', AdminProductController::class);
@@ -76,6 +78,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('customers', [AdminCustomerController::class, 'index'])->name('customers.index');
         Route::get('customers/{user}', [AdminCustomerController::class, 'show'])->name('customers.show');
         Route::patch('customers/{user}/toggle', [AdminCustomerController::class, 'toggle'])->name('customers.toggle');
+        Route::patch('customers/{user}/change-password', [AdminCustomerController::class, 'changePassword'])->name('customers.change-password');
 
         // Coupons
         Route::resource('coupons', AdminCouponController::class);

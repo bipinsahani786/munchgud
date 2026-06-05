@@ -88,4 +88,17 @@ class Order extends Model
         $maxId = self::max('id') + 1;
         return "MG-" . date('Y') . "-" . str_pad($maxId, 5, '0', STR_PAD_LEFT);
     }
+
+    public function getEstimatedDeliveryDateAttribute()
+    {
+        $deliveryDays = 5;
+        if ($this->shipping_pincode) {
+            $zone = ServiceableZone::forPincode($this->shipping_pincode);
+            if ($zone) {
+                $deliveryDays = $zone->delivery_days ?? 5;
+            }
+        }
+        $baseDate = $this->created_at ?? now();
+        return $baseDate->copy()->addDays($deliveryDays);
+    }
 }

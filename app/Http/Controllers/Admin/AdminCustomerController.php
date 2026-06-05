@@ -37,4 +37,15 @@ class AdminCustomerController extends Controller
         $user->update(['is_active' => !$user->is_active]);
         return back()->with('success', 'Customer status updated.');
     }
+
+    public function changePassword(Request $request, User $user) {
+        $request->validate([
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
+        $user->save();
+
+        return back()->with('success', 'Customer password updated successfully.');
+    }
 }

@@ -25,6 +25,11 @@
                                    ($order->status === 'cancelled' ? 'bg-red-100 text-red-700' : 'bg-orange-100 text-orange-700') }}">
                                 {{ $order->status }}
                             </span>
+                            @if($order->status === 'cancelled' && $order->payment_status === 'refunded')
+                                <span class="inline-block px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-blue-100 text-blue-700 ml-1">
+                                    Refunded
+                                </span>
+                            @endif
                         </div>
                     </div>
 

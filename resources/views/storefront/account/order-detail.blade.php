@@ -10,6 +10,11 @@
                    ($order->status === 'cancelled' ? 'bg-red-100 text-red-700' : 'bg-orange-100 text-orange-700') }}">
                 {{ $order->status }}
             </span>
+            @if($order->status === 'cancelled' && $order->payment_status === 'refunded')
+                <span class="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full bg-blue-100 text-blue-700">
+                    Refunded
+                </span>
+            @endif
         </h2>
     </div>
     <a href="{{ route('account.orders') }}" class="text-sm font-semibold text-mg-muted hover:text-mg-green flex items-center gap-1">
@@ -23,6 +28,12 @@
         <span class="text-lg">❌</span>
         <span class="font-bold text-red-900">This order has been cancelled.</span>
     </div>
+    @if($order->payment_status === 'refunded')
+        <div class="flex items-center gap-2 mt-1 bg-blue-50 border border-blue-100 text-blue-800 p-3 rounded-xl">
+            <span class="text-base">💰</span>
+            <span class="font-bold text-blue-900">Your refund has been processed successfully to your original payment source.</span>
+        </div>
+    @endif
     @if($order->cancelled_reason)
         <p class="text-sm text-red-700 bg-white/60 p-4 rounded-xl border border-red-200/50 mt-1 font-semibold">
             <span class="text-xs text-red-500 uppercase tracking-wider block mb-1">Reason for Cancellation</span>
@@ -41,6 +52,18 @@
         <iframe src="{{ route('account.orders.map', $order->id) }}" class="absolute inset-0 w-full h-full border-0" allowfullscreen></iframe>
     </div>
     --}}
+    
+    @if($order->status !== 'delivered' && $order->status !== 'cancelled')
+    <div class="bg-emerald-50 border border-emerald-100/50 p-5 rounded-2xl mb-6 flex items-start gap-3">
+        <span class="text-xl shrink-0">📅</span>
+        <div>
+            <h4 class="font-bold text-mg-dark text-xs uppercase tracking-wide">Estimated Delivery Date</h4>
+            <p class="text-sm font-extrabold text-mg-green mt-0.5">
+                {{ $order->estimated_delivery_date->format('l, d M Y') }}
+            </p>
+        </div>
+    </div>
+    @endif
     
     @php
         $trackings = \App\Models\OrderTracking::where('order_id', $order->id)->orderBy('tracked_at', 'desc')->get();

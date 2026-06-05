@@ -12,6 +12,20 @@
         <h1 class="text-4xl font-serif text-munch-900 mb-4">Thank you for your order!</h1>
         <p class="text-lg text-munch-600 mb-8 font-light">Your order <span class="font-bold text-mg-green">#{{ $order->order_number }}</span> has been successfully placed. We've sent a confirmation email with your order details.</p>
         
+        <!-- Estimated Delivery Date Callout -->
+        <div class="bg-emerald-50 border border-emerald-100 p-6 rounded-3xl mb-8 text-left premium-shadow flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-2xl">
+                🚚
+            </div>
+            <div>
+                <h4 class="font-bold text-mg-dark text-sm uppercase tracking-wide">Estimated Delivery Date</h4>
+                <p class="text-lg text-mg-green font-extrabold mt-1">
+                    {{ $order->estimated_delivery_date->format('l, d M Y') }}
+                </p>
+                <p class="text-xs text-mg-muted mt-1">We will deliver your order to {{ $order->shipping_city }} by this date.</p>
+            </div>
+        </div>
+
         <div class="bg-white p-8 border border-munch-200 premium-shadow mb-10 text-left rounded-3xl">
             <h3 class="font-serif text-xl text-munch-900 mb-6 border-b border-munch-100 pb-4">Order Summary</h3>
             

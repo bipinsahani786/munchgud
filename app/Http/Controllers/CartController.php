@@ -25,6 +25,7 @@ class CartController extends Controller
             : collect();
         
         $coupons = Coupon::where('is_active', true)
+            ->where('is_visible', true)
             ->where(function($query) {
                 $query->whereNull('end_at')->orWhere('end_at', '>=', now());
             })

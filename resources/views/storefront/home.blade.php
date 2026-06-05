@@ -327,10 +327,10 @@
 @php
     $instaLinks = [];
     
-    // 1. Check page sections for the multiple instagram reels list
-    $pageReelsText = $page->sections['instagram_reels_list'] ?? '';
-    if ($pageReelsText) {
-        $urls = array_filter(array_map('trim', explode("\n", $pageReelsText)));
+    // 1. Check global settings list (instagram_reels_list)
+    $listText = \App\Models\Setting::get('instagram_reels_list', '');
+    if ($listText) {
+        $urls = array_filter(array_map('trim', explode("\n", $listText)));
         foreach($urls as $url) {
             if ($url) {
                 $instaLinks[] = $url;
@@ -338,30 +338,7 @@
         }
     }
     
-    // 2. If empty, check page sections for individual old keys
-    if (empty($instaLinks)) {
-        foreach(['instagram_video_1', 'instagram_video_2', 'instagram_video_3'] as $key) {
-            $url = $page->sections[$key] ?? '';
-            if ($url) {
-                $instaLinks[] = $url;
-            }
-        }
-    }
-    
-    // 3. If empty, check global settings list (instagram_reels_list)
-    if (empty($instaLinks)) {
-        $listText = \App\Models\Setting::get('instagram_reels_list', '');
-        if ($listText) {
-            $urls = array_filter(array_map('trim', explode("\n", $listText)));
-            foreach($urls as $url) {
-                if ($url) {
-                    $instaLinks[] = $url;
-                }
-            }
-        }
-    }
-    
-    // 4. Fallback to old single setting (instagram_embed_url)
+    // 2. Fallback to old single setting (instagram_embed_url)
     if (empty($instaLinks)) {
         $url = \App\Models\Setting::get('instagram_embed_url', '');
         if ($url) {

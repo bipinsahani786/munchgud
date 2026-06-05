@@ -110,18 +110,35 @@
                 <h2 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Storefront</h2>
             </div>
             <div class="p-6 grid md:grid-cols-2 gap-5">
+                @php
+                    $globalReelsText = \App\Models\Setting::get('instagram_reels_list', '');
+                    if (empty(trim($globalReelsText))) {
+                        $homePage = \App\Models\Page::where('slug', 'home')->first();
+                        if ($homePage && is_array($homePage->sections)) {
+                            if (!empty($homePage->sections['instagram_reels_list'])) {
+                                $globalReelsText = $homePage->sections['instagram_reels_list'];
+                            } else {
+                                $oldLinks = [];
+                                foreach(['instagram_video_1', 'instagram_video_2', 'instagram_video_3'] as $oldKey) {
+                                    if (!empty($homePage->sections[$oldKey])) {
+                                        $oldLinks[] = trim($homePage->sections[$oldKey]);
+                                    }
+                                }
+                                $globalReelsText = implode("\n", $oldLinks);
+                            }
+                        }
+                    }
+                    $reelsArray = array_values(array_filter(array_map('trim', explode("\n", $globalReelsText))));
+                @endphp
                 <div class="md:col-span-2" x-data="{ 
-                    reels: {!! json_encode(array_map(function($url) { return ['url' => $url]; }, array_values(array_filter(array_map('trim', explode("\n", \App\Models\Setting::get('instagram_reels_list', ''))))))) !!} 
+                    reels: {{ json_encode(array_map(function($url) { return ['url' => $url]; }, $reelsArray)) }} 
                 }" x-init="if (!reels || reels.length === 0) reels = [{ url: '' }]">
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Instagram Reels / Posts List</label>
-                    
-                    <!-- Hidden input to send the newline-separated string to the backend -->
-                    <input type="hidden" name="instagram_reels_list" :value="reels.map(r => r.url).filter(u => u.trim() !== '').join('\n')">
                     
                     <div class="space-y-3">
                         <template x-for="(reel, index) in reels" :key="index">
                             <div class="flex gap-2 items-center">
-                                <input type="url" x-model="reel.url" placeholder="e.g. https://www.instagram.com/reel/..." class="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
+                                <input type="url" name="instagram_reels_list[]" x-model="reel.url" placeholder="e.g. https://www.instagram.com/reel/..." class="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
                                 <button type="button" @click="if (reels.length > 1) reels.splice(index, 1); else reels = [{ url: '' }]" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition flex-shrink-0" title="Remove URL">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                                 </button>

@@ -56,23 +56,12 @@
 
                     @php
                         $sections = is_array($page->sections) ? $page->sections : [];
-                        if ($page->slug === 'home') {
-                            if (!array_key_exists('instagram_reels_list', $sections)) {
-                                $oldLinks = [];
-                                foreach(['instagram_video_1', 'instagram_video_2', 'instagram_video_3'] as $oldKey) {
-                                    if (!empty($sections[$oldKey])) {
-                                        $oldLinks[] = trim($sections[$oldKey]);
-                                    }
-                                }
-                                $sections['instagram_reels_list'] = implode("\n", $oldLinks);
-                            }
-                        }
                     @endphp
                     <div id="sections-container" class="space-y-6">
                         @if(count($sections) > 0)
                             @foreach($sections as $key => $value)
                                 @php
-                                    if (in_array($key, ['instagram_video_1', 'instagram_video_2', 'instagram_video_3'])) {
+                                    if (in_array($key, ['instagram_video_1', 'instagram_video_2', 'instagram_video_3', 'instagram_reels_list'])) {
                                         continue;
                                     }
                                     $isImage = (is_string($value) && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $value)) || str_ends_with(strtolower($key), 'image') || str_ends_with(strtolower($key), 'bg') || str_ends_with(strtolower($key), 'poster');
@@ -111,28 +100,6 @@
                                                 </label>
                                                 @endif
                                             </div>
-                                        </div>
-                                    @elseif($key === 'instagram_reels_list')
-                                        <div x-data="{ 
-                                            reels: {!! json_encode(array_map(function($url) { return ['url' => $url]; }, array_values(array_filter(array_map('trim', explode("\n", $value)))))) !!} 
-                                        }" x-init="if (!reels || reels.length === 0) reels = [{ url: '' }]">
-                                            <input type="hidden" name="sections[{{ $key }}]" :value="reels.map(r => r.url).filter(u => u.trim() !== '').join('\n')">
-                                            
-                                            <div class="space-y-3">
-                                                <template x-for="(reel, index) in reels" :key="index">
-                                                    <div class="flex gap-2 items-center">
-                                                        <input type="url" x-model="reel.url" placeholder="e.g. https://www.instagram.com/reel/..." class="flex-1 border border-gray-200 bg-white rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
-                                                        <button type="button" @click="if (reels.length > 1) reels.splice(index, 1); else reels = [{ url: '' }]" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition flex-shrink-0" title="Remove URL">
-                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                                                        </button>
-                                                    </div>
-                                                </template>
-                                            </div>
-                                            
-                                            <button type="button" @click="reels.push({ url: '' })" class="mt-3 inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold text-xs rounded-xl hover:bg-emerald-100 transition">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-                                                + Add Reel URL
-                                            </button>
                                         </div>
                                     @else
                                         <textarea name="sections[{{ $key }}]" rows="{{ strlen($value) > 100 ? 4 : 2 }}" class="w-full border border-gray-200 bg-white rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition">{{ is_string($value) ? $value : json_encode($value) }}</textarea>

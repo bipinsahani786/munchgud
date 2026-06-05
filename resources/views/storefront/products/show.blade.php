@@ -146,7 +146,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                             </div>
                             <div>
-                                <p class="text-sm font-bold text-mg-dark">Delivery available in <span x-text="result.state"></span></p>
+                                <p class="text-sm font-bold text-mg-dark">Delivery is available</p>
                                 <p class="text-xs text-mg-muted mt-0.5">Estimated delivery in <strong x-text="result.delivery_days" class="text-mg-green"></strong> days</p>
                                 <template x-if="result.cod_available && {{ ($product->cod_allowed ?? true) ? 'true' : 'false' }}">
                                     <p class="text-[11px] font-bold text-blue-600 mt-1.5 flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Cash on Delivery is available here</p>
