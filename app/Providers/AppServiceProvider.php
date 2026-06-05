@@ -21,15 +21,15 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Load app.css asynchronously to prevent render blocking and optimize Lighthouse scores
-        // \Illuminate\Support\Facades\Vite::useStyleTagAttributes(function (string $src, string $url, ?array $chunk, ?array $manifest) {
-        //     if ($src === 'resources/css/app.css') {
-        //         return [
-        //             'media' => 'print',
-        //             'onload' => "this.media='all'",
-        //         ];
-        //     }
-        //     return [];
-        // });
+        \Illuminate\Support\Facades\Vite::useStyleTagAttributes(function (string $src, string $url, ?array $chunk, ?array $manifest) {
+            if ($src === 'resources/css/app.css') {
+                return [
+                    'media' => 'print',
+                    'onload' => "this.media='all'",
+                ];
+            }
+            return [];
+        });
         // Override mail config from database settings (runs in web and queue/console environments safely)
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {

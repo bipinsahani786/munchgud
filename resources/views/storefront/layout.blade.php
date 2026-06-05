@@ -1,27 +1,54 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth fouc-prevent">
 
 <head>
+    <!-- Prevent Flash of Unstyled Content (FOUC) -->
+    <script>
+        // Remove FOUC prevention class once DOM and styles are parsed
+        window.addEventListener('DOMContentLoaded', () => {
+            document.documentElement.classList.remove('fouc-prevent');
+        });
+        window.addEventListener('load', () => {
+            document.documentElement.classList.remove('fouc-prevent');
+        });
+        setTimeout(() => {
+            document.documentElement.classList.remove('fouc-prevent');
+        }, 800);
+    </script>
+    <style>
+        .fouc-prevent body {
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+
+        .fouc-prevent {
+            background: #FAFAF5 !important;
+        }
+    </style>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'MunchGud — Munch Gud. Feel Gud.')</title>
-    <meta name="description" content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
-    <meta name="keywords" content="@yield('meta_keywords', 'makhana, roasted makhana, healthy snacks, fox nuts, gluten-free snacks, high protein snacks')">
+    <meta name="description"
+        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
+    <meta name="keywords"
+        content="@yield('meta_keywords', 'makhana, roasted makhana, healthy snacks, fox nuts, gluten-free snacks, high protein snacks')">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="@yield('title', 'MunchGud — Munch Gud. Feel Gud.')">
-    <meta property="og:description" content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
+    <meta property="og:description"
+        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
     <meta property="og:image" content="@yield('meta_image', asset('images/hero_bg.png'))">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url()->current() }}">
     <meta property="twitter:title" content="@yield('title', 'MunchGud — Munch Gud. Feel Gud.')">
-    <meta property="twitter:description" content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
+    <meta property="twitter:description"
+        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
     <meta property="twitter:image" content="@yield('meta_image', asset('images/hero_bg.png'))">
 
     <!-- Canonical URL -->
@@ -58,10 +85,14 @@
     <!-- Google Fonts (Optimized & Deferred) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" media="print" onload="this.media='all'">
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
+        media="print" onload="this.media='all'">
     <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
     </noscript>
 
     <!-- Tailwind CSS (Vite) -->
@@ -735,7 +766,7 @@
                                 </div>
                                 <span
                                     class="text-[13px] font-bold text-mg-dark truncate max-w-[80px]">{{ explode(' ', auth()->user()->name)[0] }}</span>
-                                <svg width="12" height="12" class="w-3 h-3 text-mg-muted transition-transform duration-200"
+                                <svg class="w-3 h-3 text-mg-muted transition-transform duration-200"
                                     :class="{'rotate-180': open}" fill="none" stroke="currentColor" stroke-width="2.5"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -761,7 +792,7 @@
                     @else
                         <a href="{{ route('login') }}"
                             class="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-xl text-[13px] font-bold text-mg-dark bg-mg-green/5 hover:bg-mg-green hover:text-white transition-all duration-200 ml-1">
-                            <svg width="16" height="16" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
                             </svg>
