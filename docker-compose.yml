@@ -35,7 +35,7 @@ services:
       - .:/var/www
       - laravel_storage:/var/www/storage
       - /var/www/vendor
-      - /var/www/public/build
+      - laravel_build:/var/www/public/build
     depends_on:
       - db
 
@@ -50,6 +50,7 @@ services:
       - "${PORT_HTTP:-80}:80"
     volumes:
       - ./public:/var/www/public
+      - laravel_build:/var/www/public/build
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - laravel_storage:/var/www/storage
     depends_on:
@@ -110,7 +111,7 @@ services:
       - .:/var/www
       - laravel_storage:/var/www/storage
       - /var/www/vendor
-      - /var/www/public/build
+      - laravel_build:/var/www/public/build
     depends_on:
       - db
       - app
@@ -148,7 +149,7 @@ services:
       - .:/var/www
       - laravel_storage:/var/www/storage
       - /var/www/vendor
-      - /var/www/public/build
+      - laravel_build:/var/www/public/build
     depends_on:
       - db
       - app
@@ -162,4 +163,6 @@ volumes:
   laravel_storage:
     driver: local
   laravel_public:
+    driver: local
+  laravel_build:
     driver: local
