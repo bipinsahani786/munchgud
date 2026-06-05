@@ -78,5 +78,5 @@ EXPOSE 9000
 RUN chmod +x /var/www/docker/entrypoint.sh \
     && chmod +x /var/www/docker/cron.sh
 
-ENTRYPOINT ["/var/www/docker/entrypoint.sh"]
+ENTRYPOINT ["sh", "/var/www/docker/entrypoint.sh"]
 CMD ["php-fpm"]
