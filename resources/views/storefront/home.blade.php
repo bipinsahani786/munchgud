@@ -54,7 +54,7 @@
                 <div class="relative flex justify-center reveal">
                     <div class="w-72 h-72 sm:w-80 sm:h-80 lg:w-[400px] lg:h-[400px] rounded-full bg-gradient-to-br from-mg-green/15 via-mg-leaf/10 to-mg-cream flex items-center justify-center parallax-hero">
                         <div class="w-56 h-56 sm:w-64 sm:h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-mg-green/20 to-mg-cream flex items-center justify-center float overflow-hidden">
-                            <img src="{{ isset($page->sections['hero_image']) ? Storage::url($page->sections['hero_image']) : asset('images/hero_bg.png') }}" class="w-full h-full object-cover" alt="Hero Makhana">
+                            <img src="{{ isset($page->sections['hero_image']) ? Storage::url($page->sections['hero_image']) : asset('images/hero_bg.webp') }}" class="w-full h-full object-cover" alt="Hero Makhana" loading="eager" fetchpriority="high">
                         </div>
                     </div>
                     <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-2xl shadow-lg float" style="animation-delay:0.5s">
@@ -125,7 +125,7 @@
                     @endphp
                     <div class="reveal group bg-white rounded-3xl border border-mg-dark/[0.04] overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:shadow-mg-green/8 transition-all duration-500" style="transition-delay:{{ $i * 0.07 }}s">
                         <a href="{{ route('products.show', $p->slug) }}" class="relative aspect-square bg-gradient-to-br {{ $g }} flex items-center justify-center overflow-hidden block">
-                            <img src="{{ $p->primaryImage ? Storage::url($p->primaryImage->path) : asset('images/product_shot_new.png') }}" alt="{{ $p->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <img src="{{ $p->primaryImage ? Storage::url($p->primaryImage->path) : asset('images/product_shot_new.webp') }}" alt="{{ $p->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
                             @if($discount > 0 || $badge)
                                 <span class="absolute top-3 left-3 {{ $bc }} text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">{{ $badge }}</span>
                             @endif
@@ -310,7 +310,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl">
-                    <img src="{{ isset($page->sections['seo_image_1']) && !str_starts_with($page->sections['seo_image_1'], 'images/') ? Storage::url($page->sections['seo_image_1']) : asset($page->sections['seo_image_1'] ?? 'images/product_shot_new.png') }}" alt="MunchGud Premium Roasted Makhana" class="w-full h-full object-cover">
+                    <img src="{{ isset($page->sections['seo_image_1']) && !str_starts_with($page->sections['seo_image_1'], 'images/') ? Storage::url($page->sections['seo_image_1']) : asset($page->sections['seo_image_1'] ?? 'images/product_shot_new.webp') }}" alt="MunchGud Premium Roasted Makhana" class="w-full h-full object-cover" loading="lazy">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
                 </div>
                 <div class="reveal">
@@ -459,7 +459,7 @@
                     </div>
                 </div>
                 <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl order-first lg:order-last">
-                    <img src="{{ isset($page->sections['seo_image_2']) && !str_starts_with($page->sections['seo_image_2'], 'images/') ? Storage::url($page->sections['seo_image_2']) : asset($page->sections['seo_image_2'] ?? 'images/story_farmer.png') }}" alt="MunchGud Snacking Experience" class="w-full h-full object-cover">
+                    <img src="{{ isset($page->sections['seo_image_2']) && !str_starts_with($page->sections['seo_image_2'], 'images/') ? Storage::url($page->sections['seo_image_2']) : asset($page->sections['seo_image_2'] ?? 'images/story_farmer.webp') }}" alt="MunchGud Snacking Experience" class="w-full h-full object-cover" loading="lazy">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
                 </div>
             </div>
@@ -557,7 +557,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl">
-                    <img src="{{ isset($page->sections['seo_image_3']) && !str_starts_with($page->sections['seo_image_3'], 'images/') ? Storage::url($page->sections['seo_image_3']) : asset($page->sections['seo_image_3'] ?? 'images/ingredient_macro.png') }}" alt="Why Roasted Fox Nuts Are Trending" class="w-full h-full object-cover">
+                    <img src="{{ isset($page->sections['seo_image_3']) && !str_starts_with($page->sections['seo_image_3'], 'images/') ? Storage::url($page->sections['seo_image_3']) : asset($page->sections['seo_image_3'] ?? 'images/ingredient_macro.webp') }}" alt="Why Roasted Fox Nuts Are Trending" class="w-full h-full object-cover" loading="lazy">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
                 </div>
                 <div class="reveal">
@@ -659,7 +659,7 @@
 
                 <!-- Center Image -->
                 <div class="reveal hidden lg:block rounded-[3rem] overflow-hidden aspect-[4/5] shadow-2xl relative" style="transition-delay: 0.1s">
-                    <img src="{{ isset($page->sections['ingredients_image']) ? Storage::url($page->sections['ingredients_image']) : asset('images/ingredient_macro.png') }}" class="w-full h-full object-cover" alt="Pure Ingredients">
+                    <img src="{{ isset($page->sections['ingredients_image']) ? Storage::url($page->sections['ingredients_image']) : asset('images/ingredient_macro.webp') }}" class="w-full h-full object-cover" alt="Pure Ingredients" loading="lazy">
                     <div class="absolute inset-0 border-4 border-white/20 rounded-[3rem] m-4 pointer-events-none"></div>
                 </div>
 
@@ -923,7 +923,7 @@
             <div class="grid lg:grid-cols-5 gap-12 items-center">
                 <div class="reveal lg:col-span-2">
                     <div class="aspect-[3/4] rounded-3xl bg-gradient-to-br from-mg-green-dark/20 via-mg-green/15 to-mg-cream flex items-center justify-center relative overflow-hidden">
-                        <img src="{{ isset($page->sections['story_farmer_image']) && !str_starts_with($page->sections['story_farmer_image'], 'images/') ? Storage::url($page->sections['story_farmer_image']) : asset($page->sections['story_farmer_image'] ?? 'images/story_farmer.png') }}" alt="MunchGud Story Image" class="w-full h-full object-cover">
+                        <img src="{{ isset($page->sections['story_farmer_image']) && !str_starts_with($page->sections['story_farmer_image'], 'images/') ? Storage::url($page->sections['story_farmer_image']) : asset($page->sections['story_farmer_image'] ?? 'images/story_farmer.webp') }}" alt="MunchGud Story Image" class="w-full h-full object-cover" loading="lazy">
                         <div class="absolute bottom-4 left-4 right-4 bg-white/80 backdrop-blur-sm rounded-2xl p-3">
                             <p class="font-heading text-sm font-bold text-mg-dark">Founded in Bihar, 2023</p>
                         </div>
@@ -956,7 +956,7 @@
                     </div>
                 </div>
                 <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl order-first lg:order-last">
-                    <img src="{{ isset($page->sections['brand_intro_image']) && !str_starts_with($page->sections['brand_intro_image'], 'images/') ? Storage::url($page->sections['brand_intro_image']) : asset($page->sections['brand_intro_image'] ?? 'images/hero_bg.png') }}" alt="MunchGud Brand Introduction" class="w-full h-full object-cover">
+                    <img src="{{ isset($page->sections['brand_intro_image']) && !str_starts_with($page->sections['brand_intro_image'], 'images/') ? Storage::url($page->sections['brand_intro_image']) : asset($page->sections['brand_intro_image'] ?? 'images/hero_bg.webp') }}" alt="MunchGud Brand Introduction" class="w-full h-full object-cover" loading="lazy">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
                 </div>
             </div>

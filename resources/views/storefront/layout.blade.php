@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth fouc-prevent">
 
 <head>
     <!-- Prevent Flash of Unstyled Content (FOUC) -->
     <script>
-        document.documentElement.classList.add('fouc-prevent');
+        // Remove FOUC prevention class once DOM and styles are parsed
         window.addEventListener('DOMContentLoaded', () => {
             document.documentElement.classList.remove('fouc-prevent');
         });
@@ -13,11 +13,14 @@
         });
         setTimeout(() => {
             document.documentElement.classList.remove('fouc-prevent');
-        }, 600);
+        }, 800);
     </script>
     <style>
-        .fouc-prevent {
+        .fouc-prevent body {
+            opacity: 0 !important;
             visibility: hidden !important;
+        }
+        .fouc-prevent {
             background: #FAFAF5 !important;
         }
     </style>
@@ -327,7 +330,7 @@
         }
 
         /* ─── Buttons ────────────────────────────────── */
-        .btn-primary {
+        .btn-primary:not(.hidden) {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -533,17 +536,17 @@
         </div>
 
         <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
-            <div class="flex items-center justify-between h-[72px] lg:h-[84px] gap-8">
+            <div class="flex items-center justify-between h-[72px] lg:h-[84px] gap-3 lg:gap-8">
 
                 <!-- Logo -->
                 <a href="/" class="flex-shrink-0 group">
                     @if(!empty($global_settings['company_logo']))
                         <img src="{{ Storage::url($global_settings['company_logo']) }}"
                             alt="{{ $global_settings['company_name'] ?? 'MunchGud' }}"
-                            class="h-10 lg:h-[56px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 rounded-md">
+                            class="h-10 lg:h-[56px] w-auto max-w-[130px] sm:max-w-none object-contain transition-transform duration-300 group-hover:scale-105 rounded-md">
                     @else
                         <img src="/images/logo.jpg" alt="MunchGud"
-                            class="h-10 lg:h-[56px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 rounded-md">
+                            class="h-10 lg:h-[56px] w-auto max-w-[130px] sm:max-w-none object-contain transition-transform duration-300 group-hover:scale-105 rounded-md">
                     @endif
                 </a>
 
@@ -694,7 +697,7 @@
                 </nav>
 
                 <!-- Right Side Actions -->
-                <div class="flex items-center gap-1 ml-auto">
+                <div class="flex items-center gap-0.5 sm:gap-1 ml-auto">
                     <!-- Search Button -->
                     <button @click="searchOpen = true" aria-label="Search"
                         class="p-2.5 rounded-xl text-mg-dark/55 hover:text-mg-green hover:bg-mg-green/[0.06] transition-all duration-200">

@@ -70,7 +70,7 @@
             <div class="relative flex justify-center reveal">
                 <div class="w-80 h-80 sm:w-96 sm:h-96 lg:w-[480px] lg:h-[480px] rounded-full bg-gradient-to-br from-mg-green/15 via-mg-leaf/10 to-mg-cream flex items-center justify-center relative">
                     <div class="w-64 h-64 sm:w-80 sm:h-80 lg:w-[380px] lg:h-[380px] rounded-[3rem] bg-gradient-to-br from-mg-green/20 to-mg-cream flex items-center justify-center float overflow-hidden shadow-2xl">
-                        <img src="{{ isset($page->sections['hero_image']) && !str_starts_with($page->sections['hero_image'], 'images/') ? Storage::url($page->sections['hero_image']) : asset($page->sections['hero_image'] ?? 'images/cream_onion_hero.png') }}" class="w-full h-full object-cover" alt="MunchGud Cream and Onion Makhana Bowl">
+                        <img src="{{ isset($page->sections['hero_image']) && !str_starts_with($page->sections['hero_image'], 'images/') ? Storage::url($page->sections['hero_image']) : asset($page->sections['hero_image'] ?? 'images/cream_onion_hero.webp') }}" class="w-full h-full object-cover" alt="MunchGud Cream and Onion Makhana Bowl" loading="eager" fetchpriority="high">
                     </div>
                 </div>
                 <div class="absolute top-8 left-4 bg-white/90 backdrop-blur-sm px-5 py-3 rounded-2xl shadow-lg float" style="animation-delay:0.5s">
@@ -96,7 +96,7 @@
             <div class="reveal relative order-last lg:order-first">
                 <div class="absolute -inset-4 bg-mg-green/5 rounded-[3.5rem] -rotate-2"></div>
                 <div class="relative aspect-[4/5] sm:aspect-square lg:aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl">
-                    <img src="{{ isset($page->sections['quality_image']) && !str_starts_with($page->sections['quality_image'], 'images/') ? Storage::url($page->sections['quality_image']) : asset($page->sections['quality_image'] ?? 'images/cream_onion_quality.png') }}" alt="Crunchy Cream and Onion Roasted Makhana Close Up" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                    <img src="{{ isset($page->sections['quality_image']) && !str_starts_with($page->sections['quality_image'], 'images/') ? Storage::url($page->sections['quality_image']) : asset($page->sections['quality_image'] ?? 'images/cream_onion_quality.webp') }}" alt="Crunchy Cream and Onion Roasted Makhana Close Up" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/30 to-transparent"></div>
                 </div>
                 <!-- Mini Glass Card Overlay -->
@@ -157,7 +157,7 @@
             <div class="reveal relative">
                 <div class="absolute -inset-4 bg-mg-orange/5 rounded-[3.5rem] rotate-2"></div>
                 <div class="relative aspect-[4/5] sm:aspect-square lg:aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl">
-                    <img src="{{ isset($page->sections['snack_image']) && !str_starts_with($page->sections['snack_image'], 'images/') ? Storage::url($page->sections['snack_image']) : asset($page->sections['snack_image'] ?? 'images/cream_onion_snack.png') }}" alt="Premium MunchGud Cream & Onion Snacking Vibe" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                    <img src="{{ isset($page->sections['snack_image']) && !str_starts_with($page->sections['snack_image'], 'images/') ? Storage::url($page->sections['snack_image']) : asset($page->sections['snack_image'] ?? 'images/cream_onion_snack.webp') }}" alt="Premium MunchGud Cream & Onion Snacking Vibe" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/30 to-transparent"></div>
                 </div>
             </div>
