@@ -23,54 +23,8 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
         rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'mg-green': '#2B6E2F',
-                        'mg-green-dark': '#1B4332',
-                        'mg-green-light': '#4CAF50',
-                        'mg-leaf': '#66BB6A',
-                        'mg-cream': '#FAFAF5',
-                        'mg-warm': '#F5F5EC',
-                        'mg-orange': '#E07B2A',
-                        'mg-gold': '#D4A847',
-                        'mg-dark': '#1A1A1A',
-                        'mg-muted': '#6B7280',
-                        munch: {
-                            50: '#F5F8F6',
-                            100: '#E6EFE8',
-                            200: '#CDE0D2',
-                            300: '#A3C6AB',
-                            400: '#75A581',
-                            500: '#52865F',
-                            600: '#3D6A48',
-                            700: '#32543B',
-                            800: '#2A4331',
-                            900: '#1B4332',
-                            950: '#11251A',
-                            accent: '#D47F35',
-                            cream: '#FAFAF5',
-                        }
-                    },
-                    fontFamily: {
-                        heading: ['"Playfair Display"', 'serif'],
-                        body: ['"DM Sans"', 'sans-serif'],
-                        sans: ['Outfit', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'serif'],
-                    },
-                    boxShadow: {
-                        'nav': '0 2px 40px 0 rgba(27,67,50,0.08)',
-                        'card': '0 4px 32px 0 rgba(27,67,50,0.07)',
-                        'dropdown': '0 8px 40px 0 rgba(27,67,50,0.13)',
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Tailwind CSS (Vite) -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Alpine.js Plugins -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
