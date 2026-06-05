@@ -75,7 +75,9 @@ RUN chown -R www-data:www-data /var/www \
 EXPOSE 9000
 
 # Set entrypoint and script execution permissions
-RUN chmod +x /var/www/docker/entrypoint.sh \
+RUN sed -i 's/\r$//' /var/www/docker/entrypoint.sh \
+    && sed -i 's/\r$//' /var/www/docker/cron.sh \
+    && chmod +x /var/www/docker/entrypoint.sh \
     && chmod +x /var/www/docker/cron.sh
 
 ENTRYPOINT ["sh", "/var/www/docker/entrypoint.sh"]
