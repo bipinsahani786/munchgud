@@ -452,7 +452,7 @@
     <div class="footer-section">
         <div class="footer-left">
             <div class="sig-box">
-                @if(\App\Models\Setting::get('company_signature'))
+                @if(\App\Models\Setting::get('company_signature') && !request()->routeIs('admin.*'))
                     @php
                         $sigPath = storage_path('app/public/' . \App\Models\Setting::get('company_signature'));
                         $sigData = '';
