@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Premium Spicy Peri Peri Roasted Makhana — MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Premium Spicy Peri Peri Roasted Makhana — MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Order MunchGud Spicy Peri Peri Roasted Makhana online. Bold tangy flavour, air-roasted, gluten-free, high protein fox nuts. Free delivery across India.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'peri peri makhana, spicy makhana, roasted makhana online, peri peri fox nuts, healthy spicy snacks, MunchGud peri peri')
 
 @section('content')
 

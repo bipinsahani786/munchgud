@@ -6,8 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'MunchGud — Munch Gud. Feel Gud.')</title>
-    <meta name="description"
-        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
+    <meta name="description" content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'makhana, roasted makhana, healthy snacks, fox nuts, gluten-free snacks, high protein snacks')">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'MunchGud — Munch Gud. Feel Gud.')">
+    <meta property="og:description" content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
+    <meta property="og:image" content="@yield('meta_image', asset('images/hero_bg.png'))">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('title', 'MunchGud — Munch Gud. Feel Gud.')">
+    <meta property="twitter:description" content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
+    <meta property="twitter:image" content="@yield('meta_image', asset('images/hero_bg.png'))">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "Organization",
+        "name": "MunchGud",
+        "url": "https://munchgud.com",
+        "logo": "{{ asset('images/logo.jpg') }}",
+        "description": "Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy.",
+        "sameAs": [
+            "https://instagram.com/munchgud"
+        ],
+        "contactPoint": {
+            "@@type": "ContactPoint",
+            "contactType": "customer service",
+            "url": "https://munchgud.com/contact"
+        }
+    }
+    </script>
+    @yield('structured_data')
 
     <!-- Favicon -->
     @if(!empty($global_settings['company_favicon']))

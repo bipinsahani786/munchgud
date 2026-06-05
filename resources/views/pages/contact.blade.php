@@ -1,7 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Contact Us — MunchGud')
-@section('meta_description', 'Get in touch with the MunchGud team. We love hearing from our snackers! Reach us via email, WhatsApp, or our contact form.')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Contact Us — MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Get in touch with the MunchGud team. We love hearing from our snackers! Reach us via email, WhatsApp, or our contact form.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'contact munchgud, support, customer care, bulk orders')
 
 @section('content')
     <div class="bg-munch-cream min-h-screen">

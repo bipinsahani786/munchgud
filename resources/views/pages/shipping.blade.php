@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Shipping Policy - MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Shipping Policy - MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Read the Shipping Policy of MunchGud to learn about delivery times, costs, and methods across India.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'shipping policy, munchgud delivery, shipping times')
 
 @section('content')
 <div class="bg-mg-cream min-h-screen py-16 sm:py-24">

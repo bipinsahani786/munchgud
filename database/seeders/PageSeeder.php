@@ -20,6 +20,8 @@ class PageSeeder extends Seeder
             ['name' => 'Terms of Service', 'slug' => 'terms', 'meta_title' => 'Terms of Service', 'meta_description' => 'Our terms of service.'],
             ['name' => 'Refund Policy', 'slug' => 'refund-policy', 'meta_title' => 'Refund Policy', 'meta_description' => 'Our refund policy.'],
             ['name' => 'Shipping Policy', 'slug' => 'shipping-policy', 'meta_title' => 'Shipping Policy', 'meta_description' => 'Our shipping policy.'],
+            ['name' => 'Cream & Onion Makhana', 'slug' => 'cream-and-onion', 'meta_title' => 'Premium Cream & Onion Roasted Makhana — MunchGud', 'meta_description' => 'Order MunchGud Cream & Onion Roasted Makhana online.'],
+            ['name' => 'Peri Peri Makhana', 'slug' => 'peri-peri-makhana', 'meta_title' => 'Premium Spicy Peri Peri Roasted Makhana — MunchGud', 'meta_description' => 'Order MunchGud Spicy Peri Peri Roasted Makhana online.'],
         ];
 
         foreach ($pages as $page) {

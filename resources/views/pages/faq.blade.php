@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Frequently Asked Questions - MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Frequently Asked Questions - MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Find answers to frequently asked questions about MunchGud roasted makhanas, ordering, shipping, and return policies.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'munchgud faq, questions, shipping help, ordering makhana')
 
 @section('content')
 <script>

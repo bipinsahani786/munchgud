@@ -1,6 +1,41 @@
 @extends('storefront.layout')
 
 @section('title', $product->name . ' | MunchGud')
+@section('meta_description', Str::limit(strip_tags($product->short_description ?? $product->description), 155))
+
+@section('structured_data')
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "Product",
+    "name": "{{ $product->name }}",
+    "description": "{{ Str::limit(strip_tags($product->short_description ?? $product->description), 200) }}",
+    "image": "{{ $product->primaryImage ? Storage::url($product->primaryImage->path) : asset('images/product_shot_new.png') }}",
+    "brand": {
+        "@@type": "Brand",
+        "name": "MunchGud"
+    },
+    "url": "{{ url()->current() }}",
+    @if($product->skus->count() > 0)
+    "offers": {
+        "@@type": "AggregateOffer",
+        "priceCurrency": "INR",
+        "lowPrice": "{{ $product->skus->min('sale_price') ?? $product->skus->min('price') }}",
+        "highPrice": "{{ $product->skus->max('price') }}",
+        "offerCount": "{{ $product->skus->count() }}",
+        "availability": "https://schema.org/InStock"
+    }
+    @endif
+    @if($product->reviews && $product->reviews->count() > 0)
+    ,"aggregateRating": {
+        "@@type": "AggregateRating",
+        "ratingValue": "{{ round($product->reviews->avg('rating'), 1) }}",
+        "reviewCount": "{{ $product->reviews->count() }}"
+    }
+    @endif
+}
+</script>
+@endsection
 
 @section('content')
 <div class="pt-24 pb-20 bg-mg-cream grain min-h-screen" x-data="productPage()">
@@ -45,7 +80,7 @@
                     <button @click="currentImageIndex = {{ $index }}" 
                             class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 flex-shrink-0 snap-start bg-white rounded-xl sm:rounded-2xl border-2 transition-all overflow-hidden" 
                             :class="currentImageIndex === {{ $index }} ? 'border-mg-green scale-[1.02] shadow-md' : 'border-mg-dark/5 opacity-70 hover:opacity-100 hover:border-mg-green/50'">
-                        <img src="{{ Storage::url($img->path) }}" class="w-full h-full object-contain p-1 sm:p-2">
+                        <img src="{{ Storage::url($img->path) }}" alt="{{ $product->name }} gallery thumbnail" class="w-full h-full object-contain p-1 sm:p-2">
                     </button>
                     @endforeach
                 </div>
@@ -277,7 +312,7 @@
                 @endphp
                 <div class="group bg-white rounded-3xl border border-mg-dark/[0.04] overflow-hidden hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
                     <a href="{{ route('products.show', $rp->slug) }}" class="relative aspect-square bg-gradient-to-br from-mg-cream to-white flex items-center justify-center overflow-hidden block">
-                        <img src="{{ $rp->primaryImage ? Storage::url($rp->primaryImage->path) : (\App\Models\Setting::get('default_product_image') ? Storage::url(\App\Models\Setting::get('default_product_image')) : asset('images/product_shot_new.png')) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="{{ $rp->primaryImage ? Storage::url($rp->primaryImage->path) : (\App\Models\Setting::get('default_product_image') ? Storage::url(\App\Models\Setting::get('default_product_image')) : asset('images/product_shot_new.png')) }}" alt="{{ $rp->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         @if($discount > 0)
                             <span class="absolute top-4 left-4 bg-mg-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">-{{ $discount }}% OFF</span>
                         @endif

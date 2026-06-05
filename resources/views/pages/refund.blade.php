@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Return & Refund Policy - MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Return & Refund Policy - MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Read the Return and Refund Policy of MunchGud. Learn how to request refunds or replacements for damaged items.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'refund policy, return request, munchgud returns')
 
 @section('content')
 <div class="bg-mg-cream min-h-screen py-16 sm:py-24">

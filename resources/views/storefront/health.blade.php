@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Health Benefits | MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Health Benefits | MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Discover the amazing health benefits of roasted makhana (fox nuts). High protein, low fat, gluten-free, and rich in antioxidants.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'health benefits of makhana, makhana nutrition, healthy snacks benefits, lotus seeds')
 
 @section('content')
 

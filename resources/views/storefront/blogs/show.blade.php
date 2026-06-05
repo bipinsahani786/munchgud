@@ -3,6 +3,38 @@
 @section('title', $blog->meta_title ?? $blog->title)
 @section('meta_description', $blog->meta_description ?? Str::limit(strip_tags($blog->content), 150))
 
+@section('structured_data')
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "Article",
+    "headline": "{{ $blog->title }}",
+    "description": "{{ Str::limit(strip_tags($blog->content), 200) }}",
+    @if($blog->image)
+    "image": "{{ Storage::url($blog->image) }}",
+    @endif
+    "author": {
+        "@@type": "Organization",
+        "name": "{{ $blog->author_name ?? 'MunchGud' }}"
+    },
+    "publisher": {
+        "@@type": "Organization",
+        "name": "MunchGud",
+        "logo": {
+            "@@type": "ImageObject",
+            "url": "{{ asset('images/logo.jpg') }}"
+        }
+    },
+    "datePublished": "{{ $blog->created_at->toAtomString() }}",
+    "dateModified": "{{ $blog->updated_at->toAtomString() }}",
+    "mainEntityOfPage": {
+        "@@type": "WebPage",
+        "@@id": "{{ url()->current() }}"
+    }
+}
+</script>
+@endsection
+
 @section('content')
 <article class="pt-10 pb-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
     <!-- Header -->

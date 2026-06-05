@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'MunchGud — Munch Gud. Feel Gud. | Premium Makhana Snacks')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'MunchGud — Munch Gud. Feel Gud. | Premium Makhana Snacks')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'MunchGud offers premium roasted makhana (fox nuts) snacks sourced directly from Bihar farms. High protein, gluten-free, no artificial flavours. Order online with free delivery across India.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'makhana, roasted makhana, makhana online, fox nuts, healthy snacks online, gluten free snacks, high protein snacks, MunchGud, buy makhana online, Bihar makhana')
 
 @section('content')
 
@@ -405,7 +407,7 @@
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
                         @for($i = 0; $i < 4; $i++)
                             <a href="https://instagram.com/munchgud" target="_blank" class="aspect-square rounded-[2rem] overflow-hidden relative group shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                                <img src="{{ asset($ph[$i]) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <img src="{{ asset($ph[$i]) }}" alt="Instagram Feed Snapshot" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/80 via-mg-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white">
                                     <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                                         <svg width="40" height="40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -473,7 +475,7 @@
                 <div class="reveal relative">
                     <div class="absolute -inset-6 bg-mg-green/8 rounded-[3rem] -rotate-3"></div>
                     <div class="relative aspect-[4/5] rounded-3xl bg-gradient-to-br from-mg-green/20 via-mg-leaf/10 to-mg-cream flex items-center justify-center overflow-hidden">
-                        <img src="{{ isset($page->sections['bestseller_image']) ? Storage::url($page->sections['bestseller_image']) : asset('images/ingredient_macro.png') }}" class="w-full h-full object-cover">
+                        <img src="{{ isset($page->sections['bestseller_image']) ? Storage::url($page->sections['bestseller_image']) : asset('images/ingredient_macro.png') }}" alt="MunchGud Bestseller Product" class="w-full h-full object-cover">
                     </div>
                 </div>
                 <div class="reveal">
@@ -921,7 +923,7 @@
             <div class="grid lg:grid-cols-5 gap-12 items-center">
                 <div class="reveal lg:col-span-2">
                     <div class="aspect-[3/4] rounded-3xl bg-gradient-to-br from-mg-green-dark/20 via-mg-green/15 to-mg-cream flex items-center justify-center relative overflow-hidden">
-                        <img src="{{ isset($page->sections['story_farmer_image']) && !str_starts_with($page->sections['story_farmer_image'], 'images/') ? Storage::url($page->sections['story_farmer_image']) : asset($page->sections['story_farmer_image'] ?? 'images/story_farmer.png') }}" class="w-full h-full object-cover">
+                        <img src="{{ isset($page->sections['story_farmer_image']) && !str_starts_with($page->sections['story_farmer_image'], 'images/') ? Storage::url($page->sections['story_farmer_image']) : asset($page->sections['story_farmer_image'] ?? 'images/story_farmer.png') }}" alt="MunchGud Story Image" class="w-full h-full object-cover">
                         <div class="absolute bottom-4 left-4 right-4 bg-white/80 backdrop-blur-sm rounded-2xl p-3">
                             <p class="font-heading text-sm font-bold text-mg-dark">Founded in Bihar, 2023</p>
                         </div>

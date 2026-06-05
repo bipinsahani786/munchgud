@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Premium Cream & Onion Roasted Makhana — MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Premium Cream & Onion Roasted Makhana — MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Order MunchGud Cream & Onion Roasted Makhana online. Rich creamy flavour, air-roasted, gluten-free, high protein fox nuts. Free delivery across India.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'cream and onion makhana, flavoured makhana, roasted makhana online, cream onion fox nuts, healthy snacks, MunchGud cream onion')
 
 @section('content')
 

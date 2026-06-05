@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Terms & Conditions - MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Terms & Conditions - MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Read the Terms and Conditions of MunchGud to understand your rights and guidelines for using our website.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'terms and conditions, munchgud terms, user agreement')
 
 @section('content')
 <div class="bg-mg-cream min-h-screen py-16 sm:py-24">

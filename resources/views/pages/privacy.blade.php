@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Privacy Policy - MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Privacy Policy - MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Read the Privacy Policy of MunchGud to understand how we collect, use, and protect your personal data.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'privacy policy, munchgud privacy, data protection')
 
 @section('content')
 <div class="bg-mg-cream min-h-screen py-16 sm:py-24">

@@ -119,6 +119,9 @@ Route::post('/products/{product}/reviews', [ReviewController::class, 'store'])->
 // Pincode check
 Route::post('/api/check-pincode', [\App\Http\Controllers\PincodeController::class, 'check'])->name('api.pincode.check');
 
+// Sitemap
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+
 require __DIR__.'/admin.php';
 
 
