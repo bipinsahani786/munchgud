@@ -49,7 +49,7 @@
     <!-- Interactive Logistics Tracking Map (iframe) -->
     {{-- 
     <div class="w-full h-96 rounded-2xl overflow-hidden border border-mg-dark/10 shadow-sm mb-8 bg-mg-cream relative">
-        <iframe src="{{ route('account.orders.map', $order->id) }}" class="absolute inset-0 w-full h-full border-0" allowfullscreen></iframe>
+        <iframe src="{{ route('account.orders.map', $order->id) }}" class="absolute inset-0 w-full h-full border-0" allowfullscreen title="Order Delivery Map"></iframe>
     </div>
     --}}
     

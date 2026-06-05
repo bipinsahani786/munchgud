@@ -2,6 +2,26 @@
 <html lang="en" class="scroll-smooth">
 
 <head>
+    <!-- Prevent Flash of Unstyled Content (FOUC) -->
+    <script>
+        document.documentElement.classList.add('fouc-prevent');
+        window.addEventListener('DOMContentLoaded', () => {
+            document.documentElement.classList.remove('fouc-prevent');
+        });
+        window.addEventListener('load', () => {
+            document.documentElement.classList.remove('fouc-prevent');
+        });
+        setTimeout(() => {
+            document.documentElement.classList.remove('fouc-prevent');
+        }, 600);
+    </script>
+    <style>
+        .fouc-prevent {
+            visibility: hidden !important;
+            background: #FAFAF5 !important;
+        }
+    </style>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -65,6 +85,9 @@
 
     <!-- Tailwind CSS (Vite) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <noscript>
+        <link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}">
+    </noscript>
 
     <!-- Alpine.js Plugins -->
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
@@ -949,7 +972,9 @@
     {{-- ══════════════════════════════════════════
     PAGE CONTENT
     ══════════════════════════════════════════ --}}
-    @yield('content')
+    <main id="main-content">
+        @yield('content')
+    </main>
 
     {{-- ══════════════════════════════════════════
     TRUST STRIP (before footer)

@@ -12,20 +12,20 @@
          3. HERO SECTION
          ══════════════════════════════════════════ --}}
     <section class="relative min-h-[90vh] flex items-center overflow-hidden bg-mg-cream grain">
-        <div class="absolute top-20 right-[10%] w-80 h-80 bg-mg-green/5 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-10 left-[5%] w-96 h-96 bg-mg-leaf/5 rounded-full blur-3xl"></div>
+        <div class="absolute top-20 right-[10%] w-80 h-80 bg-mg-green/5 rounded-full blur-3xl" aria-hidden="true"></div>
+        <div class="absolute bottom-10 left-[5%] w-96 h-96 bg-mg-leaf/5 rounded-full blur-3xl" aria-hidden="true"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16 lg:py-0">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
                 <div class="reveal">
-                    <div class="inline-flex items-center gap-2 bg-mg-green/8 text-mg-green text-xs font-bold px-4 py-2 rounded-full mb-6 tracking-widest uppercase border border-mg-green/10">
+                    <div class="inline-flex items-center gap-2 bg-mg-green/10 text-mg-green-dark text-xs font-bold px-4 py-2 rounded-full mb-6 tracking-widest uppercase border border-mg-green/20">
                         <span class="w-2 h-2 bg-mg-green rounded-full animate-pulse"></span>
                         {{ $page->sections['hero_badge'] ?? 'Direct from Bihar Farms' }}
                     </div>
                     <h1 class="font-heading text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-black text-mg-dark leading-[0.95] tracking-tight mb-6">
                         {!! $page->sections['hero_title'] ?? 'Munch Gud.<br><span class="text-mg-green italic">Feel Gud.</span>' !!}
                     </h1>
-                    <p class="text-lg sm:text-xl text-mg-dark/50 max-w-lg mb-8 leading-relaxed font-light">
+                    <p class="text-lg sm:text-xl text-mg-dark/70 max-w-lg mb-8 leading-relaxed font-normal">
                         {{ $page->sections['hero_subtitle'] ?? "Premium roasted makhana — high protein, gluten-free, and irresistibly crunchy. Snack smarter with India's most loved fox nut brand." }}
                     </p>
                     <div class="flex flex-wrap gap-4 mb-10">
@@ -46,7 +46,7 @@
                         </div>
                         <div>
                             <div class="text-mg-gold text-sm tracking-wider">★★★★★</div>
-                            <p class="text-[11px] text-mg-dark/35 font-medium">5,000+ Happy Snackers</p>
+                            <p class="text-[11px] text-mg-dark/70 font-semibold">5,000+ Happy Snackers</p>
                         </div>
                     </div>
                 </div>
@@ -70,8 +70,8 @@
             </div>
         </div>
         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-            <span class="text-[10px] font-semibold text-mg-dark/25 tracking-widest uppercase">Scroll</span>
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-mg-dark/25"><path d="M12 5v14m-7-7 7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="text-[10px] font-bold text-mg-dark/60 tracking-widest uppercase">Scroll</span>
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="text-mg-dark/60"><path d="M12 5v14m-7-7 7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
     </section>
 
@@ -245,7 +245,7 @@
                             </div> -->
                             <!-- Iframe container -->
                             <!-- <div class="w-full h-full rounded-[38px] overflow-hidden bg-white pt-10 relative">
-                                <iframe src="{{ $instagramEmbedUrl }}" class="w-full h-full border-0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+                                <iframe src="{{ $instagramEmbedUrl }}" class="w-full h-full border-0" scrolling="no" allowtransparency="true" allowfullscreen="true" title="Instagram Embed Feed"></iframe>
                             </div>
                         </div>
                     </div> -->
@@ -396,7 +396,7 @@
                             @foreach($formattedLinks as $link)
                                 <div class="snap-center shrink-0 w-[290px] sm:w-[320px] bg-white rounded-[2rem] shadow-xl shadow-mg-dark/[0.03] overflow-hidden border border-mg-dark/5 p-2 sm:p-3 relative group/card transition-all duration-300 hover:shadow-2xl">
                                     <div class="w-full h-[510px] rounded-2xl overflow-hidden bg-gray-50 relative">
-                                        <iframe src="{{ $link }}" class="w-full h-full border-0 rounded-2xl bg-white" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+                                        <iframe src="{{ $link }}" class="w-full h-full border-0 rounded-2xl bg-white" scrolling="no" allowtransparency="true" allowfullscreen="true" title="Instagram Social Media Post Feed"></iframe>
                                     </div>
                                 </div>
                             @endforeach
