@@ -16,20 +16,20 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-         if (env('APP_ENV') === 'production') {
+        if (env('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }
 
         // Load app.css asynchronously to prevent render blocking and optimize Lighthouse scores
-        \Illuminate\Support\Facades\Vite::useStyleTagAttributes(function (string $src, string $url, ?array $chunk, ?array $manifest) {
-            if ($src === 'resources/css/app.css') {
-                return [
-                    'media' => 'print',
-                    'onload' => "this.media='all'",
-                ];
-            }
-            return [];
-        });
+        // \Illuminate\Support\Facades\Vite::useStyleTagAttributes(function (string $src, string $url, ?array $chunk, ?array $manifest) {
+        //     if ($src === 'resources/css/app.css') {
+        //         return [
+        //             'media' => 'print',
+        //             'onload' => "this.media='all'",
+        //         ];
+        //     }
+        //     return [];
+        // });
         // Override mail config from database settings (runs in web and queue/console environments safely)
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
@@ -53,11 +53,12 @@ class AppServiceProvider extends ServiceProvider
         if (!app()->runningInConsole()) {
             \Illuminate\Support\Facades\View::composer('*', function ($view) {
                 $view->with('global_settings', \App\Models\Setting::pluck('value', 'key')->toArray());
-                
+
                 // Only inject $page for storefront routes to prevent overriding admin controllers
                 if (!request()->is('admin/*') && !request()->is('login') && !request()->is('register')) {
                     $path = request()->path();
-                    if ($path == '/') $path = 'home';
+                    if ($path == '/')
+                        $path = 'home';
                     $page = \App\Models\Page::where('slug', $path)->first();
                     if (!$page) {
                         $routeName = request()->route() ? request()->route()->getName() : null;
