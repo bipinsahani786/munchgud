@@ -211,7 +211,7 @@
 
             <div class="border-t border-munch-800 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-munch-400 text-sm mb-4 md:mb-0">
-                    &copy; {{ date('Y') }} MunchGud. All rights reserved.
+                    &copy; {{ date('Y') }} MunchGud. All rights reserved. · Developed by <a href="https://startupwebsupport.com/" target="_blank" class="hover:text-white transition-colors underline">StartupWebSupport</a>
                 </p>
                 <div class="flex space-x-6 text-sm text-munch-400">
                     <a href="{{ route('privacy') }}" class="hover:text-white transition-colors">Privacy Policy</a>

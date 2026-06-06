@@ -1239,7 +1239,7 @@
             <div
                 class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-6 pb-24 sm:pb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p class="text-[11.5px] text-white/25 text-center sm:text-left">
-                    © {{ date('Y') }} MunchGud Foods Pvt. Ltd.™ · All rights reserved · Made with ❤️ in Bihar, India
+                    © {{ date('Y') }} MunchGud Foods Pvt. Ltd.™ · All rights reserved · Made with ❤️ in Bihar, India · Developed by <a href="https://startupwebsupport.com/" target="_blank" class="hover:text-white/60 transition underline">StartupWebSupport</a>
                 </p>
                 <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-4 sm:mt-0">
                     <a href="{{ route('privacy') }}"

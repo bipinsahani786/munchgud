@@ -86,7 +86,7 @@
             <!-- Divider -->
             <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
                 <p style="font-size: 0.8125rem; color: rgba(255,255,255,0.4);">
-                    © {{ date('Y') }} MunchGud™. All rights reserved. Made with ❤️ in India.
+                    © {{ date('Y') }} MunchGud™. All rights reserved. Made with ❤️ in India. · Developed by <a href="https://startupwebsupport.com/" target="_blank" style="color: rgba(255,255,255,0.4); text-decoration: underline;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">StartupWebSupport</a>
                 </p>
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">We accept</span>
