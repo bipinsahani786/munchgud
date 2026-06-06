@@ -30,6 +30,20 @@ class CartController extends Controller
                 $query->whereNull('end_at')->orWhere('end_at', '>=', now());
             })
             ->get();
+
+        if (auth()->check()) {
+            $userId = auth()->id();
+            $coupons = $coupons->filter(function($coupon) use ($userId) {
+                if ($coupon->per_user_limit !== null) {
+                    $userUses = \App\Models\Order::where('user_id', $userId)
+                        ->where('coupon_id', $coupon->id)
+                        ->where('status', '!=', 'cancelled')
+                        ->count();
+                    return $userUses < $coupon->per_user_limit;
+                }
+                return true;
+            });
+        }
         
         $recommendedProducts = Product::active()
             ->with(['skus', 'primaryImage', 'category'])

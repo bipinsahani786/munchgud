@@ -64,6 +64,9 @@
                                 <span class="font-semibold text-gray-900">{{ $coupon->used_count }}</span>
                                 <span class="text-gray-400 text-xs">/ {{ $coupon->usage_limit ?: '∞' }}</span>
                             </div>
+                            @if($coupon->per_user_limit)
+                                <div class="text-[10px] text-gray-400 mt-1">Limit: {{ $coupon->per_user_limit }} per user</div>
+                            @endif
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col gap-1 items-start">

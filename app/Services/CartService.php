@@ -107,8 +107,43 @@ class CartService
             return $item->quantity * $item->sku->sale_price;
         });
 
-        if (!$coupon->isValid($subtotal)) {
-            return ['success' => false, 'message' => 'Coupon criteria not met or expired.', 'discount' => 0];
+        if (!$coupon->is_active) {
+            return ['success' => false, 'message' => 'This coupon is inactive.', 'discount' => 0];
+        }
+
+        if ($coupon->start_at && $coupon->start_at->isFuture()) {
+            return ['success' => false, 'message' => 'This coupon is not active yet.', 'discount' => 0];
+        }
+
+        if ($coupon->end_at && $coupon->end_at->isPast()) {
+            return ['success' => false, 'message' => 'This coupon has expired.', 'discount' => 0];
+        }
+
+        if ($coupon->usage_limit !== null && $coupon->used_count >= $coupon->usage_limit) {
+            return ['success' => false, 'message' => 'This coupon usage limit has been reached.', 'discount' => 0];
+        }
+
+        if ($coupon->min_order_amount !== null && $subtotal < $coupon->min_order_amount) {
+            return ['success' => false, 'message' => 'Minimum order amount of ₹' . number_format($coupon->min_order_amount, 0) . ' is required to use this coupon.', 'discount' => 0];
+        }
+
+        $userId = Auth::id();
+        if ($coupon->per_user_limit !== null) {
+            if (!$userId) {
+                return ['success' => false, 'message' => 'Please login to use this coupon.', 'discount' => 0];
+            }
+            $userUses = \App\Models\Order::where('user_id', $userId)
+                ->where('coupon_id', $coupon->id)
+                ->where('status', '!=', 'cancelled')
+                ->count();
+            if ($userUses >= $coupon->per_user_limit) {
+                $timesText = $coupon->per_user_limit === 1 ? 'time' : 'times';
+                return ['success' => false, 'message' => "You have already used this coupon maximum allowed limit of {$coupon->per_user_limit} {$timesText}.", 'discount' => 0];
+            }
+        }
+
+        if (!$coupon->isValid($subtotal, $userId)) {
+            return ['success' => false, 'message' => 'Coupon criteria not met.', 'discount' => 0];
         }
 
         Session::put('coupon_id', $coupon->id);
