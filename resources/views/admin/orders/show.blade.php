@@ -209,7 +209,96 @@
             </div>
         </div>
 
-        <!-- Invoice Shipping Details -->
+        {{-- ─── Shiprocket Card ──────────────────────────────────────── --}}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
+                <span class="text-lg">🚀</span>
+                <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Shiprocket</h3>
+                @if($order->isPushedToShiprocket())
+                    <span class="ml-auto inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Pushed
+                    </span>
+                @else
+                    <span class="ml-auto inline-flex items-center gap-1.5 text-xs font-bold text-amber-700 bg-amber-50 border border-amber-100 px-2.5 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Not Pushed
+                    </span>
+                @endif
+            </div>
+            <div class="p-6 space-y-4">
+
+                @if($order->isPushedToShiprocket())
+                    {{-- Shiprocket details --}}
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">Shiprocket Order ID</span>
+                            <span class="text-xs font-mono font-bold text-gray-900 bg-gray-50 border border-gray-200 px-2 py-0.5 rounded-lg">{{ $order->shiprocket_order_id }}</span>
+                        </div>
+                        @if($order->awb_code)
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">AWB / Tracking</span>
+                            <span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-lg">{{ $order->awb_code }}</span>
+                        </div>
+                        @endif
+                        @if($order->courier_name)
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">Courier</span>
+                            <span class="text-xs font-bold text-gray-900">{{ $order->courier_name }}</span>
+                        </div>
+                        @endif
+                        @if($order->shiprocket_status)
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">SR Status</span>
+                            <span class="text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-lg">{{ $order->shiprocket_status }}</span>
+                        </div>
+                        @endif
+                        @if($order->shiprocket_pushed_at)
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">Pushed At</span>
+                            <span class="text-xs text-gray-500">{{ $order->shiprocket_pushed_at->format('d M Y, h:i A') }}</span>
+                        </div>
+                        @endif
+                    </div>
+
+                    {{-- Sync Tracking button --}}
+                    @if($order->awb_code)
+                    <form action="{{ route('admin.orders.shiprocket.sync', $order) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="w-full px-4 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 transition flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                            Sync Tracking
+                        </button>
+                    </form>
+                    @else
+                    <div class="text-xs text-amber-700 bg-amber-50 border border-amber-100 p-3 rounded-xl">
+                        ⏳ AWB not assigned yet. Wait a minute and click Sync Tracking.
+                    </div>
+                    <form action="{{ route('admin.orders.shiprocket.sync', $order) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="w-full px-4 py-2.5 bg-gray-100 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-200 transition">
+                            🔄 Retry AWB Sync
+                        </button>
+                    </form>
+                    @endif
+
+                @else
+                    {{-- Not pushed yet — show Push button --}}
+                    <p class="text-xs text-gray-500">Push this order to Shiprocket to generate AWB and assign a courier automatically.</p>
+                    <form action="{{ route('admin.orders.shiprocket.push', $order) }}" method="POST"
+                          onsubmit="return confirm('Push this order to Shiprocket and assign courier?')">
+                        @csrf
+                        <button type="submit"
+                            class="w-full px-4 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 transition flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                            Push to Shiprocket
+                        </button>
+                    </form>
+                @endif
+            </div>
+        </div>
+
+        {{-- ─── Invoice Shipping Details ─────────────────────────────── --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-100">
                 <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Shipping & Invoice Info</h3>

@@ -69,6 +69,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('orders/{order}/invoice', [AdminOrderController::class, 'invoice'])->name('orders.invoice');
         Route::get('orders/{order}/label', [AdminOrderController::class, 'printLabel'])->name('orders.label');
         Route::post('orders/{order}/refund', [AdminOrderController::class, 'refund'])->name('orders.refund');
+        // Shiprocket
+        Route::post('orders/{order}/shiprocket/push', [AdminOrderController::class, 'shiprocketPush'])->name('orders.shiprocket.push');
+        Route::post('orders/{order}/shiprocket/sync', [AdminOrderController::class, 'shiprocketSync'])->name('orders.shiprocket.sync');
 
         // Inventory
         Route::get('inventory', [AdminInventoryController::class, 'index'])->name('inventory.index');

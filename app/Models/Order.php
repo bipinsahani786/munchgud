@@ -33,7 +33,14 @@ class Order extends Model
         'courier_name',
         'shipped_at',
         'delivered_at',
-        'cancelled_reason'
+        'cancelled_reason',
+        // Shiprocket fields
+        'shiprocket_order_id',
+        'shiprocket_shipment_id',
+        'awb_code',
+        'courier_company_id',
+        'shiprocket_status',
+        'shiprocket_pushed_at',
     ];
 
     protected $casts = [
@@ -43,8 +50,19 @@ class Order extends Model
         'tax_amount' => 'decimal:2',
         'total' => 'decimal:2',
         'shipped_at' => 'datetime',
-        'delivered_at' => 'datetime'
+        'delivered_at' => 'datetime',
+        'shiprocket_pushed_at' => 'datetime',
     ];
+
+    public function isPushedToShiprocket(): bool
+    {
+        return !empty($this->shiprocket_order_id);
+    }
+
+    public function hasAWB(): bool
+    {
+        return !empty($this->awb_code);
+    }
 
     public function user()
     {

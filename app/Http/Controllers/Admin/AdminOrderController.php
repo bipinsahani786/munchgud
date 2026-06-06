@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Services\OrderService;
+use App\Services\ShiprocketService;
 
 class AdminOrderController extends Controller
 {
@@ -108,7 +109,6 @@ class AdminOrderController extends Controller
 
     public function refund(Request $request, Order $order) {
         $request->validate(['refund_amount' => 'required|numeric|min:0', 'refund_reason' => 'required|string']);
-        // Simplified refund logic
         try {
             $this->orderService->cancelOrder($order->id, $request->refund_reason, auth('admin')->id());
             return back()->with('success', 'Refund processed successfully.');
@@ -125,5 +125,88 @@ class AdminOrderController extends Controller
     public function printLabel(Order $order) {
         $order->load(['user', 'items.sku']);
         return view('admin.orders.label', compact('order'));
+    }
+
+    // -------------------------------------------------------------------------
+    // Shiprocket: Push order to Shiprocket (Admin button)
+    // -------------------------------------------------------------------------
+
+    public function shiprocketPush(Order $order) {
+        if ($order->isPushedToShiprocket()) {
+            return back()->with('error', 'Order already pushed to Shiprocket (ID: ' . $order->shiprocket_order_id . ')');
+        }
+
+        try {
+            $shiprocket = app(ShiprocketService::class);
+            $shiprocket->pushOrder($order);
+
+            \App\Models\ActivityLog::log(
+                'Shiprocket Push',
+                'Order pushed to Shiprocket. AWB: ' . ($order->fresh()->awb_code ?? 'Pending'),
+                $order,
+                auth('admin')->id()
+            );
+
+            $msg = 'Order pushed to Shiprocket successfully!';
+            if ($order->fresh()->awb_code) {
+                $msg .= ' AWB: ' . $order->fresh()->awb_code;
+            } else {
+                $msg .= ' AWB assignment in progress — click Sync Tracking in a few minutes.';
+            }
+
+            return back()->with('success', $msg);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Shiprocket push failed', [
+                'order' => $order->order_number,
+                'error' => $e->getMessage(),
+            ]);
+            return back()->with('error', 'Shiprocket push failed: ' . $e->getMessage());
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Shiprocket: Sync tracking updates from Shiprocket via AWB
+    // -------------------------------------------------------------------------
+
+    public function shiprocketSync(Order $order) {
+        $shiprocket = app(ShiprocketService::class);
+
+        // Case 1: Order pushed but no AWB yet → try to assign AWB
+        if ($order->isPushedToShiprocket() && !$order->awb_code) {
+            try {
+                $assigned = $shiprocket->retryAWBAssignment($order);
+
+                if ($assigned) {
+                    $order->refresh();
+                    return back()->with('success', '✅ AWB assigned successfully! AWB: ' . $order->awb_code . ' via ' . $order->courier_name);
+                } else {
+                    // Show raw log hint
+                    return back()->with('error',
+                        'AWB not assigned yet. Shiprocket may still be processing. ' .
+                        'Check Shiprocket Dashboard → Orders → ' . $order->order_number .
+                        ' and retry in 1-2 minutes.'
+                    );
+                }
+            } catch (\Exception $e) {
+                return back()->with('error', 'AWB assignment failed: ' . $e->getMessage());
+            }
+        }
+
+        // Case 2: AWB exists → sync tracking updates
+        if (!$order->awb_code) {
+            return back()->with('error', 'No AWB code found. Push order to Shiprocket first.');
+        }
+
+        try {
+            $synced = $shiprocket->syncTracking($order);
+
+            if ($synced) {
+                return back()->with('success', '✅ Tracking synced from Shiprocket successfully!');
+            } else {
+                return back()->with('error', 'No new tracking data from Shiprocket yet. Try after pickup is done.');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', 'Sync failed: ' . $e->getMessage());
+        }
     }
 }
