@@ -83,14 +83,15 @@ class AccountController extends Controller
     public function storeAddress(Request $request) {
         $validated = $request->validate([
             'label' => 'nullable|string|max:50',
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'line1' => 'required|string|max:255',
-            'line2' => 'nullable|string|max:255',
-            'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
-            'pincode' => 'required|string|max:20',
-            'country' => 'required|string|max:100',
+            'name' => 'required|string|max:50',
+            'phone' => 'required|digits:10',
+            'line1' => 'required|string|max:50',
+            'line2' => 'required|string|max:50',
+            'landmark' => 'nullable|string|max:50',
+            'city' => 'required|string|max:50',
+            'state' => 'required|string|max:50',
+            'pincode' => 'required|digits:6',
+            'country' => 'required|string|max:50',
             'is_default' => 'boolean'
         ]);
 
@@ -108,14 +109,15 @@ class AccountController extends Controller
         
         $validated = $request->validate([
             'label' => 'nullable|string|max:50',
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'line1' => 'required|string|max:255',
-            'line2' => 'nullable|string|max:255',
-            'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
-            'pincode' => 'required|string|max:20',
-            'country' => 'required|string|max:100',
+            'name' => 'required|string|max:50',
+            'phone' => 'required|digits:10',
+            'line1' => 'required|string|max:50',
+            'line2' => 'required|string|max:50',
+            'landmark' => 'nullable|string|max:50',
+            'city' => 'required|string|max:50',
+            'state' => 'required|string|max:50',
+            'pincode' => 'required|digits:6',
+            'country' => 'required|string|max:50',
             'is_default' => 'boolean'
         ]);
 

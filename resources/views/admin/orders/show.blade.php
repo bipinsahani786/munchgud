@@ -371,6 +371,7 @@
                         <p class="font-semibold text-gray-900">{{ $order->shipping_name }}</p>
                         <p class="mt-1">{{ $order->shipping_line1 }}</p>
                         @if(!empty($order->shipping_line2)) <p>{{ $order->shipping_line2 }}</p> @endif
+                        @if(!empty($order->shipping_landmark)) <p>Landmark: {{ $order->shipping_landmark }}</p> @endif
                         <p>{{ $order->shipping_city }}, {{ $order->shipping_state }} {{ $order->shipping_pincode }}</p>
                         @if(!empty($order->shipping_phone))
                             <p class="mt-2 text-gray-500 text-xs font-medium">📞 {{ $order->shipping_phone }}</p>

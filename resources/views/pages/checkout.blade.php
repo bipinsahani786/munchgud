@@ -78,27 +78,31 @@
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Phone Number</label>
-                                    <input type="text" name="phone" required class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                    <input type="text" name="phone" required maxlength="10" minlength="10" pattern="[0-9]{10}" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
                                 </div>
                                 <div class="sm:col-span-2">
-                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Address Line 1</label>
-                                    <input type="text" name="line1" required placeholder="House No., Building, Street" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Flat / House No. / Building Name</label>
+                                    <input type="text" name="line1" required maxlength="50" placeholder="House No., Building, Street" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
                                 </div>
-                                <div class="sm:col-span-2">
-                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Address Line 2 (Optional)</label>
-                                    <input type="text" name="line2" placeholder="Locality, Area, Landmark" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                <div>
+                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Area / Street / Sector</label>
+                                    <input type="text" name="line2" required maxlength="50" placeholder="Locality, Area" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Landmark (Optional)</label>
+                                    <input type="text" name="landmark" maxlength="50" placeholder="Near XYZ" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">Pincode</label>
-                                    <input type="text" name="pincode" required class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                    <input type="text" name="pincode" required maxlength="6" minlength="6" pattern="[0-9]{6}" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">City</label>
-                                    <input type="text" name="city" required class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                    <input type="text" name="city" required maxlength="50" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-mg-muted uppercase tracking-wider mb-1.5">State</label>
-                                    <input type="text" name="state" required class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
+                                    <input type="text" name="state" required maxlength="50" class="w-full bg-white border border-mg-dark/10 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-mg-green/20 focus:border-mg-green outline-none transition">
                                 </div>
                                 <input type="hidden" name="country" value="India">
                                 <input type="hidden" name="is_default" value="1">

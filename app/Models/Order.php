@@ -26,6 +26,7 @@ class Order extends Model
         'shipping_phone',
         'shipping_line1',
         'shipping_line2',
+        'shipping_landmark',
         'shipping_city',
         'shipping_state',
         'shipping_pincode',
