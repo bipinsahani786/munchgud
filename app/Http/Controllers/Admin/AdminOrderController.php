@@ -131,14 +131,16 @@ class AdminOrderController extends Controller
     // Shiprocket: Push order to Shiprocket (Admin button)
     // -------------------------------------------------------------------------
 
-    public function shiprocketPush(Order $order) {
+    public function shiprocketPush(Request $request, Order $order) {
         if ($order->isPushedToShiprocket()) {
             return back()->with('error', 'Order already pushed to Shiprocket (ID: ' . $order->shiprocket_order_id . ')');
         }
 
+        $autoAwb = $request->has('auto_awb');
+
         try {
             $shiprocket = app(ShiprocketService::class);
-            $shiprocket->pushOrder($order);
+            $shiprocket->pushOrder($order, $autoAwb);
 
             \App\Models\ActivityLog::log(
                 'Shiprocket Push',

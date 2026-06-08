@@ -85,6 +85,9 @@ class ShiprocketService
         $order->load(['items.sku.product', 'user']);
 
         $weight = $this->calculateOrderWeight($order);
+        $length = config('shiprocket.default_length', 15);
+        $breadth = config('shiprocket.default_breadth', 10);
+        $height = config('shiprocket.default_height', 10);
 
         $payload = [
             'order_id'            => $order->order_number,
@@ -110,9 +113,9 @@ class ShiprocketService
             'transaction_charges'     => 0,
             'total_discount'          => (float) $order->discount_amount,
             'sub_total'               => (float) $order->subtotal,
-            'length'                  => config('shiprocket.default_length', 15),
-            'breadth'                 => config('shiprocket.default_breadth', 10),
-            'height'                  => config('shiprocket.default_height', 10),
+            'length'                  => $length,
+            'breadth'                 => $breadth,
+            'height'                  => $height,
             'weight'                  => $weight,
         ];
 
@@ -255,7 +258,7 @@ class ShiprocketService
     // Full Push: Create Order + Assign Courier (admin button)
     // -------------------------------------------------------------------------
 
-    public function pushOrder(Order $order): array
+    public function pushOrder(Order $order, bool $autoAwb = false): array
     {
         // Step 1: Create order
         $createResponse = $this->createOrder($order);
@@ -276,8 +279,8 @@ class ShiprocketService
             'shiprocket_status'     => $createResponse['status'] ?? 'NEW',
         ]);
 
-        // Step 2: Assign best courier & get AWB
-        if ($shiprocketShipmentId) {
+        // Step 2: Assign best courier & get AWB (Only if autoAwb is true)
+        if ($autoAwb && $shiprocketShipmentId) {
             try {
                 $awbResponse = $this->assignBestCourier($order, $shiprocketOrderId, $shiprocketShipmentId);
 
@@ -442,14 +445,9 @@ class ShiprocketService
 
     protected function calculateOrderWeight(Order $order): float
     {
-        $defaultWeight = (float) config('shiprocket.default_weight', 0.5);
-
-        // Use default weight per item * quantity as estimate
-        $totalWeight = $order->items->sum(function ($item) use ($defaultWeight) {
-            return $defaultWeight * $item->quantity;
-        });
-
-        return max(0.1, round($totalWeight, 2));
+        // Return a fixed overall weight to prevent high shipping charges 
+        // when ordering multiple lightweight items.
+        return (float) config('shiprocket.default_weight', 0.5);
     }
 
     protected function mapShiprocketStatus(string $srStatus): ?string

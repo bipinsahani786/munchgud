@@ -283,11 +283,17 @@
                     @endif
 
                 @else
-                    {{-- Not pushed yet — show Push button --}}
-                    <p class="text-xs text-gray-500">Push this order to Shiprocket to generate AWB and assign a courier automatically.</p>
+                    <p class="text-xs text-gray-500 mb-3">Push this order to Shiprocket. The order will appear in your Shiprocket dashboard where you can enter actual weight/dimensions and generate the AWB.</p>
                     <form action="{{ route('admin.orders.shiprocket.push', $order) }}" method="POST"
-                          onsubmit="return confirm('Push this order to Shiprocket and assign courier?')">
+                          onsubmit="return confirm('Push this order to Shiprocket?')">
                         @csrf
+                        <div class="mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="auto_awb" value="1" class="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500">
+                                <span class="text-sm font-bold text-gray-700">Auto-assign Courier & Generate AWB</span>
+                            </label>
+                            <p class="text-[11px] text-gray-500 mt-1 ml-6">If unchecked, you will handle weight, dimensions, and courier assignment manually in Shiprocket.</p>
+                        </div>
                         <button type="submit"
                             class="w-full px-4 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 transition flex items-center justify-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
