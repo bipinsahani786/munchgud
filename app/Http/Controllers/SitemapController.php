@@ -14,7 +14,7 @@ class SitemapController extends Controller
     {
         $products = Product::where('is_active', true)->orderBy('updated_at', 'desc')->get();
         $categories = Category::where('is_active', true)->orderBy('updated_at', 'desc')->get();
-        $blogs = Blog::where('is_published', true)->orderBy('updated_at', 'desc')->get();
+        $blogs = Blog::where('is_active', true)->orderBy('updated_at', 'desc')->get();
 
         // Static pages
         $staticPages = [
