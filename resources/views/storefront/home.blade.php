@@ -314,7 +314,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl">
-                    <img src="{{ isset($page->sections['seo_image_1']) && !str_starts_with($page->sections['seo_image_1'], 'images/') ? Storage::url($page->sections['seo_image_1']) : asset($page->sections['seo_image_1'] ?? 'images/product_shot_new.webp') }}" alt="MunchGud Premium Roasted Makhana" class="w-full h-full object-cover" loading="lazy">
+                    <img src="{{ isset($page->sections['seo_image_1']) && !str_starts_with($page->sections['seo_image_1'], 'images/') ? Storage::url($page->sections['seo_image_1']) : asset($page->sections['seo_image_1'] ?? 'images/product_shot_new.webp') }}" alt="MunchGud Premium Roasted Makhana" class="w-full h-full object-cover" loading="lazy" width="800" height="1000">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
                 </div>
                 <div class="reveal">
@@ -463,7 +463,7 @@
                     </div>
                 </div>
                 <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl order-first lg:order-last">
-                    <img src="{{ isset($page->sections['seo_image_2']) && !str_starts_with($page->sections['seo_image_2'], 'images/') ? Storage::url($page->sections['seo_image_2']) : asset($page->sections['seo_image_2'] ?? 'images/story_farmer.webp') }}" alt="MunchGud Snacking Experience" class="w-full h-full object-cover" loading="lazy">
+                    <img src="{{ isset($page->sections['seo_image_2']) && !str_starts_with($page->sections['seo_image_2'], 'images/') ? Storage::url($page->sections['seo_image_2']) : asset($page->sections['seo_image_2'] ?? 'images/story_farmer.webp') }}" alt="MunchGud Snacking Experience" class="w-full h-full object-cover" loading="lazy" width="800" height="1000">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/40 to-transparent"></div>
                 </div>
             </div>
