@@ -1,7 +1,7 @@
 @extends('storefront.layout')
 
 @section('title', isset($page) && $page->meta_title ? $page->meta_title : 'MunchGud — Munch Gud. Feel Gud. | Premium Makhana Snacks')
-@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'MunchGud offers premium roasted makhana (fox nuts) snacks sourced directly from Bihar farms. High protein, gluten-free, no artificial flavours. Order online with free delivery across India.')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Buy premium roasted makhana online from MunchGud. Enjoy healthy, crunchy fox nuts in delicious flavors, made from Bihar farms with high protein and gluten-free goodness.')
 @section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'makhana, roasted makhana, makhana online, fox nuts, healthy snacks online, gluten free snacks, high protein snacks, MunchGud, buy makhana online, Bihar makhana')
 
 @section('head')

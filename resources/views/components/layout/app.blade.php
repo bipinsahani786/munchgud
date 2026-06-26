@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'MunchGud - Premium Flavored Makhana')</title>
-    <meta name="description" content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks direct from Bihar farms. High protein, gluten-free, and irresistibly crunchy. Munch Gud. Feel Gud. Shop now!')">
+    <meta name="description" content="@yield('meta_description', 'Buy premium roasted makhana online from MunchGud. Enjoy healthy, crunchy fox nuts in delicious flavors, made from Bihar farms with high protein and gluten-free goodness.')">
     
     <!-- Favicon -->
     @if(\App\Models\Setting::get('company_favicon'))

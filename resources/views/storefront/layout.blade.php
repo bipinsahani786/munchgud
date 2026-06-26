@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'MunchGud — Munch Gud. Feel Gud.')</title>
     <meta name="description"
-        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks direct from Bihar farms. High protein, gluten-free, and irresistibly crunchy. Munch Gud. Feel Gud. Shop now!')">
+        content="@yield('meta_description', 'Buy premium roasted makhana online from MunchGud. Enjoy healthy, crunchy fox nuts in delicious flavors, made from Bihar farms with high protein and gluten-free goodness.')">
     <meta name="keywords"
         content="@yield('meta_keywords', 'makhana, roasted makhana, healthy snacks, fox nuts, gluten-free snacks, high protein snacks')">
 
@@ -16,7 +16,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="@yield('title', 'MunchGud — Munch Gud. Feel Gud.')">
     <meta property="og:description"
-        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks direct from Bihar farms. High protein, gluten-free, and irresistibly crunchy. Munch Gud. Feel Gud. Shop now!')">
+        content="@yield('meta_description', 'Buy premium roasted makhana online from MunchGud. Enjoy healthy, crunchy fox nuts in delicious flavors, made from Bihar farms with high protein and gluten-free goodness.')">
     <meta property="og:image" content="@yield('meta_image', asset('images/hero_bg.png'))">
 
     <!-- Twitter -->
@@ -24,7 +24,7 @@
     <meta property="twitter:url" content="{{ url()->current() }}">
     <meta property="twitter:title" content="@yield('title', 'MunchGud — Munch Gud. Feel Gud.')">
     <meta property="twitter:description"
-        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks direct from Bihar farms. High protein, gluten-free, and irresistibly crunchy. Munch Gud. Feel Gud. Shop now!')">
+        content="@yield('meta_description', 'Buy premium roasted makhana online from MunchGud. Enjoy healthy, crunchy fox nuts in delicious flavors, made from Bihar farms with high protein and gluten-free goodness.')">
     <meta property="twitter:image" content="@yield('meta_image', asset('images/hero_bg.png'))">
 
     <!-- Canonical URL -->
