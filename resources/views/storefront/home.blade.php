@@ -58,7 +58,7 @@
                 <div class="relative flex justify-center reveal">
                     <div class="w-72 h-72 sm:w-80 sm:h-80 lg:w-[400px] lg:h-[400px] rounded-full bg-gradient-to-br from-mg-green/15 via-mg-leaf/10 to-mg-cream flex items-center justify-center parallax-hero">
                         <div class="w-56 h-56 sm:w-64 sm:h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-mg-green/20 to-mg-cream flex items-center justify-center float overflow-hidden">
-                            <img src="{{ isset($page->sections['hero_image']) ? Storage::url($page->sections['hero_image']) : asset('images/hero_bg.webp') }}" class="w-full h-full object-cover" alt="Hero Makhana" loading="eager" fetchpriority="high">
+                            <img src="{{ isset($page->sections['hero_image']) ? Storage::url($page->sections['hero_image']) : asset('images/hero_bg.webp') }}" class="w-full h-full object-cover" alt="Hero Makhana" loading="eager" fetchpriority="high" width="800" height="800">
                         </div>
                     </div>
                     <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-2xl shadow-lg float" style="animation-delay:0.5s">
@@ -400,7 +400,7 @@
                             @foreach($formattedLinks as $link)
                                 <div class="snap-center shrink-0 w-[290px] sm:w-[320px] bg-white rounded-[2rem] shadow-xl shadow-mg-dark/[0.03] overflow-hidden border border-mg-dark/5 p-2 sm:p-3 relative group/card transition-all duration-300 hover:shadow-2xl">
                                     <div class="w-full h-[510px] rounded-2xl overflow-hidden bg-gray-50 relative">
-                                        <iframe src="{{ $link }}" class="w-full h-full border-0 rounded-2xl bg-white" scrolling="no" allowtransparency="true" allowfullscreen="true" title="Instagram Social Media Post Feed"></iframe>
+                                        <iframe src="{{ $link }}" class="w-full h-full border-0 rounded-2xl bg-white" scrolling="no" allowtransparency="true" allowfullscreen="true" loading="lazy" title="Instagram Social Media Post Feed"></iframe>
                                     </div>
                                 </div>
                             @endforeach
