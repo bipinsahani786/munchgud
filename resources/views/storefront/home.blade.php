@@ -4,6 +4,10 @@
 @section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'MunchGud offers premium roasted makhana (fox nuts) snacks sourced directly from Bihar farms. High protein, gluten-free, no artificial flavours. Order online with free delivery across India.')
 @section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'makhana, roasted makhana, makhana online, fox nuts, healthy snacks online, gluten free snacks, high protein snacks, MunchGud, buy makhana online, Bihar makhana')
 
+@section('head')
+    <link rel="preload" as="image" href="{{ isset($page->sections['hero_image']) ? Storage::url($page->sections['hero_image']) : asset('images/hero_bg.webp') }}" fetchpriority="high">
+@endsection
+
 @section('content')
 
 

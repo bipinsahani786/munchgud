@@ -15,6 +15,9 @@ Disallow: /payment/*
 Disallow: /api/*
 Disallow: /storage/
 Disallow: /build/
-
+Disallow: /search-suggestions
+Disallow: /*?q=*
+Disallow: /*?sort=*
+Disallow: /*?filter=*
 # Sitemap
 Sitemap: https://munchgud.com/sitemap.xml

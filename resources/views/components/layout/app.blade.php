@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'MunchGud - Premium Flavored Makhana')</title>
-    <meta name="description" content="@yield('meta_description', 'Discover MunchGud - Premium Indian D2C brand for flavored makhana and healthy snacks.')">
+    <meta name="description" content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks direct from Bihar farms. High protein, gluten-free, and irresistibly crunchy. Munch Gud. Feel Gud. Shop now!')">
+    
+    <!-- Favicon -->
+    @if(\App\Models\Setting::get('company_favicon'))
+        <link rel="icon" href="{{ Storage::url(\App\Models\Setting::get('company_favicon')) }}" sizes="any">
+        <link rel="apple-touch-icon" href="{{ Storage::url(\App\Models\Setting::get('company_favicon')) }}">
+    @else
+        <link rel="icon" href="/images/favicon.png" type="image/png" sizes="1024x1024">
+        <link rel="apple-touch-icon" href="/images/favicon.png">
+    @endif
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

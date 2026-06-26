@@ -1,37 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth fouc-prevent">
+<html lang="en" class="scroll-smooth">
 
 <head>
-    <!-- Prevent Flash of Unstyled Content (FOUC) -->
-    <script>
-        // Remove FOUC prevention class once DOM and styles are parsed
-        window.addEventListener('DOMContentLoaded', () => {
-            document.documentElement.classList.remove('fouc-prevent');
-        });
-        window.addEventListener('load', () => {
-            document.documentElement.classList.remove('fouc-prevent');
-        });
-        setTimeout(() => {
-            document.documentElement.classList.remove('fouc-prevent');
-        }, 800);
-    </script>
-    <style>
-        .fouc-prevent body {
-            opacity: 0 !important;
-            visibility: hidden !important;
-        }
-
-        .fouc-prevent {
-            background: #FAFAF5 !important;
-        }
-    </style>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'MunchGud — Munch Gud. Feel Gud.')</title>
     <meta name="description"
-        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
+        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks direct from Bihar farms. High protein, gluten-free, and irresistibly crunchy. Munch Gud. Feel Gud. Shop now!')">
     <meta name="keywords"
         content="@yield('meta_keywords', 'makhana, roasted makhana, healthy snacks, fox nuts, gluten-free snacks, high protein snacks')">
 
@@ -40,7 +16,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="@yield('title', 'MunchGud — Munch Gud. Feel Gud.')">
     <meta property="og:description"
-        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
+        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks direct from Bihar farms. High protein, gluten-free, and irresistibly crunchy. Munch Gud. Feel Gud. Shop now!')">
     <meta property="og:image" content="@yield('meta_image', asset('images/hero_bg.png'))">
 
     <!-- Twitter -->
@@ -48,7 +24,7 @@
     <meta property="twitter:url" content="{{ url()->current() }}">
     <meta property="twitter:title" content="@yield('title', 'MunchGud — Munch Gud. Feel Gud.')">
     <meta property="twitter:description"
-        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks. Direct from Bihar farms. High protein, gluten-free, irresistibly crunchy. Munch Gud. Feel Gud.')">
+        content="@yield('meta_description', 'MunchGud — Premium roasted makhana snacks direct from Bihar farms. High protein, gluten-free, and irresistibly crunchy. Munch Gud. Feel Gud. Shop now!')">
     <meta property="twitter:image" content="@yield('meta_image', asset('images/hero_bg.png'))">
 
     <!-- Canonical URL -->
@@ -77,23 +53,20 @@
 
     <!-- Favicon -->
     @if(!empty($global_settings['company_favicon']))
-        <link rel="icon" href="{{ Storage::url($global_settings['company_favicon']) }}" type="image/x-icon">
+        <link rel="icon" href="{{ Storage::url($global_settings['company_favicon']) }}" sizes="any">
+        <link rel="apple-touch-icon" href="{{ Storage::url($global_settings['company_favicon']) }}">
     @else
-        <link rel="icon" href="/images/logo.jpg" type="image/jpeg">
+        <link rel="icon" href="/images/favicon.png" type="image/png" sizes="1024x1024">
+        <link rel="apple-touch-icon" href="/images/favicon.png">
     @endif
 
     <!-- Google Fonts (Optimized & Deferred) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
-        media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
-    </noscript>
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
+
+    @yield('head')
 
     <!-- Tailwind CSS (Vite) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])

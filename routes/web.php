@@ -127,6 +127,7 @@ Route::post('/api/check-pincode', [\App\Http\Controllers\PincodeController::clas
 
 // Sitemap
 Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+Route::get('/sitemap.html', [App\Http\Controllers\SitemapController::class, 'html'])->name('sitemap.html');
 
 require __DIR__.'/admin.php';
 
