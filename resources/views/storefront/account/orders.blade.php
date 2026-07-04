@@ -36,7 +36,7 @@
                     <div class="flex items-center justify-between">
                         <div class="flex -space-x-3 overflow-hidden">
                             @foreach($order->items->take(4) as $item)
-                                @if($item->sku->product->primaryImage)
+                                @if($item->sku?->product?->primaryImage)
                                     <img src="{{ Storage::url($item->sku->product->primaryImage->path) }}" alt="{{ $item->sku->product->name }}" class="inline-block h-12 w-12 rounded-full ring-2 ring-white object-cover bg-mg-cream">
                                 @else
                                     <div class="inline-block h-12 w-12 rounded-full ring-2 ring-white bg-mg-cream flex items-center justify-center text-xs">🥜</div>

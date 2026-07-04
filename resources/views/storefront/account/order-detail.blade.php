@@ -132,7 +132,7 @@
         @foreach($order->items as $item)
             <div class="flex items-center gap-4 py-4 border-b border-mg-dark/5 last:border-0 last:pb-0">
                 <div class="w-16 h-16 bg-mg-cream rounded-xl overflow-hidden flex items-center justify-center border border-mg-dark/5">
-                    @if($item->sku->product->primaryImage)
+                    @if($item->sku?->product?->primaryImage)
                         <img src="{{ Storage::url($item->sku->product->primaryImage->path) }}" alt="{{ $item->sku->product->name }}" class="w-full h-full object-cover">
                     @else
                         <span class="text-xl">🥜</span>

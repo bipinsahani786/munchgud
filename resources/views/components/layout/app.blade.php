@@ -8,10 +8,10 @@
     
     <!-- Favicon -->
     @if(\App\Models\Setting::get('company_favicon'))
-        <link rel="icon" href="{{ Storage::url(\App\Models\Setting::get('company_favicon')) }}" sizes="any">
+        <link rel="icon" href="{{ Storage::url(\App\Models\Setting::get('company_favicon')) }}">
         <link rel="apple-touch-icon" href="{{ Storage::url(\App\Models\Setting::get('company_favicon')) }}">
     @else
-        <link rel="icon" href="/images/favicon.png" type="image/png" sizes="1024x1024">
+        <link rel="icon" href="/images/favicon.png" type="image/png">
         <link rel="apple-touch-icon" href="/images/favicon.png">
     @endif
     

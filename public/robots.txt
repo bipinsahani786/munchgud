@@ -13,7 +13,7 @@ Disallow: /register
 Disallow: /auth/*
 Disallow: /payment/*
 Disallow: /api/*
-Disallow: /storage/
+Allow: /storage/
 Disallow: /build/
 Disallow: /search-suggestions
 Disallow: /*?q=*
