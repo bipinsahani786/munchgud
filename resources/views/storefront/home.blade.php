@@ -967,22 +967,22 @@
         </div>
     </section>
 
-    {{-- ══════════════════════════════════════════
-         17. CERTIFICATIONS
-         ══════════════════════════════════════════ --}}
-    <section class="py-14 bg-mg-cream border-y border-mg-dark/5">
-        <div class="max-w-5xl mx-auto px-4">
-            <p class="text-center text-[10px] font-bold text-mg-muted uppercase tracking-[0.2em] mb-8">Certified & Trusted</p>
-            <div class="flex flex-wrap items-center justify-center gap-8 lg:gap-14">
-                @foreach([['🏅', 'FSSAI'], ['🏅', 'ISO 22000'], ['🌱', '100% Vegan'], ['🧬', 'Non-GMO'], ['🇮🇳', 'Made in India']] as $c)
-                    <div class="text-center group">
-                        <div class="w-14 h-14 mx-auto bg-mg-dark/5 rounded-2xl flex items-center justify-center mb-2 group-hover:bg-mg-green/10 transition text-2xl">{{ $c[0] }}</div>
-                        <p class="text-[10px] font-bold text-mg-muted uppercase tracking-wider">{{ $c[1] }}</p>
-                    </div>
-                @endforeach
+{{-- ══════════════════════════════════════════
+     17. CERTIFICATIONS
+     ══════════════════════════════════════════ --}}
+<!-- <section class="py-14 bg-mg-cream border-y border-mg-dark/5">
+    <div class="max-w-5xl mx-auto px-4">
+        <p class="text-center text-[10px] font-bold text-mg-muted uppercase tracking-[0.2em] mb-8">Certified & Trusted</p>
+        <div class="flex flex-wrap items-center justify-center gap-8 lg:gap-14">
+            @foreach([['🏅','FSSAI'],['🏅','ISO 22000'],['🌱','100% Vegan'],['🧬','Non-GMO'],['🇮🇳','Made in India']] as $c)
+            <div class="text-center group">
+                <div class="w-14 h-14 mx-auto bg-mg-dark/5 rounded-2xl flex items-center justify-center mb-2 group-hover:bg-mg-green/10 transition text-2xl">{{ $c[0] }}</div>
+                <p class="text-[10px] font-bold text-mg-muted uppercase tracking-wider">{{ $c[1] }}</p>
             </div>
+            @endforeach
         </div>
-    </section>
+    </div>
+</section> -->
 
     <!-- {{-- ══════════════════════════════════════════
          18. GIFTING

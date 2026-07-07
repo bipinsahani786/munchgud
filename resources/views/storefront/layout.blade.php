@@ -973,10 +973,10 @@
         @yield('content')
     </main>
 
-    {{-- ══════════════════════════════════════════
-    TRUST STRIP (before footer)
-    ══════════════════════════════════════════ --}}
-    <!-- <div class="bg-munch-900 py-10">
+{{-- ══════════════════════════════════════════
+     TRUST STRIP (before footer)
+     ══════════════════════════════════════════ --}}
+<!-- <div class="bg-munch-900 py-10">
     <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
             @foreach([
