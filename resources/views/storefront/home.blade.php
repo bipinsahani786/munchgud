@@ -930,7 +930,7 @@ MunchGud is made for people who love snacks and want taste, good quality and a s
 {{-- ══════════════════════════════════════════
      17. CERTIFICATIONS
      ══════════════════════════════════════════ --}}
-<section class="py-14 bg-mg-cream border-y border-mg-dark/5">
+<!-- <section class="py-14 bg-mg-cream border-y border-mg-dark/5">
     <div class="max-w-5xl mx-auto px-4">
         <p class="text-center text-[10px] font-bold text-mg-muted uppercase tracking-[0.2em] mb-8">Certified & Trusted</p>
         <div class="flex flex-wrap items-center justify-center gap-8 lg:gap-14">
@@ -942,7 +942,7 @@ MunchGud is made for people who love snacks and want taste, good quality and a s
             @endforeach
         </div>
     </div>
-</section>
+</section> -->
 
 <!-- {{-- ══════════════════════════════════════════
      18. GIFTING

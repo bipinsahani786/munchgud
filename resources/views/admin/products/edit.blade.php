@@ -190,13 +190,43 @@
                                     {{ $sku->stock_qty }}
                                 </span>
                             </td>
-                            <td class="px-5 py-4 text-right">
+                            <td class="px-5 py-4 text-right flex justify-end gap-1">
+                                <button type="button" onclick="document.getElementById('edit-sku-form-{{ $sku->id }}').classList.toggle('hidden')" class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-md transition" title="Edit Variant">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                </button>
                                 <form action="{{ route('admin.products.skus.destroy', $sku) }}" method="POST" class="inline-block" onsubmit="return confirm('Delete this SKU?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition">
+                                    <button type="submit" class="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Delete Variant">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <!-- Edit Form Row -->
+                        <tr id="edit-sku-form-{{ $sku->id }}" class="hidden bg-gray-50 border-b border-gray-100">
+                            <td colspan="5" class="px-5 py-4">
+                                <form action="{{ route('admin.products.skus.update', $sku) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 items-end">
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-1.5">MRP (₹)</label>
+                                            <input type="number" step="0.01" name="mrp" value="{{ $sku->mrp }}" required class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-1.5">Sale Price (₹)</label>
+                                            <input type="number" step="0.01" name="sale_price" value="{{ $sku->sale_price }}" required class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-1.5">Stock Qty</label>
+                                            <input type="number" name="stock_qty" value="{{ $sku->stock_qty }}" required class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button type="submit" class="px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-700 transition">Update</button>
+                                            <button type="button" onclick="document.getElementById('edit-sku-form-{{ $sku->id }}').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg hover:bg-gray-300 transition">Cancel</button>
+                                        </div>
+                                    </div>
                                 </form>
                             </td>
                         </tr>
