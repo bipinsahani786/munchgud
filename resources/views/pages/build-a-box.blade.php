@@ -111,9 +111,9 @@
                     <!-- Image -->
                     <div class="aspect-square bg-mg-cream relative overflow-hidden group-hover:bg-mg-cream/50 transition-colors">
                         @php
-                            $imgUrl = $sku->product->primaryImage ? Storage::url($sku->product->primaryImage->path) : asset('images/product_shot_new.png');
+                            $imgUrl = $sku->product->primaryImage ? Storage::url($sku->product->primaryImage->path) : (\App\Models\Setting::get('default_product_image') ? Storage::url(\App\Models\Setting::get('default_product_image')) : asset('images/product_shot_new.png'));
                         @endphp
-                        <img src="{{ $imgUrl }}" onerror="this.src='{{ asset('images/product_shot_new.png') }}'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <img src="{{ $imgUrl }}" onerror="this.src='{{ \App\Models\Setting::get('default_product_image') ? Storage::url(\App\Models\Setting::get('default_product_image')) : asset('images/product_shot_new.png') }}'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                     </div>
                     
                     <!-- Content -->

@@ -16,6 +16,7 @@ class Address extends Model
         'phone',
         'line1',
         'line2',
+        'landmark',
         'city',
         'state',
         'pincode',

@@ -15,8 +15,10 @@ class Coupon extends Model
         'value',
         'min_order_amount',
         'usage_limit',
+        'per_user_limit',
         'used_count',
         'is_active',
+        'is_visible',
         'start_at',
         'end_at'
     ];
@@ -24,7 +26,9 @@ class Coupon extends Model
     protected $casts = [
         'value' => 'decimal:2',
         'min_order_amount' => 'decimal:2',
+        'per_user_limit' => 'integer',
         'is_active' => 'boolean',
+        'is_visible' => 'boolean',
         'start_at' => 'datetime',
         'end_at' => 'datetime'
     ];
@@ -34,7 +38,7 @@ class Coupon extends Model
         return $this->hasMany(Order::class);
     }
 
-    public function isValid(float $orderAmount): bool
+    public function isValid(float $orderAmount, ?int $userId = null): bool
     {
         if (!$this->is_active) {
             return false;
@@ -54,6 +58,17 @@ class Coupon extends Model
 
         if ($this->min_order_amount !== null && $orderAmount < $this->min_order_amount) {
             return false;
+        }
+
+        $effectiveUserId = $userId ?? auth()->id();
+        if ($this->per_user_limit !== null && $effectiveUserId) {
+            $userUses = Order::where('user_id', $effectiveUserId)
+                ->where('coupon_id', $this->id)
+                ->where('status', '!=', 'cancelled')
+                ->count();
+            if ($userUses >= $this->per_user_limit) {
+                return false;
+            }
         }
 
         return true;

@@ -36,7 +36,7 @@
                             @if($item->sku->product->primaryImage)
                                 <img src="{{ Storage::url($item->sku->product->primaryImage->path) }}" alt="{{ $item->sku->product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             @else
-                                <img src="{{ asset('images/product_shot_new.png') }}" alt="{{ $item->sku->product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <img src="{{ $item->sku->product->primaryImage ? Storage::url($item->sku->product->primaryImage->path) : (\App\Models\Setting::get('default_product_image') ? Storage::url(\App\Models\Setting::get('default_product_image')) : asset('images/product_shot_new.png')) }}" alt="{{ $item->sku->product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             @endif
                         </a>
                         

@@ -26,6 +26,7 @@ class Order extends Model
         'shipping_phone',
         'shipping_line1',
         'shipping_line2',
+        'shipping_landmark',
         'shipping_city',
         'shipping_state',
         'shipping_pincode',
@@ -33,7 +34,14 @@ class Order extends Model
         'courier_name',
         'shipped_at',
         'delivered_at',
-        'cancelled_reason'
+        'cancelled_reason',
+        // Shiprocket fields
+        'shiprocket_order_id',
+        'shiprocket_shipment_id',
+        'awb_code',
+        'courier_company_id',
+        'shiprocket_status',
+        'shiprocket_pushed_at',
     ];
 
     protected $casts = [
@@ -43,8 +51,19 @@ class Order extends Model
         'tax_amount' => 'decimal:2',
         'total' => 'decimal:2',
         'shipped_at' => 'datetime',
-        'delivered_at' => 'datetime'
+        'delivered_at' => 'datetime',
+        'shiprocket_pushed_at' => 'datetime',
     ];
+
+    public function isPushedToShiprocket(): bool
+    {
+        return !empty($this->shiprocket_order_id);
+    }
+
+    public function hasAWB(): bool
+    {
+        return !empty($this->awb_code);
+    }
 
     public function user()
     {
@@ -87,5 +106,18 @@ class Order extends Model
     {
         $maxId = self::max('id') + 1;
         return "MG-" . date('Y') . "-" . str_pad($maxId, 5, '0', STR_PAD_LEFT);
+    }
+
+    public function getEstimatedDeliveryDateAttribute()
+    {
+        $deliveryDays = 5;
+        if ($this->shipping_pincode) {
+            $zone = ServiceableZone::forPincode($this->shipping_pincode);
+            if ($zone) {
+                $deliveryDays = $zone->delivery_days ?? 5;
+            }
+        }
+        $baseDate = $this->created_at ?? now();
+        return $baseDate->copy()->addDays($deliveryDays);
     }
 }

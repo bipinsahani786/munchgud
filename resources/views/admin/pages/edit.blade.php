@@ -54,48 +54,94 @@
                         <button type="button" onclick="addSection()" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white text-sm font-bold rounded-xl hover:bg-gray-800 transition shadow-sm">+ Add Section</button>
                     </div>
 
-                    <div id="sections-container" class="space-y-6">
-                        @if(is_array($page->sections))
-                            @foreach($page->sections as $key => $value)
-                                @php
-                                    $isImage = (is_string($value) && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $value)) || str_ends_with(strtolower($key), 'image') || str_ends_with(strtolower($key), 'bg') || str_ends_with(strtolower($key), 'poster');
-                                    $formattedKey = ucwords(str_replace('_', ' ', $key));
-                                @endphp
-                                <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 relative group transition hover:border-emerald-200 hover:shadow-sm">
-                                    <input type="hidden" name="sections[{{ $key }}]" value="{{ is_string($value) ? $value : json_encode($value) }}">
-                                    
-                                    <div class="flex justify-between items-start mb-3">
-                                        <div>
-                                            <label class="block text-sm font-bold text-gray-800">{{ $formattedKey }}</label>
-                                            <span class="text-[10px] font-mono text-gray-400 bg-white border border-gray-200 px-2 py-0.5 rounded">{{ $key }}</span>
-                                        </div>
-                                        <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-2 py-1 rounded">{{ $isImage ? 'Image' : 'Text / HTML' }}</span>
+                    @php
+                        $sections = is_array($page->sections) ? $page->sections : [];
+                        ksort($sections); // Group alphabetically by key naturally
+                        
+                        $groupedSections = [];
+                        foreach ($sections as $key => $value) {
+                            if (in_array($key, ['instagram_video_1', 'instagram_video_2', 'instagram_video_3', 'instagram_reels_list'])) {
+                                continue;
+                            }
+                            
+                            $parts = explode('_', $key);
+                            $group = 'General';
+                            
+                            if (count($parts) > 1) {
+                                if ($parts[0] === 'team' && isset($parts[1]) && is_numeric($parts[1])) {
+                                    $group = 'Team ' . $parts[1];
+                                } else {
+                                    $group = ucwords($parts[0]);
+                                }
+                            }
+                            
+                            $groupedSections[$group][$key] = $value;
+                        }
+                    @endphp
+                    
+                    <div id="sections-container" class="space-y-8">
+                        @if(count($groupedSections) > 0)
+                            @foreach($groupedSections as $groupName => $groupItems)
+                                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+                                    <div class="bg-gray-50/80 border-b border-gray-200 px-5 py-3">
+                                        <h3 class="font-bold text-gray-800 uppercase tracking-wider text-xs">{{ $groupName }} Sections</h3>
                                     </div>
+                                    <div class="p-5 space-y-5">
+                                        @foreach($groupItems as $key => $value)
+                                            @php
+                                                $isImage = (is_string($value) && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $value)) || str_ends_with(strtolower($key), 'image') || str_ends_with(strtolower($key), 'bg') || str_ends_with(strtolower($key), 'poster');
+                                                $isBoolean = str_ends_with(strtolower($key), 'active') || str_ends_with(strtolower($key), 'enabled') || str_ends_with(strtolower($key), 'show');
+                                                $formattedKey = ucwords(str_replace('_', ' ', $key));
+                                            @endphp
+                                            <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 relative group transition hover:border-emerald-200 hover:shadow-sm">
+                                                @if(!$isBoolean)
+                                                    <input type="hidden" name="sections[{{ $key }}]" value="{{ is_string($value) ? $value : json_encode($value) }}">
+                                                @endif
+                                                
+                                                <div class="flex justify-between items-start mb-3">
+                                                    <div>
+                                                        <label class="block text-sm font-bold text-gray-800">{{ $formattedKey }}</label>
+                                                        <span class="text-[10px] font-mono text-gray-400 bg-white border border-gray-200 px-2 py-0.5 rounded">{{ $key }}</span>
+                                                    </div>
+                                                    <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-2 py-1 rounded">{{ $isBoolean ? 'Toggle' : ($isImage ? 'Image' : 'Text / HTML') }}</span>
+                                                </div>
 
-                                    @if($isImage)
-                                        <div class="flex items-center gap-6 bg-white p-4 rounded-lg border border-gray-100" x-data="{ previewUrl: '{{ $value ? Storage::url($value) : '' }}' }">
-                                            <div class="w-32 h-20 bg-gray-100 rounded-lg border border-gray-200 overflow-hidden flex items-center justify-center flex-shrink-0 text-gray-300">
-                                                <template x-if="previewUrl">
-                                                    <img :src="previewUrl" alt="{{ $formattedKey }}" class="w-full h-full object-cover">
-                                                </template>
-                                                <template x-if="!previewUrl">
-                                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                                </template>
-                                            </div>
-                                            <div class="flex-1">
-                                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">{{ $value ? 'Replace Image' : 'Upload Image' }}</label>
-                                                <input type="file" name="section_images[{{ $key }}]" accept="image/*" @change="if($event.target.files.length) previewUrl = URL.createObjectURL($event.target.files[0])" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
-                                                @if($value)
-                                                <label class="flex items-center gap-2 mt-3 cursor-pointer inline-flex">
-                                                    <input type="checkbox" name="remove_section_images[]" value="{{ $key }}" class="w-4 h-4 text-red-600 rounded border-gray-300 focus:ring-red-500" @change="if($el.checked) previewUrl = ''">
-                                                    <span class="text-xs font-bold text-red-600">Remove Image Completely</span>
-                                                </label>
+                                                @if($isBoolean)
+                                                    <div class="flex items-center gap-3 bg-white p-4 rounded-lg border border-gray-100">
+                                                        <label class="relative inline-flex items-center cursor-pointer">
+                                                            <input type="hidden" name="sections[{{ $key }}]" value="0">
+                                                            <input type="checkbox" name="sections[{{ $key }}]" value="1" class="sr-only peer" {{ $value == '1' || $value === 1 || $value === 'true' ? 'checked' : '' }}>
+                                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                                                            <span class="ml-3 text-sm font-bold text-gray-700">Enabled</span>
+                                                        </label>
+                                                    </div>
+                                                @elseif($isImage)
+                                                    <div class="flex items-center gap-6 bg-white p-4 rounded-lg border border-gray-100" x-data="{ previewUrl: '{{ $value ? Storage::url($value) : '' }}' }">
+                                                        <div class="w-32 h-20 bg-gray-100 rounded-lg border border-gray-200 overflow-hidden flex items-center justify-center flex-shrink-0 text-gray-300">
+                                                            <template x-if="previewUrl">
+                                                                <img :src="previewUrl" alt="{{ $formattedKey }}" class="w-full h-full object-cover">
+                                                            </template>
+                                                            <template x-if="!previewUrl">
+                                                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                                            </template>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">{{ $value ? 'Replace Image' : 'Upload Image' }}</label>
+                                                            <input type="file" name="section_images[{{ $key }}]" accept="image/*" @change="if($event.target.files.length) previewUrl = URL.createObjectURL($event.target.files[0])" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+                                                            @if($value)
+                                                            <label class="flex items-center gap-2 mt-3 cursor-pointer inline-flex">
+                                                                <input type="checkbox" name="remove_section_images[]" value="{{ $key }}" class="w-4 h-4 text-red-600 rounded border-gray-300 focus:ring-red-500" @change="if($el.checked) previewUrl = ''">
+                                                                <span class="text-xs font-bold text-red-600">Remove Image Completely</span>
+                                                            </label>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <textarea name="sections[{{ $key }}]" rows="{{ strlen($value) > 100 ? 4 : 2 }}" class="w-full border border-gray-200 bg-white rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition">{{ is_string($value) ? $value : json_encode($value) }}</textarea>
                                                 @endif
                                             </div>
-                                        </div>
-                                    @else
-                                        <textarea name="sections[{{ $key }}]" rows="{{ strlen($value) > 100 ? 4 : 2 }}" class="w-full border border-gray-200 bg-white rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition">{{ is_string($value) ? $value : json_encode($value) }}</textarea>
-                                    @endif
+                                        @endforeach
+                                    </div>
                                 </div>
                             @endforeach
                         @else

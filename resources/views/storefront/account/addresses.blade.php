@@ -75,7 +75,7 @@
             <div class="grid sm:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-bold text-mg-dark mb-2">Phone Number <span class="text-red-500">*</span></label>
-                    <input type="text" name="phone" x-model="phone" required class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20" placeholder="10-digit mobile number">
+                    <input type="text" name="phone" x-model="phone" required maxlength="10" minlength="10" pattern="[0-9]{10}" class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20" placeholder="10-digit mobile number">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-mg-dark mb-2">Country</label>
@@ -84,27 +84,33 @@
             </div>
 
             <div>
-                <label class="block text-sm font-bold text-mg-dark mb-2">Address Line 1 (Flat, House, Building, Street) <span class="text-red-500">*</span></label>
-                <input type="text" name="line1" x-model="line1" required class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
+                <label class="block text-sm font-bold text-mg-dark mb-2">Flat / House No. / Building Name <span class="text-red-500">*</span></label>
+                <input type="text" name="line1" x-model="line1" required maxlength="50" class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
             </div>
 
-            <div>
-                <label class="block text-sm font-bold text-mg-dark mb-2">Address Line 2 (Landmark, Locality - Optional)</label>
-                <input type="text" name="line2" x-model="line2" class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
+            <div class="grid sm:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-bold text-mg-dark mb-2">Area / Street / Sector <span class="text-red-500">*</span></label>
+                    <input type="text" name="line2" x-model="line2" required maxlength="50" class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-mg-dark mb-2">Landmark (Optional)</label>
+                    <input type="text" name="landmark" x-model="landmark" maxlength="50" class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
+                </div>
             </div>
 
             <div class="grid sm:grid-cols-3 gap-6">
                 <div>
                     <label class="block text-sm font-bold text-mg-dark mb-2">City <span class="text-red-500">*</span></label>
-                    <input type="text" name="city" x-model="city" required class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
+                    <input type="text" name="city" x-model="city" required maxlength="50" class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-mg-dark mb-2">State <span class="text-red-500">*</span></label>
-                    <input type="text" name="state" x-model="state" required class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
+                    <input type="text" name="state" x-model="state" required maxlength="50" class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-mg-dark mb-2">Pincode <span class="text-red-500">*</span></label>
-                    <input type="text" name="pincode" x-model="pincode" required class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
+                    <input type="text" name="pincode" x-model="pincode" required maxlength="6" minlength="6" pattern="[0-9]{6}" class="w-full bg-mg-cream border border-mg-dark/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-mg-green/20">
                 </div>
             </div>
 
@@ -138,7 +144,8 @@
                     <p class="font-heading text-lg font-bold text-mg-dark mb-2">{{ $addr->name }}</p>
                     <p class="text-sm text-mg-muted leading-relaxed mb-4">
                         {{ $addr->line1 }}<br>
-                        @if($addr->line2){{ $addr->line2 }}<br>@endif
+                        {{ $addr->line2 }}<br>
+                        @if($addr->landmark)Landmark: {{ $addr->landmark }}<br>@endif
                         {{ $addr->city }}, {{ $addr->state }} - {{ $addr->pincode }}<br>
                         {{ $addr->country }}
                     </p>
@@ -192,6 +199,7 @@
             phone: '',
             line1: '',
             line2: '',
+            landmark: '',
             city: '',
             state: '',
             pincode: '',
@@ -210,6 +218,7 @@
                 this.phone = {!! json_encode(auth()->user()->phone ?? '') !!};
                 this.line1 = '';
                 this.line2 = '';
+                this.landmark = '';
                 this.city = '';
                 this.state = '';
                 this.pincode = '';
@@ -233,6 +242,7 @@
                 this.phone = addr.phone;
                 this.line1 = addr.line1;
                 this.line2 = addr.line2 || '';
+                this.landmark = addr.landmark || '';
                 this.city = addr.city;
                 this.state = addr.state;
                 this.pincode = addr.pincode;

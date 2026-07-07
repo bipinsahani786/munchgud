@@ -33,9 +33,11 @@ class AdminCouponController extends Controller
             'min_order_amount' => 'required|numeric|min:0',
             'max_discount_amount' => 'nullable|numeric|min:0',
             'usage_limit' => 'nullable|integer|min:1',
+            'per_user_limit' => 'nullable|integer|min:1',
             'start_at' => 'nullable|date',
             'end_at' => 'nullable|date|after_or_equal:start_at',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
+            'is_visible' => 'boolean'
         ]);
 
         Coupon::create($validated);
@@ -55,9 +57,11 @@ class AdminCouponController extends Controller
             'min_order_amount' => 'required|numeric|min:0',
             'max_discount_amount' => 'nullable|numeric|min:0',
             'usage_limit' => 'nullable|integer|min:1',
+            'per_user_limit' => 'nullable|integer|min:1',
             'start_at' => 'nullable|date',
             'end_at' => 'nullable|date|after_or_equal:start_at',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
+            'is_visible' => 'boolean'
         ]);
 
         $coupon->update($validated);

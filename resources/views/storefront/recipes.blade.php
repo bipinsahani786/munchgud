@@ -1,6 +1,7 @@
 @extends('storefront.layout')
 
 @section('title', 'Makhana Recipes | MunchGud')
+@section('meta_description', 'Discover delicious and healthy makhana recipes by MunchGud. Quick, easy, and guilt-free recipes using roasted fox nuts for everyday snacking.')
 
 @section('content')
 

@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'MunchGud - Premium Flavored Makhana')</title>
-    <meta name="description" content="@yield('meta_description', 'Discover MunchGud - Premium Indian D2C brand for flavored makhana and healthy snacks.')">
+    <meta name="description" content="@yield('meta_description', 'Buy premium roasted makhana online from MunchGud. Enjoy healthy, crunchy fox nuts in delicious flavors, made from Bihar farms with high protein and gluten-free goodness.')">
+    
+    <!-- Favicon -->
+    @if(\App\Models\Setting::get('company_favicon'))
+        <link rel="icon" href="{{ Storage::url(\App\Models\Setting::get('company_favicon')) }}">
+        <link rel="apple-touch-icon" href="{{ Storage::url(\App\Models\Setting::get('company_favicon')) }}">
+    @else
+        <link rel="icon" href="/images/favicon.png" type="image/png">
+        <link rel="apple-touch-icon" href="/images/favicon.png">
+    @endif
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS (CDN as requested) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script>
         tailwind.config = {
             theme: {
@@ -96,7 +105,7 @@
                 <!-- Logo (Center) -->
                 <div class="flex-shrink-0 flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
                     <a href="{{ route('home') }}" class="block">
-                        <img src="{{ asset('images/logo.jpg') }}" alt="MunchGud Logo" class="h-12 w-auto object-contain">
+                        <img src="{{ \App\Models\Setting::get('company_logo') ? Storage::url(\App\Models\Setting::get('company_logo')) : asset('images/logo.jpg') }}" alt="MunchGud Logo" class="h-12 w-auto object-contain">
                     </a>
                 </div>
 
@@ -173,7 +182,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                 
                 <div class="space-y-6">
-                    <img src="{{ asset('images/logo.jpg') }}" alt="MunchGud" class="h-16 bg-white p-2 rounded">
+                    <img src="{{ \App\Models\Setting::get('company_logo') ? Storage::url(\App\Models\Setting::get('company_logo')) : asset('images/logo.jpg') }}" alt="MunchGud" class="h-16 bg-white p-2 rounded">
                     <p class="text-munch-300 font-light leading-relaxed">
                         Elevating the humble fox nut to a gourmet experience. Rooted in tradition, perfected for the modern palate.
                     </p>
@@ -211,7 +220,7 @@
 
             <div class="border-t border-munch-800 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-munch-400 text-sm mb-4 md:mb-0">
-                    &copy; {{ date('Y') }} MunchGud. All rights reserved.
+                    &copy; {{ date('Y') }} MunchGud. All rights reserved. · Developed by <a href="https://startupwebsupport.com/" target="_blank" class="hover:text-white transition-colors underline">StartupWebSupport</a>
                 </p>
                 <div class="flex space-x-6 text-sm text-munch-400">
                     <a href="{{ route('privacy') }}" class="hover:text-white transition-colors">Privacy Policy</a>

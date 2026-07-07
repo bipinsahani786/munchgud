@@ -96,7 +96,7 @@
             <!-- Logo & Header -->
             <div class="text-center mb-8">
                 <a href="/" class="inline-block mb-5">
-                    <img src="{{ asset('images/logo.jpg') }}" alt="MunchGud" class="h-14 w-auto mx-auto object-contain rounded-xl">
+                    <img src="{{ \App\Models\Setting::get('company_logo') ? Storage::url(\App\Models\Setting::get('company_logo')) : asset('images/logo.jpg') }}" alt="MunchGud" class="h-14 w-auto mx-auto object-contain rounded-xl">
                 </a>
                 <h1 class="text-2xl font-serif font-bold text-mg-dark" x-text="
                     state === 'email' ? 'Welcome to MunchGud' :

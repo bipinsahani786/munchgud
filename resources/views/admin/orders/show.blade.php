@@ -20,9 +20,9 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
             Print Label
         </a>
-        <a href="{{ route('admin.orders.invoice', $order) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-50 transition shadow-sm">
+        <a href="{{ route('admin.orders.invoice', $order) }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-50 transition shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            Invoice
+            Print Invoice
         </a>
     </div>
 </div>
@@ -146,16 +146,29 @@
                 <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Order Status</h3>
             </div>
             <div class="p-6">
-                <form action="{{ route('admin.orders.status', $order) }}" method="POST">
+                <form action="{{ route('admin.orders.status', $order) }}" method="POST" x-data="{ status: '{{ $order->status }}' }">
                     @csrf
                     @method('PATCH')
-                    <select name="status" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium mb-3">
+                    <select name="status" x-model="status" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium mb-3">
                         @foreach(['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'] as $s)
                             <option value="{{ $s }}" {{ $order->status == $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
                         @endforeach
                     </select>
+                    
+                    <div x-show="status === 'cancelled'" class="mb-3" x-cloak>
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Cancellation Remarks</label>
+                        <textarea name="cancelled_reason" rows="2" placeholder="Reason for cancellation..." class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium">{{ $order->cancelled_reason }}</textarea>
+                    </div>
+                    
                     <button type="submit" class="w-full px-4 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-800 transition">Update Status</button>
                 </form>
+                
+                @if($order->status === 'cancelled' && $order->cancelled_reason)
+                    <div class="mt-4 p-4 bg-red-50 border border-red-100 rounded-xl text-red-800 text-sm">
+                        <span class="font-bold block mb-1">Cancellation Remarks:</span>
+                        {{ $order->cancelled_reason }}
+                    </div>
+                @endif
                 
                 <div class="mt-5 pt-5 border-t border-gray-100 space-y-3">
                     <div class="flex items-center justify-between">
@@ -196,6 +209,133 @@
             </div>
         </div>
 
+        {{-- ─── Shiprocket Card ──────────────────────────────────────── --}}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
+                <span class="text-lg">🚀</span>
+                <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Shiprocket</h3>
+                @if($order->isPushedToShiprocket())
+                    <span class="ml-auto inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Pushed
+                    </span>
+                @else
+                    <span class="ml-auto inline-flex items-center gap-1.5 text-xs font-bold text-amber-700 bg-amber-50 border border-amber-100 px-2.5 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Not Pushed
+                    </span>
+                @endif
+            </div>
+            <div class="p-6 space-y-4">
+
+                @if($order->isPushedToShiprocket())
+                    {{-- Shiprocket details --}}
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">Shiprocket Order ID</span>
+                            <span class="text-xs font-mono font-bold text-gray-900 bg-gray-50 border border-gray-200 px-2 py-0.5 rounded-lg">{{ $order->shiprocket_order_id }}</span>
+                        </div>
+                        @if($order->awb_code)
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">AWB / Tracking</span>
+                            <span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-lg">{{ $order->awb_code }}</span>
+                        </div>
+                        @endif
+                        @if($order->courier_name)
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">Courier</span>
+                            <span class="text-xs font-bold text-gray-900">{{ $order->courier_name }}</span>
+                        </div>
+                        @endif
+                        @if($order->shiprocket_status)
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">SR Status</span>
+                            <span class="text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-lg">{{ $order->shiprocket_status }}</span>
+                        </div>
+                        @endif
+                        @if($order->shiprocket_pushed_at)
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500 font-medium">Pushed At</span>
+                            <span class="text-xs text-gray-500">{{ $order->shiprocket_pushed_at->format('d M Y, h:i A') }}</span>
+                        </div>
+                        @endif
+                    </div>
+
+                    {{-- Sync Tracking button --}}
+                    @if($order->awb_code)
+                    <form action="{{ route('admin.orders.shiprocket.sync', $order) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="w-full px-4 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 transition flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                            Sync Tracking
+                        </button>
+                    </form>
+                    @else
+                    <div class="text-xs text-amber-700 bg-amber-50 border border-amber-100 p-3 rounded-xl">
+                        ⏳ AWB not assigned yet. Wait a minute and click Sync Tracking.
+                    </div>
+                    <form action="{{ route('admin.orders.shiprocket.sync', $order) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="w-full px-4 py-2.5 bg-gray-100 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-200 transition">
+                            🔄 Retry AWB Sync
+                        </button>
+                    </form>
+                    @endif
+
+                @else
+                    <p class="text-xs text-gray-500 mb-3">Push this order to Shiprocket. The order will appear in your Shiprocket dashboard where you can enter actual weight/dimensions and generate the AWB.</p>
+                    <form action="{{ route('admin.orders.shiprocket.push', $order) }}" method="POST"
+                          onsubmit="return confirm('Push this order to Shiprocket?')">
+                        @csrf
+                        <div class="mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="auto_awb" value="1" class="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500">
+                                <span class="text-sm font-bold text-gray-700">Auto-assign Courier & Generate AWB</span>
+                            </label>
+                            <p class="text-[11px] text-gray-500 mt-1 ml-6">If unchecked, you will handle weight, dimensions, and courier assignment manually in Shiprocket.</p>
+                        </div>
+                        <button type="submit"
+                            class="w-full px-4 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 transition flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                            Push to Shiprocket
+                        </button>
+                    </form>
+                @endif
+            </div>
+        </div>
+
+        {{-- ─── Invoice Shipping Details ─────────────────────────────── --}}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100">
+                <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Shipping & Invoice Info</h3>
+            </div>
+            <div class="p-6">
+                <form action="{{ route('admin.orders.shipping', $order) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">AWB Number</label>
+                            <input type="text" name="tracking_number" value="{{ $order->tracking_number }}" placeholder="e.g. 1234567890" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Courier Name</label>
+                            <input type="text" name="courier_name" value="{{ $order->courier_name }}" placeholder="e.g. Delhivery Surface" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">Invoice Remark</label>
+                            <textarea name="remark" rows="2" placeholder="e.g. Handle with care" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none font-medium">{{ $order->remark }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full mt-5 px-4 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 transition">Save Details</button>
+                </form>
+            </div>
+        </div>
+
         <!-- Customer -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-100">
@@ -231,6 +371,7 @@
                         <p class="font-semibold text-gray-900">{{ $order->shipping_name }}</p>
                         <p class="mt-1">{{ $order->shipping_line1 }}</p>
                         @if(!empty($order->shipping_line2)) <p>{{ $order->shipping_line2 }}</p> @endif
+                        @if(!empty($order->shipping_landmark)) <p>Landmark: {{ $order->shipping_landmark }}</p> @endif
                         <p>{{ $order->shipping_city }}, {{ $order->shipping_state }} {{ $order->shipping_pincode }}</p>
                         @if(!empty($order->shipping_phone))
                             <p class="mt-2 text-gray-500 text-xs font-medium">📞 {{ $order->shipping_phone }}</p>

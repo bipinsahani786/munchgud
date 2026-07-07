@@ -19,8 +19,17 @@ class AdminSettingsController extends Controller
     public function update(Request $request) {
         $data = $request->except(['_token']);
         
+        if ($request->has('instagram_reels_list')) {
+            $reels = $request->input('instagram_reels_list');
+            $data['instagram_reels_list'] = is_array($reels)
+                ? implode("\n", array_filter(array_map('trim', $reels)))
+                : trim($reels);
+        } else {
+            $data['instagram_reels_list'] = '';
+        }
+        
         // Handle file uploads separately
-        $fileKeys = ['company_logo', 'company_favicon'];
+        $fileKeys = ['company_logo', 'company_favicon', 'company_signature', 'home_hero_image', 'default_product_image'];
         foreach ($fileKeys as $key) {
             if ($request->hasFile($key)) {
                 $oldFile = Setting::get($key);

@@ -11,7 +11,9 @@ class GoogleController extends Controller
 
 public function redirect()
 {
-    return Socialite::driver('google')->stateless()->redirect();
+    /** @var \Laravel\Socialite\Two\AbstractProvider $driver */
+    $driver = Socialite::driver('google');
+    return $driver->stateless()->redirect();
 }
 
 public function callback(Request $request)
@@ -23,10 +25,16 @@ public function callback(Request $request)
             return redirect('/auth/google');
         }
 
-        $googleUser = Socialite::driver('google')
-            ->stateless()
-            ->setHttpClient(new \GuzzleHttp\Client(['verify' => storage_path('cacert.pem')]))
-            ->user();
+        /** @var \Laravel\Socialite\Two\AbstractProvider $driver */
+        $driver = Socialite::driver('google');
+        $driver->stateless();
+
+        // Use custom cacert.pem only for local environment SSL workaround
+        if (config('app.env') === 'local' && file_exists(storage_path('cacert.pem'))) {
+            $driver->setHttpClient(new \GuzzleHttp\Client(['verify' => storage_path('cacert.pem')]));
+        }
+
+        $googleUser = $driver->user();
 
         // Find or create the user
         $user = \App\Models\User::updateOrCreate(
@@ -47,9 +55,15 @@ public function callback(Request $request)
         return redirect()->route('home');
         
     } catch (\Exception $e) {
+        \Illuminate\Support\Facades\Log::error('Google Auth Callback Error', [
+            'message' => $e->getMessage(),
+            'file'    => $e->getFile(),
+            'line'    => $e->getLine(),
+            'trace'   => $e->getTraceAsString()
+        ]);
         // If they refresh the page or the code is already used, 
         // silently redirect them to start over again instead of crashing.
-        return redirect('/auth/google');
+        return redirect('/auth/google')->with('error', 'Google authentication failed: ' . $e->getMessage());
     }
 }
 }

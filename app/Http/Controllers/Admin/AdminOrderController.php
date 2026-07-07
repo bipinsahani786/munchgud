@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Services\OrderService;
+use App\Services\ShiprocketService;
 
 class AdminOrderController extends Controller
 {
@@ -38,12 +39,18 @@ class AdminOrderController extends Controller
         $request->validate(['status' => 'required|in:pending,confirmed,processing,shipped,delivered,cancelled']);
         
         if ($request->status === 'cancelled') {
+            if (!$request->filled('cancelled_reason')) {
+                $request->merge(['cancelled_reason' => 'Cancelled by Admin']);
+            }
             return $this->cancel($request, $order);
         }
 
-        $this->orderService->updateStatus($order->id, $request->status, auth('admin')->id());
-        
-        return back()->with('success', 'Order status updated.');
+        try {
+            $this->orderService->updateStatus($order->id, $request->status, auth('admin')->id());
+            return back()->with('success', 'Order status updated.');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     public function markPayment(Request $request, Order $order) {
@@ -55,6 +62,21 @@ class AdminOrderController extends Controller
         \App\Models\ActivityLog::log('Payment Status Updated', "Marked payment as {$request->payment_status}", $order, auth('admin')->id());
         
         return back()->with('success', 'Payment status updated successfully.');
+    }
+
+    public function updateShipping(Request $request, Order $order) {
+        $request->validate([
+            'tracking_number' => 'nullable|string|max:255',
+            'courier_name'    => 'nullable|string|max:255',
+            'remark'          => 'nullable|string|max:500',
+        ]);
+
+        $order->tracking_number = $request->tracking_number;
+        $order->courier_name = $request->courier_name;
+        $order->remark = $request->remark;
+        $order->save();
+
+        return back()->with('success', 'Shipping & Invoice details updated successfully.');
     }
 
     public function addTracking(Request $request, Order $order) {
@@ -77,29 +99,116 @@ class AdminOrderController extends Controller
 
     public function cancel(Request $request, Order $order) {
         $request->validate(['cancelled_reason' => 'required|string']);
-        $this->orderService->cancelOrder($order->id, $request->cancelled_reason, auth('admin')->id());
-        return back()->with('success', 'Order cancelled and refunded (if applicable).');
+        try {
+            $this->orderService->cancelOrder($order->id, $request->cancelled_reason, auth('admin')->id());
+            return back()->with('success', 'Order cancelled and refunded (if applicable).');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     public function refund(Request $request, Order $order) {
         $request->validate(['refund_amount' => 'required|numeric|min:0', 'refund_reason' => 'required|string']);
-        // Simplified refund logic
-        $this->orderService->cancelOrder($order->id, $request->refund_reason, auth('admin')->id());
-        return back()->with('success', 'Refund processed successfully.');
+        try {
+            $this->orderService->cancelOrder($order->id, $request->refund_reason, auth('admin')->id());
+            return back()->with('success', 'Refund processed successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     public function invoice(Order $order) {
-        $filename = 'invoices/INV-' . $order->order_number . '.pdf';
-        
-        if (!\Illuminate\Support\Facades\Storage::exists($filename)) {
-            return back()->with('error', 'Invoice not generated yet.');
-        }
-        
-        return \Illuminate\Support\Facades\Storage::download($filename);
+        $order->load(['items.sku.product', 'user']);
+        return view('admin.orders.invoice-print', compact('order'));
     }
 
     public function printLabel(Order $order) {
         $order->load(['user', 'items.sku']);
         return view('admin.orders.label', compact('order'));
+    }
+
+    // -------------------------------------------------------------------------
+    // Shiprocket: Push order to Shiprocket (Admin button)
+    // -------------------------------------------------------------------------
+
+    public function shiprocketPush(Request $request, Order $order) {
+        if ($order->isPushedToShiprocket()) {
+            return back()->with('error', 'Order already pushed to Shiprocket (ID: ' . $order->shiprocket_order_id . ')');
+        }
+
+        $autoAwb = $request->has('auto_awb');
+
+        try {
+            $shiprocket = app(ShiprocketService::class);
+            $shiprocket->pushOrder($order, $autoAwb);
+
+            \App\Models\ActivityLog::log(
+                'Shiprocket Push',
+                'Order pushed to Shiprocket. AWB: ' . ($order->fresh()->awb_code ?? 'Pending'),
+                $order,
+                auth('admin')->id()
+            );
+
+            $msg = 'Order pushed to Shiprocket successfully!';
+            if ($order->fresh()->awb_code) {
+                $msg .= ' AWB: ' . $order->fresh()->awb_code;
+            } else {
+                $msg .= ' AWB assignment in progress — click Sync Tracking in a few minutes.';
+            }
+
+            return back()->with('success', $msg);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Shiprocket push failed', [
+                'order' => $order->order_number,
+                'error' => $e->getMessage(),
+            ]);
+            return back()->with('error', 'Shiprocket push failed: ' . $e->getMessage());
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Shiprocket: Sync tracking updates from Shiprocket via AWB
+    // -------------------------------------------------------------------------
+
+    public function shiprocketSync(Order $order) {
+        $shiprocket = app(ShiprocketService::class);
+
+        // Case 1: Order pushed but no AWB yet → try to assign AWB
+        if ($order->isPushedToShiprocket() && !$order->awb_code) {
+            try {
+                $assigned = $shiprocket->retryAWBAssignment($order);
+
+                if ($assigned) {
+                    $order->refresh();
+                    return back()->with('success', '✅ AWB assigned successfully! AWB: ' . $order->awb_code . ' via ' . $order->courier_name);
+                } else {
+                    // Show raw log hint
+                    return back()->with('error',
+                        'AWB not assigned yet. Shiprocket may still be processing. ' .
+                        'Check Shiprocket Dashboard → Orders → ' . $order->order_number .
+                        ' and retry in 1-2 minutes.'
+                    );
+                }
+            } catch (\Exception $e) {
+                return back()->with('error', 'AWB assignment failed: ' . $e->getMessage());
+            }
+        }
+
+        // Case 2: AWB exists → sync tracking updates
+        if (!$order->awb_code) {
+            return back()->with('error', 'No AWB code found. Push order to Shiprocket first.');
+        }
+
+        try {
+            $synced = $shiprocket->syncTracking($order);
+
+            if ($synced) {
+                return back()->with('success', '✅ Tracking synced from Shiprocket successfully!');
+            } else {
+                return back()->with('error', 'No new tracking data from Shiprocket yet. Try after pickup is done.');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', 'Sync failed: ' . $e->getMessage());
+        }
     }
 }

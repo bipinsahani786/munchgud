@@ -33,6 +33,8 @@ Route::prefix('admin')->name('admin.')->group(function() {
     // Protected
     Route::middleware('admin')->group(function() {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
+        Route::patch('/profile', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
 
         // Products
         Route::resource('products', AdminProductController::class);
@@ -60,12 +62,16 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
         Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
+        Route::patch('orders/{order}/shipping', [AdminOrderController::class, 'updateShipping'])->name('orders.shipping');
         Route::post('orders/{order}/tracking', [AdminOrderController::class, 'addTracking'])->name('orders.tracking');
         Route::post('orders/{order}/cancel', [AdminOrderController::class, 'cancel'])->name('orders.cancel');
         Route::patch('orders/{order}/payment', [AdminOrderController::class, 'markPayment'])->name('orders.payment');
         Route::get('orders/{order}/invoice', [AdminOrderController::class, 'invoice'])->name('orders.invoice');
         Route::get('orders/{order}/label', [AdminOrderController::class, 'printLabel'])->name('orders.label');
         Route::post('orders/{order}/refund', [AdminOrderController::class, 'refund'])->name('orders.refund');
+        // Shiprocket
+        Route::post('orders/{order}/shiprocket/push', [AdminOrderController::class, 'shiprocketPush'])->name('orders.shiprocket.push');
+        Route::post('orders/{order}/shiprocket/sync', [AdminOrderController::class, 'shiprocketSync'])->name('orders.shiprocket.sync');
 
         // Inventory
         Route::get('inventory', [AdminInventoryController::class, 'index'])->name('inventory.index');
@@ -76,6 +82,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('customers', [AdminCustomerController::class, 'index'])->name('customers.index');
         Route::get('customers/{user}', [AdminCustomerController::class, 'show'])->name('customers.show');
         Route::patch('customers/{user}/toggle', [AdminCustomerController::class, 'toggle'])->name('customers.toggle');
+        Route::patch('customers/{user}/change-password', [AdminCustomerController::class, 'changePassword'])->name('customers.change-password');
 
         // Coupons
         Route::resource('coupons', AdminCouponController::class);

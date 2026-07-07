@@ -9,7 +9,8 @@ use App\Models\ContactInquiry;
 class ContactController extends Controller
 {
     public function show() {
-        return view('pages.contact');
+        $page = \App\Models\Page::where('slug', 'contact')->first();
+        return view('pages.contact', compact('page'));
     }
 
     public function send(Request $request) {

@@ -24,23 +24,169 @@
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Company Name</label>
                     <input type="text" name="company_name" value="{{ \App\Models\Setting::get('company_name', 'MunchGud Enterprises') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Company Logo</label>
-                    @if(\App\Models\Setting::get('company_logo'))
-                        <div class="mb-2">
-                            <img src="{{ Storage::url(\App\Models\Setting::get('company_logo')) }}" alt="Logo" class="h-12 object-contain bg-gray-50 p-2 rounded border border-gray-200">
+                <div x-data="{ 
+                    previewUrl: '{{ \App\Models\Setting::get('company_logo') ? Storage::url(\App\Models\Setting::get('company_logo')) : '' }}',
+                    isNew: false
+                }" class="flex flex-col gap-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Company Logo</label>
+                    
+                    <div class="flex items-center gap-4">
+                        <!-- Preview Box -->
+                        <div class="relative h-20 w-44 border border-gray-200 rounded-2xl bg-gray-50/50 flex items-center justify-center overflow-hidden p-3 transition-all duration-300 hover:border-emerald-300">
+                            <template x-if="previewUrl">
+                                <img :src="previewUrl" alt="Logo Preview" class="h-full w-full object-contain">
+                            </template>
+                            <template x-if="!previewUrl">
+                                <div class="text-center flex flex-col items-center gap-1">
+                                    <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"/></svg>
+                                    <span class="text-[10px] text-gray-400 font-medium">No Logo Uploaded</span>
+                                </div>
+                            </template>
                         </div>
-                    @endif
-                    <input type="file" name="company_logo" accept="image/*" class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+                        
+                        <!-- Status Info -->
+                        <div class="flex flex-col gap-1.5">
+                            <template x-if="previewUrl && !isNew">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 shadow-sm">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    Currently Active
+                                </span>
+                            </template>
+                            <template x-if="isNew">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-100 shadow-sm">
+                                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                                    Selected (Unsaved)
+                                </span>
+                            </template>
+                            <template x-if="!previewUrl">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600 border border-gray-200">
+                                    Not Set
+                                </span>
+                            </template>
+                            <p class="text-[10px] text-gray-400 font-medium max-w-xs leading-normal">
+                                <span x-show="!isNew">Select a new image below and click 'Save Settings' at the bottom.</span>
+                                <span x-show="isNew" class="text-amber-600 font-semibold">Remember to click the 'Save Settings' button below!</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <input type="file" name="company_logo" accept="image/*" 
+                        @change="
+                            const file = $event.target.files[0];
+                            if (file) {
+                                previewUrl = URL.createObjectURL(file);
+                                isNew = true;
+                            }
+                        "
+                        class="w-full max-w-sm border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none file:mr-4 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Favicon</label>
-                    @if(\App\Models\Setting::get('company_favicon'))
-                        <div class="mb-2">
-                            <img src="{{ Storage::url(\App\Models\Setting::get('company_favicon')) }}" alt="Favicon" class="h-8 w-8 object-contain bg-gray-50 p-1 rounded border border-gray-200">
+                
+                <div x-data="{ 
+                    previewUrl: '{{ \App\Models\Setting::get('company_favicon') ? Storage::url(\App\Models\Setting::get('company_favicon')) : '' }}',
+                    isNew: false
+                }" class="flex flex-col gap-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Favicon</label>
+                    
+                    <div class="flex items-center gap-4">
+                        <!-- Preview Box -->
+                        <div class="relative h-20 w-20 border border-gray-200 rounded-2xl bg-gray-50/50 flex items-center justify-center overflow-hidden p-3 transition-all duration-300 hover:border-emerald-300">
+                            <template x-if="previewUrl">
+                                <img :src="previewUrl" alt="Favicon Preview" class="h-full w-full object-contain">
+                            </template>
+                            <template x-if="!previewUrl">
+                                <div class="text-center flex flex-col items-center gap-1">
+                                    <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"/></svg>
+                                    <span class="text-[9px] text-gray-400 font-medium">No Favicon</span>
+                                </div>
+                            </template>
                         </div>
-                    @endif
-                    <input type="file" name="company_favicon" accept="image/*" class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+                        
+                        <!-- Status Info -->
+                        <div class="flex flex-col gap-1.5">
+                            <template x-if="previewUrl && !isNew">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 shadow-sm">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    Currently Active
+                                </span>
+                            </template>
+                            <template x-if="isNew">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-100 shadow-sm">
+                                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                                    Selected (Unsaved)
+                                </span>
+                            </template>
+                            <template x-if="!previewUrl">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600 border border-gray-200">
+                                    Not Set
+                                </span>
+                            </template>
+                            <p class="text-[10px] text-gray-400 font-medium max-w-xs leading-normal">
+                                <span x-show="!isNew">Select a new image below and click 'Save Settings' at the bottom.</span>
+                                <span x-show="isNew" class="text-amber-600 font-semibold">Remember to click the 'Save Settings' button below!</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <input type="file" name="company_favicon" accept="image/*" 
+                        @change="
+                            const file = $event.target.files[0];
+                            if (file) {
+                                previewUrl = URL.createObjectURL(file);
+                                isNew = true;
+                            }
+                        "
+                        class="w-full max-w-sm border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none file:mr-4 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+                </div>
+                <div x-data="{ 
+                    previewUrl: '{{ \App\Models\Setting::get('company_signature') ? Storage::url(\App\Models\Setting::get('company_signature')) : '' }}',
+                    isNew: false
+                }" class="flex flex-col gap-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Company Signature</label>
+                    <p class="text-[10px] text-gray-400 mb-1">Transparent PNG recommended. Displays on invoice bills.</p>
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="relative h-20 w-32 border border-gray-200 rounded-2xl bg-gray-50/50 flex items-center justify-center overflow-hidden p-3 transition-all duration-300 hover:border-emerald-300">
+                            <template x-if="previewUrl">
+                                <img :src="previewUrl" alt="Signature Preview" class="h-full w-full object-contain">
+                            </template>
+                            <template x-if="!previewUrl">
+                                <div class="text-center flex flex-col items-center gap-1">
+                                    <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"/></svg>
+                                    <span class="text-[9px] text-gray-400 font-medium">No Signature</span>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        <div class="flex flex-col gap-1.5">
+                            <template x-if="previewUrl && !isNew">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 shadow-sm">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    Currently Active
+                                </span>
+                            </template>
+                            <template x-if="isNew">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-100 shadow-sm">
+                                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                                    Selected (Unsaved)
+                                </span>
+                            </template>
+                            <template x-if="!previewUrl">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600 border border-gray-200">
+                                    Not Set
+                                </span>
+                            </template>
+                        </div>
+                    </div>
+
+                    <input type="file" name="company_signature" accept="image/*" 
+                        @change="
+                            const file = $event.target.files[0];
+                            if (file) {
+                                previewUrl = URL.createObjectURL(file);
+                                isNew = true;
+                            }
+                        "
+                        class="w-full max-w-sm border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none file:mr-4 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
                 </div>
             </div>
         </div>
@@ -70,6 +216,16 @@
                         <input type="text" name="company_state" value="{{ \App\Models\Setting::get('company_state', 'Bihar') }}" placeholder="State" class="w-2/3 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
                         <input type="text" name="company_pincode" value="{{ \App\Models\Setting::get('company_pincode', '800001') }}" placeholder="Pincode" class="w-1/3 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
                     </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">GSTIN</label>
+                    <input type="text" name="gstin" value="{{ \App\Models\Setting::get('gstin', '') }}" placeholder="e.g. 10AABCU9603R1Z1" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
+                    <p class="text-[10px] text-gray-400 mt-1">Appears on Tax Invoice</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">State Code</label>
+                    <input type="text" name="state_code" value="{{ \App\Models\Setting::get('state_code', '') }}" placeholder="e.g. 10" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
+                    <p class="text-[10px] text-gray-400 mt-1">GST State Code for invoice</p>
                 </div>
             </div>
         </div>
@@ -110,10 +266,149 @@
                 <h2 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Storefront</h2>
             </div>
             <div class="p-6 grid md:grid-cols-2 gap-5">
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Instagram Embed URL</label>
-                    <input type="text" name="instagram_embed_url" value="{{ \App\Models\Setting::get('instagram_embed_url') }}" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none" placeholder="https://www.instagram.com/p/.../embed">
-                    <p class="text-[11px] text-gray-400 mt-1.5">Instagram post embed URL for the homepage.</p>
+                <div x-data="{ 
+                    previewUrl: '{{ \App\Models\Setting::get('home_hero_image') ? Storage::url(\App\Models\Setting::get('home_hero_image')) : '' }}',
+                    isNew: false
+                }" class="md:col-span-2 flex flex-col gap-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Home Hero Image</label>
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="relative h-24 w-48 border border-gray-200 rounded-2xl bg-gray-50/50 flex items-center justify-center overflow-hidden p-3 transition-all duration-300 hover:border-emerald-300">
+                            <template x-if="previewUrl">
+                                <img :src="previewUrl" alt="Hero Preview" class="h-full w-full object-cover rounded-xl">
+                            </template>
+                            <template x-if="!previewUrl">
+                                <div class="text-center flex flex-col items-center gap-1">
+                                    <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"/></svg>
+                                    <span class="text-[10px] text-gray-400 font-medium">No Image</span>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        <div class="flex flex-col gap-1.5">
+                            <template x-if="previewUrl && !isNew">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 shadow-sm">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    Currently Active
+                                </span>
+                            </template>
+                            <template x-if="isNew">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-100 shadow-sm">
+                                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                                    Selected (Unsaved)
+                                </span>
+                            </template>
+                            <template x-if="!previewUrl">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600 border border-gray-200">
+                                    Not Set
+                                </span>
+                            </template>
+                        </div>
+                    </div>
+
+                    <input type="file" name="home_hero_image" accept="image/*" 
+                        @change="
+                            const file = $event.target.files[0];
+                            if (file) {
+                                previewUrl = URL.createObjectURL(file);
+                                isNew = true;
+                            }
+                        "
+                        class="w-full max-w-sm border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none file:mr-4 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+                </div>
+                
+                <div x-data="{ 
+                    previewUrl: '{{ \App\Models\Setting::get('default_product_image') ? Storage::url(\App\Models\Setting::get('default_product_image')) : '' }}',
+                    isNew: false
+                }" class="md:col-span-2 flex flex-col gap-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Default Product Image</label>
+                    <p class="text-[11px] text-gray-400 mb-2">Used as a fallback when a product doesn't have an image uploaded.</p>
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="relative h-24 w-24 border border-gray-200 rounded-2xl bg-gray-50/50 flex items-center justify-center overflow-hidden p-3 transition-all duration-300 hover:border-emerald-300">
+                            <template x-if="previewUrl">
+                                <img :src="previewUrl" alt="Product Preview" class="h-full w-full object-cover rounded-xl">
+                            </template>
+                            <template x-if="!previewUrl">
+                                <div class="text-center flex flex-col items-center gap-1">
+                                    <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"/></svg>
+                                    <span class="text-[10px] text-gray-400 font-medium">No Image</span>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        <div class="flex flex-col gap-1.5">
+                            <template x-if="previewUrl && !isNew">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 shadow-sm">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    Currently Active
+                                </span>
+                            </template>
+                            <template x-if="isNew">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-100 shadow-sm">
+                                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                                    Selected (Unsaved)
+                                </span>
+                            </template>
+                            <template x-if="!previewUrl">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600 border border-gray-200">
+                                    Not Set
+                                </span>
+                            </template>
+                        </div>
+                    </div>
+
+                    <input type="file" name="default_product_image" accept="image/*" 
+                        @change="
+                            const file = $event.target.files[0];
+                            if (file) {
+                                previewUrl = URL.createObjectURL(file);
+                                isNew = true;
+                            }
+                        "
+                        class="w-full max-w-sm border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none file:mr-4 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+                </div>
+                @php
+                    $globalReelsText = \App\Models\Setting::get('instagram_reels_list', '');
+                    if (empty(trim($globalReelsText))) {
+                        $homePage = \App\Models\Page::where('slug', 'home')->first();
+                        if ($homePage && is_array($homePage->sections)) {
+                            if (!empty($homePage->sections['instagram_reels_list'])) {
+                                $globalReelsText = $homePage->sections['instagram_reels_list'];
+                            } else {
+                                $oldLinks = [];
+                                foreach(['instagram_video_1', 'instagram_video_2', 'instagram_video_3'] as $oldKey) {
+                                    if (!empty($homePage->sections[$oldKey])) {
+                                        $oldLinks[] = trim($homePage->sections[$oldKey]);
+                                    }
+                                }
+                                $globalReelsText = implode("\n", $oldLinks);
+                            }
+                        }
+                    }
+                    $reelsArray = array_values(array_filter(array_map('trim', explode("\n", $globalReelsText))));
+                @endphp
+                <div class="md:col-span-2" x-data="{ 
+                    reels: {{ json_encode(array_map(function($url) { return ['url' => $url]; }, $reelsArray)) }} 
+                }" x-init="if (!reels || reels.length === 0) reels = [{ url: '' }]">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Instagram Reels / Posts List</label>
+                    
+                    <div class="space-y-3">
+                        <template x-for="(reel, index) in reels" :key="index">
+                            <div class="flex gap-2 items-center">
+                                <input type="url" name="instagram_reels_list[]" x-model="reel.url" placeholder="e.g. https://www.instagram.com/reel/..." class="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none">
+                                <button type="button" @click="if (reels.length > 1) reels.splice(index, 1); else reels = [{ url: '' }]" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition flex-shrink-0" title="Remove URL">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                    
+                    <button type="button" @click="reels.push({ url: '' })" class="mt-3 inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold text-xs rounded-xl hover:bg-emerald-100 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                        + Add Reel URL
+                    </button>
+                    <p class="text-[11px] text-gray-400 mt-2">Add as many Instagram Reel or Post URLs as you like. They will be rendered in a touch-friendly slider on the homepage.</p>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Free Shipping Text</label>

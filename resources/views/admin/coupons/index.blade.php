@@ -64,13 +64,24 @@
                                 <span class="font-semibold text-gray-900">{{ $coupon->used_count }}</span>
                                 <span class="text-gray-400 text-xs">/ {{ $coupon->usage_limit ?: '∞' }}</span>
                             </div>
+                            @if($coupon->per_user_limit)
+                                <div class="text-[10px] text-gray-400 mt-1">Limit: {{ $coupon->per_user_limit }} per user</div>
+                            @endif
                         </td>
                         <td class="px-6 py-4">
-                            @if($coupon->is_active && (!$coupon->end_at || $coupon->end_at->isFuture()) && (!$coupon->usage_limit || $coupon->used_count < $coupon->usage_limit))
-                                <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-100 rounded">Active</span>
-                            @else
-                                <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-600 border border-gray-200 rounded">Inactive/Expired</span>
-                            @endif
+                            <div class="flex flex-col gap-1 items-start">
+                                @if($coupon->is_active && (!$coupon->end_at || $coupon->end_at->isFuture()) && (!$coupon->usage_limit || $coupon->used_count < $coupon->usage_limit))
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-100 rounded">Active</span>
+                                @else
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-600 border border-gray-200 rounded">Inactive/Expired</span>
+                                @endif
+
+                                @if($coupon->is_visible)
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-100 rounded">Public</span>
+                                @else
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-700 border border-amber-100 rounded">Internal Only</span>
+                                @endif
+                            </div>
                         </td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex justify-end gap-2">

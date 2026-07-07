@@ -46,6 +46,7 @@ class OrderService
                 'shipping_phone' => $addressData['phone'] ?? '',
                 'shipping_line1' => $addressData['line1'] ?? '',
                 'shipping_line2' => $addressData['line2'] ?? null,
+                'shipping_landmark' => $addressData['landmark'] ?? null,
                 'shipping_city' => $addressData['city'] ?? '',
                 'shipping_state' => $addressData['state'] ?? '',
                 'shipping_pincode' => $addressData['pincode'] ?? '',

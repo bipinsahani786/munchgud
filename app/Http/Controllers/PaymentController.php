@@ -28,7 +28,12 @@ class PaymentController extends Controller
             $razorpayOrder = $this->paymentService->createRazorpayOrder($summary['total'], $receiptId);
             
             // Store address temporarily in session if creating order
-            if ($request->address_data) {
+            if ($request->address_id) {
+                $address = auth()->user()->addresses()->find($request->address_id);
+                if ($address) {
+                    session(['temp_checkout_address' => $address->toArray()]);
+                }
+            } elseif ($request->address_data) {
                 session(['temp_checkout_address' => $request->address_data]);
             }
             

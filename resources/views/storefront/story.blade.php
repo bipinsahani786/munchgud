@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Our Story | MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Our Story | MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Learn about MunchGud — how we source premium makhana directly from Bihar farms, our mission to make healthy snacking delicious, and the team behind the brand.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'our story, makhana sourcing, healthy snacking, bihar makhana, munchgud story')
 
 @section('content')
 
@@ -129,7 +131,7 @@
             <div class="order-1 lg:order-2 reveal relative">
                 <img src="{{ isset($page->sections['roots_image_main']) ? Storage::url($page->sections['roots_image_main']) : asset('images/story_farmer.png') }}" alt="Farmers in Bihar" class="rounded-[2rem] shadow-2xl w-full object-cover aspect-[4/5]">
                 <div class="absolute -left-12 top-12 bg-white/90 backdrop-blur p-4 rounded-2xl shadow-xl rotate-[-5deg]">
-                    <img src="{{ isset($page->sections['roots_image_small']) ? Storage::url($page->sections['roots_image_small']) : 'https://images.unsplash.com/photo-1596647225141-8f5bc6518a4a?q=80&w=200&auto=format&fit=crop' }}" class="w-24 h-24 rounded-xl object-cover">
+                    <img src="{{ isset($page->sections['roots_image_small']) ? Storage::url($page->sections['roots_image_small']) : 'https://images.unsplash.com/photo-1596647225141-8f5bc6518a4a?q=80&w=200&auto=format&fit=crop' }}" alt="Farmer working" class="w-24 h-24 rounded-xl object-cover">
                 </div>
             </div>
         </div>
@@ -196,6 +198,16 @@
 </section>
 
 {{-- 7. MEET THE TEAM / FOUNDERS --}}
+@php
+    $founder1Name = $page->sections['team_1_name'] ?? null;
+    $founder2Name = $page->sections['team_2_name'] ?? null;
+    
+    $hasFounder1 = !empty($founder1Name) && ($page->sections['team_1_is_active'] ?? '0') == '1';
+    $hasFounder2 = !empty($founder2Name) && ($page->sections['team_2_is_active'] ?? '0') == '1';
+    $founderCount = ($hasFounder1 ? 1 : 0) + ($hasFounder2 ? 1 : 0);
+@endphp
+
+@if($founderCount > 0)
 <section class="py-24 bg-mg-cream grain">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 reveal">
@@ -203,33 +215,38 @@
             <p class="text-lg text-mg-muted max-w-2xl mx-auto">{{ $page->sections['team_desc'] ?? 'A team of snack-enthusiasts, nutrition nerds, and flavor scientists.' }}</p>
         </div>
         
-        <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+        <div class="grid {{ $founderCount == 1 ? 'grid-cols-1 max-w-sm' : 'md:grid-cols-2 max-w-4xl' }} gap-12 mx-auto">
+            @if($hasFounder1)
             <!-- Founder 1 -->
             <div class="reveal group">
-                <div class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 relative">
-                    <img src="{{ isset($page->sections['team_1_image']) ? Storage::url($page->sections['team_1_image']) : 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 relative bg-white">
+                    <img src="{{ isset($page->sections['team_1_image']) ? Storage::url($page->sections['team_1_image']) : 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop' }}" alt="Team Member 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                        <p class="text-white italic">{!! $page->sections['team_1_quote'] ?? '"We wanted to build a brand that our own families could trust blindly."' !!}</p>
+                        <p class="text-white italic">{!! $page->sections['team_1_quote'] ?? '' !!}</p>
                     </div>
                 </div>
-                <h3 class="font-heading text-3xl font-black text-mg-dark">{{ $page->sections['team_1_name'] ?? 'Rahul Sharma' }}</h3>
-                <p class="text-mg-green font-bold uppercase tracking-wider text-sm mt-1">{{ $page->sections['team_1_role'] ?? 'Co-Founder & CEO' }}</p>
+                <h3 class="font-heading text-3xl font-black text-mg-dark">{{ $founder1Name }}</h3>
+                <p class="text-mg-green font-bold uppercase tracking-wider text-sm mt-1">{{ $page->sections['team_1_role'] ?? '' }}</p>
             </div>
+            @endif
             
+            @if($hasFounder2)
             <!-- Founder 2 -->
             <div class="reveal group" style="transition-delay: 0.2s">
-                <div class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 relative">
-                    <img src="{{ isset($page->sections['team_2_image']) ? Storage::url($page->sections['team_2_image']) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 relative bg-white">
+                    <img src="{{ isset($page->sections['team_2_image']) ? Storage::url($page->sections['team_2_image']) : 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop' }}" alt="Team Member 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-mg-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                        <p class="text-white italic">{!! $page->sections['team_2_quote'] ?? '"Creating guilt-free snacks that actually taste amazing was the ultimate puzzle."' !!}</p>
+                        <p class="text-white italic">{!! $page->sections['team_2_quote'] ?? '' !!}</p>
                     </div>
                 </div>
-                <h3 class="font-heading text-3xl font-black text-mg-dark">{{ $page->sections['team_2_name'] ?? 'Priya Patel' }}</h3>
-                <p class="text-mg-orange font-bold uppercase tracking-wider text-sm mt-1">{{ $page->sections['team_2_role'] ?? 'Co-Founder & Head of Product' }}</p>
+                <h3 class="font-heading text-3xl font-black text-mg-dark">{{ $founder2Name }}</h3>
+                <p class="text-mg-orange font-bold uppercase tracking-wider text-sm mt-1">{{ $page->sections['team_2_role'] ?? '' }}</p>
             </div>
+            @endif
         </div>
     </div>
 </section>
+@endif
 
 {{-- 8. IMPACT & SUSTAINABILITY --}}
 <section class="py-24 bg-white">
@@ -267,7 +284,7 @@
 </section>
 
 {{-- 9. LIFESTYLE GALLERY (MARQUEE) --}}
-<section class="py-20 bg-mg-cream grain overflow-hidden">
+<!-- <section class="py-20 bg-mg-cream grain overflow-hidden">
     <div class="text-center mb-12 reveal">
         <h2 class="font-heading text-4xl font-black text-mg-dark">The MunchGud Fam</h2>
     </div>
@@ -293,14 +310,14 @@
                 @endphp
                 <div class="w-64 shrink-0 bg-white p-3 pb-12 rounded-lg shadow-xl shadow-mg-dark/5 {{ $rotation }} {{ $mt }} transition-transform hover:scale-105 hover:z-10 hover:rotate-0 duration-300">
                     <div class="w-full h-64 overflow-hidden rounded bg-mg-cream">
-                        <img src="{{ $img }}" class="w-full h-full object-cover">
+                        <img src="{{ $img }}" alt="MunchGud Gallery Image {{ $loop->iteration }}" class="w-full h-full object-cover">
                     </div>
                 </div>
                 @endforeach
             @endfor
         </div>
     </div>
-</section>
+</section> -->
 
 {{-- FEATURED PRODUCTS --}}
 @php

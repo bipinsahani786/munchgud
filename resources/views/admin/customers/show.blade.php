@@ -60,6 +60,26 @@
             </div>
         </div>
 
+        <!-- Change Password Card -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide mb-4">Change Password</h3>
+            <form action="{{ route('admin.customers.change-password', $user) }}" method="POST" class="space-y-4">
+                @csrf
+                @method('PATCH')
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1.5">New Password</label>
+                    <input type="password" name="password" required placeholder="Minimum 6 characters"
+                           class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1.5">Confirm Password</label>
+                    <input type="password" name="password_confirmation" required placeholder="Re-enter password"
+                           class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 outline-none">
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 text-white text-xs font-bold py-2.5 rounded-xl hover:bg-emerald-700 transition">Update Password</button>
+            </form>
+        </div>
+
         <!-- Addresses -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-100">

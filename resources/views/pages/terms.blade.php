@@ -1,39 +1,173 @@
 @extends('storefront.layout')
 
-@section('title', 'Terms of Service - MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Terms & Conditions - MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Read the Terms and Conditions of MunchGud to understand your rights and guidelines for using our website.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'terms and conditions, munchgud terms, user agreement')
 
 @section('content')
-<div class="bg-munch-cream min-h-screen pb-24">
-    <!-- Header -->
-    <div class="relative bg-munch-900 py-20 overflow-hidden text-center">
-        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#E07B2A 1px, transparent 1px); background-size: 40px 40px;"></div>
-        <div class="relative z-10 max-w-3xl mx-auto px-4">
-            <span class="text-munch-accent uppercase tracking-widest font-bold text-xs mb-3 block">Agreements</span>
-            <h1 class="text-4xl md:text-5xl font-serif text-white mb-4">Terms of Service</h1>
-            <p class="text-sm text-munch-300 font-light">Last Updated: May 2026</p>
+<div class="bg-mg-cream min-h-screen py-16 sm:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="text-center mb-16 reveal">
+            <h1 class="font-heading text-4xl sm:text-5xl font-black text-mg-dark mb-4">Terms & Conditions</h1>
+            <p class="text-mg-muted text-lg">Last updated: {{ date('F d, Y') }}</p>
         </div>
-    </div>
 
-    <!-- Body -->
-    <div class="max-w-7xl mx-auto px-4 py-16">
-        <div class="flex flex-col lg:flex-row gap-12 items-start">
+        <!-- Content Box -->
+        <div class="bg-white rounded-[2rem] shadow-sm border border-mg-dark/5 p-8 sm:p-12 reveal" style="transition-delay: 0.1s">
             
-            <!-- Sidebar Navigation -->
-            <aside class="w-full lg:w-64 lg:sticky lg:top-24 bg-white border border-munch-200 rounded-2xl p-6 space-y-2 flex-shrink-0">
-                <h4 class="text-munch-900 font-serif font-bold text-base mb-4 pb-2 border-b border-munch-100">Sections</h4>
-                <a href="#acceptance" class="block text-sm text-munch-600 hover:text-mg-green transition font-medium">1. Acceptance of Terms</a>
-                <a href="#accounts" class="block text-sm text-munch-600 hover:text-mg-green transition font-medium">2. Customer Accounts</a>
-                <a href="#purchases" class="block text-sm text-munch-600 hover:text-mg-green transition font-medium">3. Purchases & Payments</a>
-                <a href="#intellectual" class="block text-sm text-munch-600 hover:text-mg-green transition font-medium">4. Intellectual Property</a>
-                <a href="#limitations" class="block text-sm text-munch-600 hover:text-mg-green transition font-medium">5. Limitations of Liability</a>
-                <a href="#governing" class="block text-sm text-munch-600 hover:text-mg-green transition font-medium">6. Governing Law</a>
-                <a href="#changes" class="block text-sm text-munch-600 hover:text-mg-green transition font-medium">7. Changes to Terms</a>
-            </aside>
+            <div class="prose prose-lg prose-emerald max-w-none prose-headings:font-heading prose-headings:font-black prose-headings:text-mg-dark prose-p:text-mg-dark/80 prose-p:leading-relaxed prose-li:text-mg-dark/80">
+                
+                <!-- 1. Introduction -->
+                <div class="mb-10">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">1</span>
+                        Introduction
+                    </h2>
+                    <p>Welcome to MunchGud. These Terms and Conditions govern your use of our website and services. By accessing or using our website and purchasing our products, you agree to comply with and be bound by these Terms.</p>
+                    <p>If you do not agree with any part of these Terms, please do not use our website.</p>
+                </div>
 
-            <!-- Text Content -->
-            <article class="flex-grow bg-white border border-munch-200 rounded-3xl p-8 md:p-12 space-y-10 text-munch-800 leading-relaxed font-light">
-                {!! \Illuminate\Support\Facades\Blade::render($page->content ?? '', ['global_settings' => $global_settings ?? []]) !!}
-            </article>
+                <!-- 2. Use of Website -->
+                <div class="mb-10">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">2</span>
+                        Use of Website
+                    </h2>
+                    <p>By using this website, you agree that:</p>
+                    <ul class="list-disc pl-5 space-y-2 mt-4">
+                        <li>You are at least 18 years old or using the website under parental supervision.</li>
+                        <li>You will use the website only for lawful purposes.</li>
+                        <li>You will not attempt to damage, hack, or misuse the website.</li>
+                    </ul>
+                </div>
+
+                <!-- 3. Products & Pricing -->
+                <div class="mb-10">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">3</span>
+                        Products & Pricing
+                    </h2>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>MunchGud sells roasted and flavored makhana snacks.</li>
+                        <li>Product images are for illustration purposes only.</li>
+                        <li>Actual packaging may vary slightly.</li>
+                        <li>All prices are listed in Indian Rupees (₹) and may change without prior notice.</li>
+                        <li>Products are subject to availability.</li>
+                    </ul>
+                </div>
+
+                <!-- 4. Orders & Payment -->
+                <div class="mb-10">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">4</span>
+                        Orders & Payment
+                    </h2>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Orders are confirmed only after successful payment.</li>
+                        <li>Payments can be made through UPI, debit/credit cards, net banking, or other secure payment methods.</li>
+                        <li>MunchGud reserves the right to cancel any order due to product unavailability or pricing errors.</li>
+                    </ul>
+                </div>
+
+                <!-- 5. Shipping & Delivery -->
+                <div class="mb-10">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">5</span>
+                        Shipping & Delivery
+                    </h2>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Orders will be processed and shipped within the estimated timeframe mentioned on the website.</li>
+                        <li>Delivery times may vary depending on your location and courier services.</li>
+                        <li>MunchGud is not responsible for delays caused by third-party courier partners or unforeseen circumstances.</li>
+                    </ul>
+                </div>
+
+                <!-- 6. Return & Refund Policy -->
+                <div class="mb-10">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">6</span>
+                        Return & Refund Policy
+                    </h2>
+                    <p>Due to the nature of food products:</p>
+                    <ul class="list-disc pl-5 space-y-2 mt-4">
+                        <li>Food items are generally non-returnable.</li>
+                        <li>If you receive a damaged or incorrect product, please contact us within 48 hours of delivery with photos.</li>
+                        <li>After verification, we may provide a replacement or refund.</li>
+                    </ul>
+                </div>
+
+                <!-- 7. Intellectual Property -->
+                <div class="mb-10">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">7</span>
+                        Intellectual Property
+                    </h2>
+                    <p>All content on this website including:</p>
+                    <ul class="list-disc pl-5 space-y-2 mt-4">
+                        <li>Logo</li>
+                        <li>Images</li>
+                        <li>Product descriptions</li>
+                        <li>Website design</li>
+                    </ul>
+                    <p class="mt-4">belongs to MunchGud and may not be copied or used without written permission.</p>
+                </div>
+
+                <!-- 8. Limitation of Liability -->
+                <div class="mb-10">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">8</span>
+                        Limitation of Liability
+                    </h2>
+                    <p>MunchGud is not responsible for:</p>
+                    <ul class="list-disc pl-5 space-y-2 mt-4">
+                        <li>Allergic reactions to ingredients</li>
+                        <li>Improper product usage</li>
+                        <li>Delays caused by courier or payment partners</li>
+                    </ul>
+                    <p class="mt-4 font-semibold">Customers should check product ingredients before consumption.</p>
+                </div>
+
+                <!-- 9. Changes to Terms -->
+                <div class="mb-10">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">9</span>
+                        Changes to Terms
+                    </h2>
+                    <p>MunchGud reserves the right to modify or update these Terms & Conditions at any time. Continued use of the website means you accept the updated terms.</p>
+                </div>
+
+                <!-- 10. Governing Law -->
+                <div class="mb-10">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">10</span>
+                        Governing Law
+                    </h2>
+                    <p>These Terms & Conditions are governed by the laws of India, and any disputes will be subject to the jurisdiction of Indian courts.</p>
+                </div>
+
+                <!-- 11. Contact Us -->
+                <div class="mb-4">
+                    <h2 class="text-2xl mb-4 text-mg-green flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-mg-green/10 flex items-center justify-center text-sm">11</span>
+                        Contact Us
+                    </h2>
+                    <p>If you have any questions about these Terms & Conditions, you can contact us:</p>
+                    <div class="bg-mg-cream/50 rounded-xl p-6 mt-6 border border-mg-dark/5">
+                        <p class="font-bold text-mg-dark text-lg mb-2">MunchGud</p>
+                        <div class="flex items-center gap-3 text-mg-dark/80 mb-2">
+                            <span>📧</span>
+                            <a href="mailto:munchgud@gmail.com" class="hover:text-mg-green transition">munchgud@gmail.com</a>
+                        </div>
+                        <div class="flex items-center gap-3 text-mg-dark/80">
+                            <span>📞</span>
+                            <a href="tel:+918446274791" class="hover:text-mg-green transition">+91-8446274791</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

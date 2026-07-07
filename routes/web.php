@@ -46,6 +46,12 @@ Route::post('/payment/razorpay/create', [PaymentController::class, 'createOrder'
 Route::post('/payment/razorpay/verify', [PaymentController::class, 'verify'])->name('payment.verify');
 Route::post('/payment/webhook', [PaymentController::class, 'webhook'])->withoutMiddleware(['web', \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])->name('payment.webhook');
 
+// Delivery tracking webhook (auto-updates from courier via Shiprocket)
+// NOTE: URL must NOT contain "shiprocket", "sr", "kr" per Shiprocket docs
+Route::post('/delivery/tracking-update', [\App\Http\Controllers\ShiprocketWebhookController::class, 'handle'])
+    ->withoutMiddleware(['web', \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])
+    ->name('delivery.tracking.webhook');
+
 // Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/auth/check', [AuthController::class, 'checkEmail'])->name('auth.check');
@@ -118,6 +124,10 @@ Route::post('/products/{product}/reviews', [ReviewController::class, 'store'])->
 
 // Pincode check
 Route::post('/api/check-pincode', [\App\Http\Controllers\PincodeController::class, 'check'])->name('api.pincode.check');
+
+// Sitemap
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+Route::get('/sitemap.html', [App\Http\Controllers\SitemapController::class, 'html'])->name('sitemap.html');
 
 require __DIR__.'/admin.php';
 
