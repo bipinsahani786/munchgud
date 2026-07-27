@@ -71,6 +71,18 @@
                     <template x-if="discount > 0">
                         <span class="absolute top-4 left-4 sm:top-6 sm:left-6 bg-mg-orange text-white text-[10px] sm:text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10" x-text="`-${discount}% OFF`" x-show="!zoom"></span>
                     </template>
+                    @if($product->secondary_badge_text)
+                    <style>
+                    @keyframes floatBadge {
+                        0% { transform: translateY(0px); }
+                        50% { transform: translateY(-6px); }
+                        100% { transform: translateY(0px); }
+                    }
+                    </style>
+                    <span class="absolute top-4 right-4 sm:top-6 sm:right-6 bg-mg-green text-white text-[10px] sm:text-xs font-bold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10" style="animation: floatBadge 3s ease-in-out infinite;" x-show="!zoom">
+                        {{ $product->secondary_badge_text }}
+                    </span>
+                    @endif
 
                 </div>
                 
