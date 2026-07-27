@@ -25,7 +25,8 @@ class Product extends Model
         'cod_allowed',
         'tags',
         'meta_title',
-        'meta_description'
+        'meta_description',
+        'secondary_badge_text'
     ];
 
     protected $casts = [

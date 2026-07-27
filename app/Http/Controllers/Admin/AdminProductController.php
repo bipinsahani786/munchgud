@@ -67,7 +67,8 @@ class AdminProductController extends Controller
             'cod_allowed' => 'boolean',
             'tags' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string'
+            'meta_description' => 'nullable|string',
+            'secondary_badge_text' => 'nullable|string|max:50'
         ]);
         $validated['cod_allowed'] = $request->has('cod_allowed') ? 1 : 0;
 
@@ -110,7 +111,8 @@ class AdminProductController extends Controller
             'cod_allowed' => 'boolean',
             'tags' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string'
+            'meta_description' => 'nullable|string',
+            'secondary_badge_text' => 'nullable|string|max:50'
         ]);
         $validated['cod_allowed'] = $request->has('cod_allowed') ? 1 : 0;
 
