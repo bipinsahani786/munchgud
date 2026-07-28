@@ -328,6 +328,9 @@
                         @if($discount > 0)
                             <span class="absolute top-4 left-4 bg-mg-orange text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">-{{ $discount }}% OFF</span>
                         @endif
+                        @if($rp->secondary_badge_text)
+                            <span class="absolute top-4 right-4 bg-mg-green text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">{{ $rp->secondary_badge_text }}</span>
+                        @endif
                     </a>
                     
                     <button x-data="{
