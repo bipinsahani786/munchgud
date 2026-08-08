@@ -201,7 +201,7 @@ class InitialDataSeeder extends Seeder
             
             // JSON lists
             $homeSecs['health_benefits_json'] = $homeSecs['health_benefits_json'] ?? json_encode([
-                ['n'=>'Protein Power', 'v'=>'15g', 'd'=>'Per 100g. Excellent for muscle recovery.'],
+                ['n'=>'Protein Power', 'v'=>'10g', 'd'=>'Per 100g. Excellent for muscle recovery.'],
                 ['n'=>'Antioxidant Rich', 'v'=>'High', 'd'=>'Fights free radicals and aging.'],
                 ['n'=>'Glycemic Index', 'v'=>'Low', 'd'=>'Perfect for sustained energy levels.'],
                 ['n'=>'Gluten Free', 'v'=>'100%', 'd'=>'Naturally free from gluten.'],
@@ -310,19 +310,39 @@ class InitialDataSeeder extends Seeder
         if (Faq::count() == 0) {
             $faqs = [
                 [
-                    'question' => 'Are MunchGud makhanas suitable for weight loss?', 
-                    'answer' => 'Absolutely! Air-roasted with zero oil, only 89 calories per 30g, high in fiber and protein — the perfect weight-loss snack.', 
+                    'question' => 'What are roasted fox nuts?', 
+                    'answer' => 'Roasted fox nuts, also known as makhana, are light and crunchy snacks made from the popped seeds of the lotus plant. After harvesting, the seeds are roasted and seasoned to make a ready-to-eat snack that\'s enjoyed across India. Available in different flavours, roasted fox nuts are a popular choice for people who want a tasty alternative to traditional fried snacks.', 
                     'category' => 'product'
-                ], 
+                ],
                 [
-                    'question' => 'What is the shelf life?', 
-                    'answer' => '6 months from manufacturing. Best consumed within 15 days of opening for optimal crunch.', 
+                    'question' => 'Why is flavoured makhana becoming so popular?', 
+                    'answer' => 'Flavoured makhana is becoming a popular snack because it brings new taste to traditional makhana. With flavours like Cream & Onion and Peri Peri, people can enjoy something different without moving away from a familiar snack. As more people look for better alternatives to conventional packaged snacks, flavoured makhana is becoming a regular choice in homes across India.', 
                     'category' => 'product'
-                ], 
+                ],
                 [
-                    'question' => 'Do you ship pan-India?', 
-                    'answer' => 'Yes! Free shipping on orders above 499. Standard delivery 3-5 business days across India.', 
+                    'question' => 'Can we have makhana as a snack?', 
+                    'answer' => 'Yes, makhana is a great snack for any time of the day. Made from roasted lotus seeds, it is light, ready to eat, and a good alternative to many traditional snacks. You can enjoy plain or flavoured makhana, depending on what you like. With different flavours and an easy-to-carry pack, roasted makhana is a simple snack you can enjoy whenever you feel like having something tasty.', 
+                    'category' => 'product'
+                ],
+                [
+                    'question' => 'Are makhana snacks a source of protein?', 
+                    'answer' => 'Yes. Makhana naturally contains protein, making it a popular choice for people looking to include more nutritious snack options in their daily routine. Roasted makhana can be enjoyed as part of a balanced diet and is a good alternative to many traditional packaged snacks. While it is not the highest-protein snack, it is a light and convenient option for people who want something better than many fried or heavily processed snacks.', 
+                    'category' => 'product'
+                ],
+                [
+                    'question' => 'Why do people like to eat makhana when they are trying to lose weight?', 
+                    'answer' => 'Many people choose roasted makhana when they are trying to lose weight because it is a lighter alternative to many traditional fried snacks. It can help satisfy snack cravings without feeling too heavy. That said, no single food can help with weight loss on its own. A balanced diet, regular physical activity, and a healthy lifestyle all play an important role. Makhana is simply a convenient snack that fits well into healthier food choices.', 
+                    'category' => 'product'
+                ],
+                [
+                    'question' => 'Where can I get roasted makhana online?', 
+                    'answer' => 'You can buy roasted makhana online from the official MunchGud website at www.munchgud.com. Our latest flavours are also available on Amazon, Flipkart, and Meesho, so you can order from the platform you prefer. We deliver across India, so you can enjoy fresh MunchGud roasted makhana delivered right to your doorstep.', 
                     'category' => 'shipping'
+                ],
+                [
+                    'question' => 'What makes MunchGud makhana different?', 
+                    'answer' => 'MunchGud focuses on good ingredients, consistent quality, and flavours people enjoy. We source makhana from farming families in Mithilanchal, Bihar, and roast every batch with care before seasoning it. From Cream & Onion to Peri Peri, every pack is made to give you the same great taste and freshness every time.', 
+                    'category' => 'product'
                 ]
             ];
             foreach ($faqs as $i => $faq) { 

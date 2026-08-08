@@ -324,9 +324,9 @@
                     <span class="inline-block bg-mg-green/10 text-mg-green font-bold tracking-widest uppercase text-xs px-4 py-1.5 rounded-full mb-4">Premium Snacking</span>
                     <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-black text-mg-dark mb-6">MunchGud Premium Roasted Makhana</h2>
                     <div class="text-mg-dark/80 text-lg leading-relaxed space-y-5">
-                        <p>MunchGud has a collection of flavoured makhana that is good for you and tastes amazing. Their roasted fox nuts are crafted to deliver a light texture with a satisfying crunch. They offer bold flavours that make snack time more enjoyable.</p>
-                        <p>MunchGud makhana adds flavour and crunch to everyday snacking. Enjoy eating the makhana range when you are working or travelling or watching a movie. It is an easy snack option for busy lifestyles. MunchGud is a great choice for everyday snacking. MunchGud brings a more enjoyable way to snack.</p>
-                        <p>Every bite delivers bold flavour and a satisfying crunch. We use organic ingredients to make our snacks. Enjoy delicious snacking without compromising on smarter food choices. MunchGud combines bold flavours with a lighter snacking experience. You can make your snack time better with MunchGud snacks.</p>
+                        <p>MunchGud brings you a delicious range of flavoured makhana for people who want better snacking without giving up on taste. Our premium roasted fox nuts are prepared with care to give you a light, crispy texture and bold flavours in every bite.</p>
+                        <p>You can enjoy MunchGud makhana at work, while travelling, during a movie, or anytime you feel like having a tasty snack. It's easy to carry, satisfying to eat, and makes everyday snacking more enjoyable without feeling too heavy.</p>
+                        <p>Every pack is roasted in small batches and seasoned with care to deliver a satisfying crunch and rich flavour in every bite. MunchGud brings together authentic makhana, bold seasoning, and everyday convenience in one delicious snack.</p>
                     </div>
                 </div>
             </div>
@@ -355,15 +355,15 @@
             }
         }
 
-        // 4. Format all to embed URLs
+        // 4. Format all to clean URLs for official embed
         $formattedLinks = [];
         foreach ($instaLinks as $url) {
             if (strpos($url, '?') !== false) {
                 $url = substr($url, 0, strpos($url, '?'));
             }
             $url = rtrim($url, '/');
-            if (!str_ends_with($url, '/embed')) {
-                $url .= '/embed';
+            if (str_ends_with($url, '/embed')) {
+                $url = substr($url, 0, -6);
             }
             $formattedLinks[] = $url;
         }
@@ -402,12 +402,13 @@
                         <div x-ref="slider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide py-4 px-2">
                             @foreach($formattedLinks as $link)
                                 <div class="snap-center shrink-0 w-[290px] sm:w-[320px] bg-white rounded-[2rem] shadow-xl shadow-mg-dark/[0.03] overflow-hidden border border-mg-dark/5 p-2 sm:p-3 relative group/card transition-all duration-300 hover:shadow-2xl">
-                                    <div class="w-full h-[510px] rounded-2xl overflow-hidden bg-gray-50 relative">
-                                        <iframe src="{{ $link }}" class="w-full h-full border-0 rounded-2xl bg-white" scrolling="no" allowtransparency="true" allowfullscreen="true" loading="lazy" title="Instagram Social Media Post Feed"></iframe>
+                                    <div class="w-full h-[510px] rounded-2xl overflow-y-auto bg-gray-50 relative flex justify-center">
+                                        <blockquote class="instagram-media" data-instgrm-permalink="{{ $link }}/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"></blockquote>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
+                        <script async src="//www.instagram.com/embed.js"></script>
                     </div>
                 @else
                     @php $ph = ['images/hero_bg.png', 'images/product_shot_new.png', 'images/story_farmer.png', 'images/ingredient_macro.png']; @endphp
@@ -437,7 +438,7 @@
                 @php $pillars = [
                     ['icon' => '🔥', 'num' => $page->sections['pillar_1_num'] ?? '0g', 'title' => $page->sections['pillar_1_title'] ?? 'Oil Used', 'desc' => $page->sections['pillar_1_desc'] ?? 'Pure hot-air roasting technology. Zero oil, maximum crunch, guilt-free snacking at its finest.'],
                     ['icon' => '🌿', 'num' => $page->sections['pillar_2_num'] ?? '100%', 'title' => $page->sections['pillar_2_title'] ?? 'Natural', 'desc' => $page->sections['pillar_2_desc'] ?? 'What you see on the label is what\'s inside. No preservatives, no artificial colours, nothing hidden.'],
-                    ['icon' => '💪', 'num' => $page->sections['pillar_3_num'] ?? '15g', 'title' => $page->sections['pillar_3_title'] ?? 'Protein per 100g', 'desc' => $page->sections['pillar_3_desc'] ?? 'The perfect post-workout or evening snack. Plant-based protein that actually tastes incredible.'],
+                    ['icon' => '💪', 'num' => $page->sections['pillar_3_num'] ?? '10g', 'title' => $page->sections['pillar_3_title'] ?? 'Protein per 100g', 'desc' => $page->sections['pillar_3_desc'] ?? 'The perfect post-workout or evening snack. Plant-based protein that actually tastes incredible.'],
                 ]; @endphp
                 @foreach($pillars as $i => $p)
                     <div class="reveal text-center group" style="transition-delay:{{ $i * 0.15 }}s">
@@ -459,10 +460,10 @@
                     <span class="inline-block bg-mg-green/10 text-mg-green font-bold tracking-widest uppercase text-xs px-4 py-1.5 rounded-full mb-4">Healthy & Tasty</span>
                     <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-black text-mg-dark mb-6">Product Experience & Healthy Snacking</h2>
                     <div class="text-mg-dark/80 text-lg leading-relaxed space-y-5">
-                        <p>At MunchGud, we believe snacking should always feel exciting, flavourful, and satisfying. We made our flavoured makhana for people who like strong flavours, crispy snacks and a more exciting way to snack. Every pack is carefully seasoned to deliver bold flavour with a light and crispy texture, which is what makes the makhana range more enjoyable to snack on.</p>
-                        <p>Our MunchGud Cream and Onion flavour is great for people who like snacks with a lot of flavour. The Cream & Onion flavour combines creamy seasoning with savoury onion taste to create a rich and satisfying snacking experience. For people who like snacks, our Peri Peri makhana is perfect for people who enjoy bold and spicy flavours.</p>
-                        <p>People today are becoming more aware of the importance of healthier eating habits. Now they look for alternatives to oily chips, fried snacks and heavy packaged food. As they learn about being healthy and eating well, demand for healthy food options is increasing in India. Many consumers now look for lighter snack options that fit healthier lifestyles. They want to satisfy their cravings without feeling full or guilty.</p>
-                        <p>That is why health-conscious consumers prefer snacks like makhana. Now people look for convenient protein-rich snacks that fit their busy routine. Everyone wants something crunchy but not too heavy. That's why roasted makhana is becoming popular.</p>
+                        <p>Every pack of MunchGud flavoured makhana is prepared to deliver the same delicious flavour, crispy texture, and freshness every time you open it. Every batch is carefully seasoned so that every handful delivers the same rich flavour and satisfying crunch from start to finish.</p>
+                        <p>If you enjoy creamy and savoury flavours, Cream & Onion Makhana is a great choice. It has a rich creamy taste with a mild onion flavour that people love. If you like your snacks a little spicy, Peri Peri Makhana brings the right amount of heat without overpowering the taste. Every flavour has its own character, so you can choose the one that suits your taste.</p>
+                        <p>As more people look for enjoyable alternatives to heavily fried snacks, roasted makhana has become a favourite choice for everyday snacking. Its light texture, delicious flavours, and ready-to-eat convenience have made it a favourite among snack lovers across India.</p>
+                        <p>If you're looking for a protein-rich snack between meals or a tasty alternative to chips, MunchGud makes healthy snacking simple and enjoyable.</p>
                     </div>
                 </div>
                 <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl order-first lg:order-last">
@@ -526,7 +527,7 @@
                                                                 $benefits = isset($page->sections['health_benefits_json'])
                     ? json_decode($page->sections['health_benefits_json'], true)
                     : [
-                        ['n' => 'Protein Power', 'v' => '15g', 'd' => 'Per 100g. Excellent for muscle recovery.'],
+                        ['n' => 'Protein Power', 'v' => '10g', 'd' => 'Per 100g. Excellent for muscle recovery.'],
                         ['n' => 'Antioxidant Rich', 'v' => 'High', 'd' => 'Fights free radicals and aging.'],
                         ['n' => 'Glycemic Index', 'v' => 'Low', 'd' => 'Perfect for sustained energy levels.'],
                         ['n' => 'Gluten Free', 'v' => '100%', 'd' => 'Naturally free from gluten.'],
@@ -546,7 +547,7 @@
                 @php $benefits = [
                     ['title' => 'Weight Management', 'desc' => 'Low calorie, high fiber. Keeps you full longer — the smartest snacking swap.', 'icon' => '⚖️'],
                     ['title' => 'Heart Health', 'desc' => 'Rich in potassium and magnesium for cardiovascular wellness.', 'icon' => '❤️'],
-                    ['title' => 'Antioxidant Rich', 'desc' => 'Kaempferol fights inflammation and supports cellular health.', 'icon' => '🛡️'],
+                    // ['title' => 'Antioxidant Rich', 'desc' => 'Kaempferol fights inflammation and supports cellular health.', 'icon' => '🛡️'],
                 ]; @endphp
                 @foreach($benefits as $i => $b)
                     <div class="reveal bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/8 hover:bg-white/10 hover:-translate-y-1 transition-all" style="transition-delay:{{ $i * 0.1 }}s">
@@ -571,14 +572,17 @@
                     <span class="inline-block bg-mg-green/10 text-mg-green font-bold tracking-widest uppercase text-xs px-4 py-1.5 rounded-full mb-4">Trending Now</span>
                     <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-black text-mg-dark mb-6">Why Roasted Fox Nuts Are Trending</h2>
                     <div class="text-mg-dark/80 text-lg leading-relaxed space-y-5">
-                        <p>Roasted fox nuts have become really popular as a snack in India over the past few years. Health-conscious consumers are increasingly choosing makhana as an everyday snack. They are also known as makhana. They are light, crunchy, and easy to enjoy. When you compare them to the fried snacks they are a better choice because they taste good and are good for you.</p>
-                        <p>From fitness enthusiasts to busy working professionals, more people are adding makhana to their everyday snacking routine. The reason people like fox nuts so much is because they are light yet crunchy. Makhana is a snack that is crunchy and light and it will not make you feel heavy like oily snacks do.</p>
+                        <p><strong>Roasted fox nuts</strong>, also known as <strong>makhana</strong>, have become one of India's favourite snack choices over the last few years. Once known mainly as a traditional food, <strong>makhana</strong> is now a regular part of everyday snacking for many people. As more people look for better alternatives to packaged snacks, <strong>roasted makhana</strong> is becoming a common choice across the country.</p>
+                        <p>One reason for its growing popularity is how easy it is to enjoy. <strong>Roasted fox nuts</strong> are ready to eat straight from the pack. You can have them with your evening tea or coffee, pack them in your lunchbox, or carry them while travelling. No cooking or preparation is needed.</p>
+                        <p>People of all age groups enjoy <strong>roasted makhana</strong> because it fits easily into everyday life. It is a simple snack that satisfies cravings without feeling too heavy, which is why more families are adding it to their regular snack choices.</p>
+                        <h3 class="font-heading text-xl font-bold text-mg-dark mt-6 mb-3">Why people love roasted fox nuts</h3>
                         <ul class="list-disc pl-5 my-4 space-y-2 font-semibold text-mg-dark">
-                            <li>Perfect for light evening cravings</li>
-                            <li>Easy to carry while travelling or working</li>
-                            <li>Convenient to enjoy anytime during the day</li>
+                            <li>Great for evening cravings</li>
+                            <li>Easy to carry while travelling or to work</li>
+                            <li>Ready to eat with no preparation</li>
+                            <li>Available in different flavours</li>
+                            <li>A better alternative to many traditional packaged snacks</li>
                         </ul>
-                        <p>Today’s consumers look for protein-rich snacks that are convenient and easy to enjoy on the go. Many consumers now enjoy makhana as a healthier evening snack. They want evening snacks that feel satisfying without the heaviness of fried or junk food.</p>
                     </div>
                 </div>
             </div>
@@ -773,10 +777,10 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-14 reveal">
                 <h2 class="font-heading text-4xl sm:text-5xl font-black">{!! $page->sections['reviews_title'] ?? 'Snackers <span class="italic text-mg-leaf">Speak</span>' !!}</h2>
-                <div class="flex items-center justify-center gap-2 mt-4">
+                <!-- <div class="flex items-center justify-center gap-2 mt-4">
                     <span class="text-mg-gold text-lg">★★★★★</span>
                     <span class="text-white/35 text-sm">{{ $page->sections['reviews_subtitle'] ?? '4.9/5 from 2,847 reviews' }}</span>
-                </div>
+                </div> -->
             </div>
             @php
                 $staticReviews = collect([
@@ -792,27 +796,6 @@
             @endphp
 
             <style>
-                .marquee-container {
-                    overflow: hidden;
-                    width: 100%;
-                    position: relative;
-                    /* Add a fade mask on the edges for a nicer effect */
-                    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-                    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-                }
-                .marquee-track {
-                    display: flex;
-                    width: max-content;
-                    animation: marquee 25s linear infinite;
-                    gap: 1.5rem;
-                }
-                .marquee-track:hover {
-                    animation-play-state: paused;
-                }
-                @keyframes marquee {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); }
-                }
                 .review-card {
                     width: 320px;
                     height: 280px;
@@ -821,11 +804,30 @@
                     display: flex;
                     flex-direction: column;
                 }
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
             </style>
 
-            <div class="marquee-container mt-10 px-4">
-                <div class="marquee-track">
-                    @for($j = 0; $j < 2; $j++)
+            <div class="mt-10 px-4 reveal" x-data="{
+                scrollLeft() { $refs.reviewSlider.scrollBy({ left: -340, behavior: 'smooth' }) },
+                scrollRight() { $refs.reviewSlider.scrollBy({ left: 340, behavior: 'smooth' }) }
+            }">
+                <div class="relative group/slider">
+                    <!-- Navigation Buttons -->
+                    <button @click="scrollLeft()" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 lg:-translate-x-6 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full shadow-lg border border-white/20 flex items-center justify-center text-white hover:bg-mg-leaf hover:scale-105 active:scale-95 transition-all z-30 opacity-0 group-hover/slider:opacity-100 duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                    </button>
+                    <button @click="scrollRight()" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 lg:translate-x-6 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full shadow-lg border border-white/20 flex items-center justify-center text-white hover:bg-mg-leaf hover:scale-105 active:scale-95 transition-all z-30 opacity-0 group-hover/slider:opacity-100 duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                    </button>
+
+                    <!-- Slider Container -->
+                    <div x-ref="reviewSlider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide py-4 px-2">
                         @foreach($displayReviews as $i => $item)
                             @php
                                 $isDynamic = is_object($item);
@@ -838,7 +840,7 @@
                                     $cl = $item['c'];
                                 }
                             @endphp
-                            <div class="review-card bg-white/5 backdrop-blur-sm border border-white/8 rounded-2xl p-6 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-black/10 group cursor-default">
+                            <div class="snap-center review-card bg-white/5 backdrop-blur-sm border border-white/8 rounded-2xl p-6 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-black/10 group cursor-default">
                                 <div class="flex items-center justify-between mb-6">
                                     <div class="flex items-center gap-4">
                                         <div class="w-12 h-12 rounded-full bg-gradient-to-br {{ $cl }} flex items-center justify-center text-white text-lg font-bold shadow-inner group-hover:scale-110 transition-transform">{{ $initial }}</div>
@@ -856,9 +858,9 @@
                                 <p class="text-white/80 text-sm leading-relaxed font-medium italic mt-auto line-clamp-5">"{{ $text }}"</p>
                             </div>
                         @endforeach
-                    @endfor
+                    </div>
                 </div>
-        </div>
+            </div>
     </section>
 
     {{-- ══════════════════════════════════════════
@@ -939,10 +941,10 @@
                 <div class="lg:col-span-3 reveal">
                     <span class="inline-block bg-mg-green/8 text-mg-green text-xs font-bold px-4 py-1.5 rounded-full tracking-widest uppercase mb-6 border border-mg-green/10">Our Story</span>
                     <h2 class="font-heading text-3xl sm:text-4xl font-black text-mg-dark mb-6 italic leading-snug">"India deserves a snack that's actually good for you — and tastes incredible."</h2>
-                    <p class="text-mg-muted leading-relaxed mb-4"> Choose MunchGud
-    MunchGud is made for people who love snacks and want taste, good quality and a smarter option for daily life. We know many snacks in the market are too oily or heavily processed. So we created MunchGud to be lighter but still full of flavour and crunch. Our goal is to give you premium makhana that you can enjoy anytime without losing taste. When buying premium roasted makhana online, customers look for freshness, flavour, and quality. At MunchGud we prepare our makhana carefully to get the crunchy texture and rich taste. Every flavour is balanced so you enjoy seasoning and satisfying taste from the first bite to the last. We know people want convenient healthy snacks in India that fit into busy routines. Our roasted makhana fits perfectly into busy everyday routines. Whether you're working, travelling, having evening chai, watching movies, studying late or just feeling hungry. Our packaging keeps the product fresh. It is easy to carry and store. At MunchGud we think healthy snacking should be enjoyable, flavourful, and satisfying. That's why we focus on freshness, consistency, quality ingredients and perfect crunch. This allows you to enjoy fresh and flavourful snacking every day. We take pride in offering premium makhana made for modern snack lovers. We created MunchGud to make everyday snacking more exciting..</p>
-                    <p class="text-mg-muted leading-relaxed mb-6">Today, MunchGud sources from 200+ farming families across Mithilanchal. Every pack represents our promise: real food, real taste, real impact.</p>
-                    <p class="font-heading font-bold text-mg-dark">— The MunchGud Team 🌿</p>
+                    <p class="text-mg-muted leading-relaxed mb-4">MunchGud started with one simple idea. Makhana is one of Bihar's finest traditional foods, and we wanted more people across India to enjoy it in a fresh and flavourful way.</p>
+                    <p class="text-mg-muted leading-relaxed mb-4">Every pack of our premium roasted makhana reflects our commitment to authentic flavour, careful roasting, and dependable quality. From selecting good ingredients to getting the seasoning right, we pay attention to every step so that every pack gives you the same quality you expect from MunchGud.</p>
+                    <p class="text-mg-muted leading-relaxed mb-6">As MunchGud grows, one thing will always stay the same. We want to bring good roasted makhana to more homes across India while staying connected to our roots and the farmers who make it possible.</p>
+                    <p class="font-heading font-bold text-mg-dark">The MunchGud Team</p>
                 </div>
             </div>
         </div>
@@ -956,10 +958,10 @@
                     <span class="inline-block bg-mg-green/10 text-mg-green font-bold tracking-widest uppercase text-xs px-4 py-1.5 rounded-full mb-4">Our Mission</span>
                     <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-black text-mg-dark mb-6">Redefining Snacking in India</h2>
                     <div class="text-mg-dark/80 text-lg leading-relaxed space-y-5">
-                        <p>Consumers today are becoming more conscious about their everyday food choices. They are moving away from snacks and fried foods. Instead they are choosing healthy snacks in India. The market for snacks in India is growing rapidly.</p>
-                        <p>More consumers are now looking for modern snacks that are not too heavy or unhealthy. MunchGud started with a simple goal — to make healthy snacking fun and exciting for everyone. We think healthy food should not be boring.</p>
-                        <p>That's why our flavoured makhana range is crispy, flavourful, and seasoned to perfection. Every bite is enjoyable. At MunchGud we focus on making snacks that are perfect for everyday eating, office breaks or anytime you feel hungry. Our aim is to provide an exciting snacking experience in India.</p>
-                        <p>We want to give consumers options without sacrificing taste. MunchGud is changing the way people snack in India with quality ingredients, bold flavours, and satisfying crunch.</p>
+                        <p>People are becoming more aware of what they eat, and that is changing the way they choose their snacks. Instead of picking only traditional fried snacks, many are now looking for options that taste good and fit better into their everyday routine.</p>
+                        <p>MunchGud is growing with this change. We want to make flavoured makhana a snack that more people can enjoy every day. Good snacking doesn't have to be boring, and choosing something better shouldn't mean giving up on taste.</p>
+                        <p>Every pack is prepared using carefully selected makhana, flavourful seasonings, and a roasting process that delivers the crunch our customers enjoy. As more people across India discover our products, we'll keep doing what we've always done—making roasted makhana that people enjoy eating and feel good about choosing.</p>
+                        <p>For us, better snacking is not about eating less. It's about making better choices, one pack at a time.</p>
                     </div>
                 </div>
                 <div class="reveal relative rounded-[3rem] overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl order-first lg:order-last">
@@ -1103,9 +1105,12 @@
                 </div>
             </div>
 
-            <div class="mt-16 p-8 lg:p-10 bg-mg-green/5 rounded-3xl border border-mg-green/20 reveal">
+            <div class="mt-16 p-8 lg:p-10 bg-mg-green/5 rounded-3xl border border-mg-green/20 reveal space-y-4">
                 <h3 class="font-heading text-2xl lg:text-3xl font-black text-mg-green mb-4">Make your snack time better with MunchGud</h3>
-                <p class="text-mg-dark/80 text-lg leading-relaxed">MunchGud offers delicious flavours of makhana to suit different tastes. You can explore different makhana flavours based on your taste preference. Each flavour offers a light texture with delicious seasoning and satisfying crunch. You can eat them anytime. They are also perfect for movie nights and evening cravings. The range includes exciting roasted makhana flavours for every taste preference. Enjoy fresh roasted makhana delivered directly to your doorstep. If you want to buy makhana in Pune, MunchGud makes online ordering simple and convenient. With MunchGud, you enjoy bold flavours, quality ingredients, and satisfying crunch in every bite. Enjoy a better everyday snacking experience with our roasted makhana.</p>
+                <p class="text-mg-dark/80 text-lg leading-relaxed">A truly enjoyable snack is one you'll happily reach for again and again. That's what we aim for at MunchGud. Our premium roasted makhana is carefully roasted and blended with flavours people love, creating a snack that's light, crispy, and packed with flavour.</p>
+                <p class="text-mg-dark/80 text-lg leading-relaxed">Whether you're trying flavoured makhana for the first time or it's already your favourite snack, you'll find a flavour that suits you. From Cream & Onion to Peri Peri, every pack is roasted to deliver the delicious flavour and crunchy texture that MunchGud stands for.</p>
+                <p class="text-mg-dark/80 text-lg leading-relaxed">You can order MunchGud roasted makhana directly from <a href="https://www.munchgud.com" class="text-mg-green font-bold hover:underline">www.munchgud.com</a> or shop on Amazon, Flipkart, and Meesho. We deliver across India, so enjoying your favourite MunchGud makhana is simple wherever you are.</p>
+                <p class="text-mg-dark/80 text-lg leading-relaxed font-bold">MunchGud, Feel Gud</p>
             </div>
         </div>
     </section>

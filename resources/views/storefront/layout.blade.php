@@ -92,6 +92,7 @@
     @endphp
 
     <style>
+        [x-cloak] { display: none !important; }
         :root {
             --primary:
                 {{ $theme->primary_color ?? '#2B6E2F' }}
@@ -496,7 +497,10 @@
                     <div x-show="!searchQuery" x-cloak>
                         <p class="text-xs text-mg-muted font-medium mb-2 uppercase tracking-wider">Quick Links</p>
                         <div class="flex flex-wrap gap-2">
-                            @foreach(['Classic Salted', 'Cheese & Herbs', 'Himalayan Pink Salt', 'Combo Pack'] as $q)
+                            @php 
+                                $quickLinkProducts = \App\Models\Product::where('is_active', true)->take(4)->pluck('name');
+                            @endphp
+                            @foreach($quickLinkProducts as $q)
                                 <a href="/products?q={{ urlencode($q) }}" @click="searchOpen = false"
                                     class="text-xs bg-mg-green/5 text-mg-green border border-mg-green/10 rounded-full px-3 py-1.5 font-medium hover:bg-mg-green/10 transition">{{ $q }}</a>
                             @endforeach
@@ -516,7 +520,7 @@
                                     <span class="font-bold text-sm text-mg-dark" x-text="item.name"></span>
                                 </a>
                             </template>
-                            <div x-show="suggestions.length === 0 && !loading"
+                            <div x-show="searchQuery.length > 0 && suggestions.length === 0 && !loading"
                                 class="p-2 text-sm text-mg-muted font-medium">
                                 No products found matching your search.
                             </div>
@@ -1204,7 +1208,7 @@
                                 {{ $global_settings['company_pincode'] ?? '846 004' }}</span>
                         </li>
                         <li>
-                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $global_settings['store_phone'] ?? '919999999999') }}"
+                            <a href="https://wa.me/{{ preg_replace('/^(\d{10})$/', '91$1', preg_replace('/[^0-9]/', '', $global_settings['store_phone'] ?? '919999999999')) }}"
                                 target="_blank" rel="noopener"
                                 class="inline-flex items-center gap-2 text-xs font-semibold bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 rounded-full px-3.5 py-2 hover:bg-[#25D366]/20 transition">
                                 <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24">
@@ -1249,7 +1253,7 @@
     </footer>
 
     <!-- ═══ Floating WhatsApp Button ═══ -->
-    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $global_settings['store_phone'] ?? '919999999999') }}"
+    <a href="https://wa.me/{{ preg_replace('/^(\d{10})$/', '91$1', preg_replace('/[^0-9]/', '', $global_settings['store_phone'] ?? '919999999999')) }}"
         target="_blank" rel="noopener"
         class="fixed bottom-6 right-6 z-[9999] w-[52px] h-[52px] bg-[#25D366] rounded-full flex items-center justify-center shadow-xl shadow-[#25D366]/30 hover:scale-110 hover:shadow-2xl hover:shadow-[#25D366]/40 active:scale-95 transition-all duration-300 group"
         aria-label="Chat on WhatsApp">
