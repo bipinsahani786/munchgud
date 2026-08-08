@@ -61,7 +61,7 @@
                         <div>
                             <p class="text-[11px] font-bold text-munch-500 uppercase tracking-widest mb-0.5">WhatsApp Chat
                             </p>
-                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $global_settings['store_phone'] ?? '919999999999') }}"
+                            <a href="https://wa.me/{{ preg_replace('/^(\d{10})$/', '91$1', preg_replace('/[^0-9]/', '', $global_settings['store_phone'] ?? '919999999999')) }}"
                                 target="_blank" rel="noopener"
                                 class="text-munch-900 font-semibold text-sm hover:text-[#25D366] transition">{{ $global_settings['store_phone'] ?? '+91 99999 99999' }}</a>
                             <p class="text-xs text-munch-400 mt-1 font-medium">Mon–Sat, 10am – 6pm IST</p>
