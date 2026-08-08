@@ -522,7 +522,7 @@
                 <h2 class="font-heading text-4xl sm:text-5xl font-black mb-4">{!! $page->sections['health_title'] ?? 'Why <span class="italic text-mg-leaf">Makhana</span>?' !!}</h2>
                 <p class="text-white/40 max-w-md mx-auto text-sm">{{ $page->sections['health_subtitle'] ?? 'The ancient Indian superfood, now in flavours you\'ll actually crave.' }}</p>
             </div>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-16">
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-16">
                 @php 
                                                                 $benefits = isset($page->sections['health_benefits_json'])
                     ? json_decode($page->sections['health_benefits_json'], true)
@@ -543,7 +543,7 @@
                     </div>
                 @endforeach
             </div>
-            <div class="grid md:grid-cols-3 gap-5">
+            <div class="grid md:grid-cols-2 gap-5">
                 @php $benefits = [
                     ['title' => 'Weight Management', 'desc' => 'Low calorie, high fiber. Keeps you full longer — the smartest snacking swap.', 'icon' => '⚖️'],
                     ['title' => 'Heart Health', 'desc' => 'Rich in potassium and magnesium for cardiovascular wellness.', 'icon' => '❤️'],
@@ -1023,7 +1023,22 @@
             <div class="w-20 h-20 bg-white/5 border border-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_40px_rgba(255,255,255,0.05)]">
                 <span class="text-4xl">✉️</span>
             </div>
-            <h2 class="font-heading text-5xl sm:text-6xl font-black mb-6 tracking-tight">Get <span class="text-mg-leaf">₹50 Off</span><br><span class="italic font-light text-white/90">Your First Order</span></h2>
+            <style>
+                @keyframes metallicShine {
+                    0% { background-position: 200% center; }
+                    100% { background-position: -200% center; }
+                }
+                .text-shine {
+                    background: linear-gradient(110deg, #81c784 20%, #ffffff 50%, #81c784 80%);
+                    background-size: 200% auto;
+                    color: transparent;
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    animation: metallicShine 3s linear infinite;
+                    display: inline-block;
+                }
+            </style>
+            <h2 class="font-heading text-5xl sm:text-6xl font-black mb-6 tracking-tight">Get <span class="text-shine">₹50 Off</span><br><span class="italic font-light text-white/90">Your First Order</span></h2>
             <p class="text-white/60 mb-10 max-w-lg mx-auto text-base leading-relaxed">Join 5,000+ snack lovers. Get updates on new flavours, exclusive offers, and makhana wisdom delivered directly to your inbox.</p>
 
             <form class="flex flex-col sm:flex-row p-2 max-w-xl mx-auto bg-white rounded-3xl sm:rounded-full shadow-2xl shadow-black/20 focus-within:ring-4 focus-within:ring-mg-leaf/30 transition-all">
@@ -1091,7 +1106,6 @@
 
                             @if($i === 0)
                                 <div class="mt-10 flex gap-4">
-                                    <span class="px-5 py-2.5 bg-mg-green/10 text-mg-green rounded-xl font-bold text-sm border border-mg-green/20">🔥 89 Calories</span>
                                     <span class="px-5 py-2.5 bg-mg-green/10 text-mg-green rounded-xl font-bold text-sm border border-mg-green/20">💧 Zero Oil</span>
                                 </div>
                             @endif
