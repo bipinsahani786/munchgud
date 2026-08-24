@@ -5,27 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'MunchGud — Munch Gud. Feel Gud.')</title>
-    <meta name="description"
-        content="@yield('meta_description', 'Buy premium roasted makhana online from MunchGud. Enjoy healthy, crunchy fox nuts in delicious flavors, made from Bihar farms with high protein and gluten-free goodness.')">
-    <meta name="keywords"
-        content="@yield('meta_keywords', 'makhana, roasted makhana, healthy snacks, fox nuts, gluten-free snacks, high protein snacks')">
+    @php
+        $defaultTitle = isset($page) && !empty($page->meta_title) ? $page->meta_title : 'MunchGud — Munch Gud. Feel Gud.';
+        $defaultDesc = isset($page) && !empty($page->meta_description) ? $page->meta_description : 'Buy premium roasted makhana online from MunchGud. Enjoy healthy, crunchy fox nuts in delicious flavors, made from Bihar farms with high protein and gluten-free goodness.';
+        $defaultKeywords = isset($page) && !empty($page->meta_keywords) ? $page->meta_keywords : 'makhana, roasted makhana, healthy snacks, fox nuts, gluten-free snacks, high protein snacks';
+        $defaultImage = isset($page) && !empty($page->sections['hero_image']) ? Storage::url($page->sections['hero_image']) : asset('images/hero_bg.png');
+    @endphp
+    <title>@yield('title', $defaultTitle)</title>
+    <meta name="description" content="@yield('meta_description', $defaultDesc)">
+    <meta name="keywords" content="@yield('meta_keywords', $defaultKeywords)">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('title', 'MunchGud — Munch Gud. Feel Gud.')">
-    <meta property="og:description"
-        content="@yield('meta_description', 'Buy premium roasted makhana online from MunchGud. Enjoy healthy, crunchy fox nuts in delicious flavors, made from Bihar farms with high protein and gluten-free goodness.')">
-    <meta property="og:image" content="@yield('meta_image', asset('images/hero_bg.png'))">
+    <meta property="og:title" content="@yield('title', $defaultTitle)">
+    <meta property="og:description" content="@yield('meta_description', $defaultDesc)">
+    <meta property="og:image" content="@yield('meta_image', $defaultImage)">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="@yield('title', 'MunchGud — Munch Gud. Feel Gud.')">
-    <meta property="twitter:description"
-        content="@yield('meta_description', 'Buy premium roasted makhana online from MunchGud. Enjoy healthy, crunchy fox nuts in delicious flavors, made from Bihar farms with high protein and gluten-free goodness.')">
-    <meta property="twitter:image" content="@yield('meta_image', asset('images/hero_bg.png'))">
+    <meta property="twitter:title" content="@yield('title', $defaultTitle)">
+    <meta property="twitter:description" content="@yield('meta_description', $defaultDesc)">
+    <meta property="twitter:image" content="@yield('meta_image', $defaultImage)">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url()->current() }}">
@@ -1228,7 +1230,7 @@
             <div
                 class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-6 pb-24 sm:pb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p class="text-[11.5px] text-white/25 text-center sm:text-left">
-                    © {{ date('Y') }} MunchGud Foods Pvt. Ltd.™ · All rights reserved · Made with ❤️ in Bihar, India · Developed by <a href="https://startupwebsupport.com/" target="_blank" class="hover:text-white/60 transition underline">StartupWebSupport</a>
+                    © {{ date('Y') }} MunchGud Foods  · All rights reserved · Made with ❤️ in Bihar, India · Developed by <a href="https://startupwebsupport.com/" target="_blank" class="hover:text-white/60 transition underline">StartupWebSupport</a>
                 </p>
                 <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-4 sm:mt-0">
                     <a href="{{ route('privacy') }}"

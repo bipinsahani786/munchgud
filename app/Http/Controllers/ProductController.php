@@ -31,7 +31,8 @@ class ProductController extends Controller
         $products = $query->paginate(12)->withQueryString();
         $categories = Category::active()->get();
         $wishlistSkus = auth()->check() ? auth()->user()->wishlists()->pluck('product_sku_id')->toArray() : [];
-        return view('storefront.products.index', compact('products','categories','wishlistSkus'));
+        $page = \App\Models\Page::where('slug', 'products')->orWhere('slug', 'shop')->first();
+        return view('storefront.products.index', compact('products','categories','wishlistSkus', 'page'));
     }
 
     public function show(string $slug) {

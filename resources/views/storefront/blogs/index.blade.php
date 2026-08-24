@@ -1,7 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Blog - Discover More')
-@section('meta_description', 'Read our latest blog posts about makhana, healthy snacking, and more.')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'The MunchGud Blog — Stories & Healthy Snacking Tips')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Read our latest blog posts about makhana, healthy snacking, recipes, and wellness tips from MunchGud.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'makhana blog, healthy snacking articles, nutrition tips, bihar makhana')
 
 @section('content')
 <!-- Page Header -->

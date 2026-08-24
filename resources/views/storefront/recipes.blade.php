@@ -1,7 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Makhana Recipes | MunchGud')
-@section('meta_description', 'Discover delicious and healthy makhana recipes by MunchGud. Quick, easy, and guilt-free recipes using roasted fox nuts for everyday snacking.')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Makhana Recipes | MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Discover delicious and healthy makhana recipes by MunchGud. Quick, easy, and guilt-free recipes using roasted fox nuts for everyday snacking.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'makhana recipes, healthy snacks recipes, fox nuts cooking')
 
 @section('content')
 

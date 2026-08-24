@@ -10,7 +10,8 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Blog::active()->latest()->paginate(9);
-        return view('storefront.blogs.index', compact('blogs'));
+        $page = \App\Models\Page::where('slug', 'blog')->orWhere('slug', 'blogs')->first();
+        return view('storefront.blogs.index', compact('blogs', 'page'));
     }
 
     public function show($slug)

@@ -1,7 +1,9 @@
 @extends('storefront.layout')
 
-@section('title', $product->name . ' | MunchGud')
-@section('meta_description', Str::limit(strip_tags($product->short_description ?? $product->description), 155))
+@section('title', !empty($product->meta_title) ? $product->meta_title : ($product->name . ' | MunchGud'))
+@section('meta_description', !empty($product->meta_description) ? $product->meta_description : Str::limit(strip_tags($product->short_description ?? $product->description), 155))
+@section('meta_keywords', !empty($product->meta_keywords) ? $product->meta_keywords : ($product->name . ', makhana, roasted makhana, healthy snacks'))
+@section('meta_image', $product->primaryImage ? Storage::url($product->primaryImage->path) : asset('images/hero_bg.png'))
 
 @section('structured_data')
 <script type="application/ld+json">
@@ -35,6 +37,26 @@
     @endif
 }
 </script>
+@if(!empty($product->faqs) && count($product->faqs) > 0)
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "FAQPage",
+    "mainEntity": [
+        @foreach($product->faqs as $index => $faq)
+        {
+            "@@type": "Question",
+            "name": {{ Js::from($faq['question']) }},
+            "acceptedAnswer": {
+                "@@type": "Answer",
+                "text": {{ Js::from($faq['answer']) }}
+            }
+        }{{ $loop->last ? '' : ',' }}
+        @endforeach
+    ]
+}
+</script>
+@endif
 @endsection
 
 @section('content')
@@ -97,6 +119,75 @@
                     @endforeach
                 </div>
                 @endif
+
+                <!-- Left-Side Product Description & FAQs Toggle Card -->
+                <div class="mt-8 bg-white rounded-3xl p-6 sm:p-8 border border-mg-dark/5 shadow-sm" x-data="{ tab: 'description' }">
+                    <!-- Toggle Buttons Header -->
+                    <div class="flex items-center gap-2 p-1.5 bg-mg-cream/70 rounded-2xl mb-6 border border-mg-dark/5">
+                        <button type="button" @click="tab = 'description'" 
+                                class="flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                                :class="tab === 'description' ? 'bg-white text-mg-green shadow-sm ring-1 ring-black/5 font-black' : 'text-mg-muted hover:text-mg-dark'">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/></svg>
+                            <span>Product Description</span>
+                        </button>
+                        <button type="button" @click="tab = 'faqs'" 
+                                class="flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                                :class="tab === 'faqs' ? 'bg-white text-mg-green shadow-sm ring-1 ring-black/5 font-black' : 'text-mg-muted hover:text-mg-dark'">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>FAQs</span>
+                            @if(!empty($product->faqs) && count($product->faqs) > 0)
+                                <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-mg-green/10 text-mg-green">{{ count($product->faqs) }}</span>
+                            @endif
+                        </button>
+                    </div>
+
+                    <!-- TAB 1: Product Description -->
+                    <div x-show="tab === 'description'" x-cloak class="space-y-4">
+                        @if($product->description)
+                        <div class="text-mg-dark/80 text-[15px] sm:text-base leading-relaxed">
+                            {!! nl2br(e($product->description)) !!}
+                        </div>
+                        @else
+                        <p class="text-sm text-mg-muted italic">No full description available for this product.</p>
+                        @endif
+                    </div>
+
+                    <!-- TAB 2: Product FAQs -->
+                    <div x-show="tab === 'faqs'" x-cloak class="space-y-3" x-data="{ openFaq: 0 }">
+                        @if(!empty($product->faqs) && count($product->faqs) > 0)
+                            @foreach($product->faqs as $fIndex => $faq)
+                            <div class="border border-mg-dark/10 rounded-2xl overflow-hidden bg-mg-cream/30 hover:bg-mg-cream/60 transition-all duration-200"
+                                 :class="openFaq === {{ $fIndex }} ? 'border-mg-green/30 bg-white shadow-xs' : ''">
+                                <button type="button" @click="openFaq = openFaq === {{ $fIndex }} ? null : {{ $fIndex }}" 
+                                        class="w-full flex items-center justify-between p-4 text-left outline-none gap-3 cursor-pointer">
+                                    <span class="font-bold text-mg-dark text-sm sm:text-[15px] flex items-center gap-2.5">
+                                        <span class="w-6 h-6 rounded-lg bg-mg-green/10 text-mg-green text-xs flex items-center justify-center font-black shrink-0">Q{{ $fIndex + 1 }}</span>
+                                        <span>{{ $faq['question'] }}</span>
+                                    </span>
+                                    <div class="w-6 h-6 rounded-full bg-white shadow-xs flex items-center justify-center text-mg-dark shrink-0 transition-transform duration-200"
+                                         :class="openFaq === {{ $fIndex }} ? 'rotate-180 bg-mg-green text-white' : ''">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                                    </div>
+                                </button>
+                                <div x-show="openFaq === {{ $fIndex }}" x-collapse style="display: none;">
+                                    <div class="px-4 pb-4 pt-1 text-mg-dark/80 text-xs sm:text-sm leading-relaxed border-t border-mg-dark/5 bg-white/70">
+                                        <div class="pt-2 flex items-start gap-2.5">
+                                            <span class="w-6 h-6 rounded-lg bg-mg-orange/10 text-mg-orange text-xs flex items-center justify-center font-black shrink-0 mt-0.5">A</span>
+                                            <div class="text-mg-dark/80">{!! nl2br(e($faq['answer'])) !!}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        @else
+                            <div class="text-center py-10 bg-mg-cream/20 rounded-2xl border border-dashed border-mg-dark/10">
+                                <svg class="w-10 h-10 text-mg-muted/40 mx-auto mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <p class="text-sm font-semibold text-mg-muted">No FAQs added for this product yet.</p>
+                                <p class="text-xs text-mg-muted/70 mt-1">Have questions? We are always here to help.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
 
             <!-- Details -->
@@ -233,7 +324,7 @@
                 </div>
 
                 <!-- Add to Cart -->
-                <form @submit.prevent="window.addToCart(currentSkuId, qty, $refs.btn)" class="space-y-4 mb-8">
+                <form @submit.prevent="window.addToCart(currentSkuId, qty, $refs.btn)" class="space-y-4 mb-6">
                     <div class="flex flex-wrap sm:flex-nowrap gap-3 sm:gap-4">
                         <div class="flex items-center bg-white border border-mg-dark/10 rounded-2xl px-3 py-2 w-[110px] sm:w-32 justify-between shrink-0 h-[56px]">
                             <button type="button" @click="qty > 1 ? qty-- : null" class="text-mg-muted hover:text-mg-dark p-2 text-xl leading-none">-</button>
@@ -256,27 +347,12 @@
                     </div>
                 </form>
 
-                <!-- Product Details Accordion -->
-                <div class="space-y-3">
-                    @if($product->description)
-                    <div x-data="{ open: true }" class="border border-mg-dark/10 rounded-2xl overflow-hidden bg-white/60 backdrop-blur-sm transition-all duration-300" :class="open ? 'shadow-md bg-white' : 'hover:bg-white'">
-                        <button @click="open = !open" class="w-full flex items-center justify-between px-5 sm:px-6 py-4 outline-none">
-                            <span class="font-bold text-mg-dark text-[15px] sm:text-base">Product Description</span>
-                            <div class="w-8 h-8 rounded-full bg-mg-green/5 flex items-center justify-center text-mg-green transition-transform duration-300" :class="open ? 'rotate-180 bg-mg-green/10' : ''">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-                            </div>
-                        </button>
-                        <div x-show="open" x-collapse>
-                            <div class="px-5 sm:px-6 pb-6 pt-1 text-mg-dark/70 text-sm sm:text-[15px] leading-relaxed">
-                                {!! nl2br(e($product->description)) !!}
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-
+                <!-- Right Side Accordions (Ingredients & Nutritional Info) -->
+                @if($product->ingredients || $product->nutritional_info)
+                <div class="space-y-3 mb-6">
                     @if($product->ingredients)
-                    <div x-data="{ open: false }" class="border border-mg-dark/10 rounded-2xl overflow-hidden bg-white/60 backdrop-blur-sm transition-all duration-300" :class="open ? 'shadow-md bg-white' : 'hover:bg-white'">
-                        <button @click="open = !open" class="w-full flex items-center justify-between px-5 sm:px-6 py-4 outline-none">
+                    <div x-data="{ open: true }" class="border border-mg-dark/10 rounded-2xl overflow-hidden bg-white/60 backdrop-blur-sm transition-all duration-300" :class="open ? 'shadow-md bg-white' : 'hover:bg-white'">
+                        <button @click="open = !open" class="w-full flex items-center justify-between px-5 sm:px-6 py-4 outline-none cursor-pointer">
                             <span class="font-bold text-mg-dark text-[15px] sm:text-base">Ingredients</span>
                             <div class="w-8 h-8 rounded-full bg-mg-green/5 flex items-center justify-center text-mg-green transition-transform duration-300" :class="open ? 'rotate-180 bg-mg-green/10' : ''">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
@@ -292,7 +368,7 @@
 
                     @if($product->nutritional_info)
                     <div x-data="{ open: false }" class="border border-mg-dark/10 rounded-2xl overflow-hidden bg-white/60 backdrop-blur-sm transition-all duration-300" :class="open ? 'shadow-md bg-white' : 'hover:bg-white'">
-                        <button @click="open = !open" class="w-full flex items-center justify-between px-5 sm:px-6 py-4 outline-none">
+                        <button @click="open = !open" class="w-full flex items-center justify-between px-5 sm:px-6 py-4 outline-none cursor-pointer">
                             <span class="font-bold text-mg-dark text-[15px] sm:text-base">Nutritional Information</span>
                             <div class="w-8 h-8 rounded-full bg-mg-green/5 flex items-center justify-center text-mg-green transition-transform duration-300" :class="open ? 'rotate-180 bg-mg-green/10' : ''">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
@@ -305,6 +381,29 @@
                         </div>
                     </div>
                     @endif
+                </div>
+                @endif
+
+                <!-- Key Highlights / Badges -->
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <div class="flex items-center gap-3 p-3 rounded-2xl bg-white border border-mg-dark/5">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-mg-dark">100% Roasted</p>
+                            <p class="text-[10px] text-mg-muted">Never fried, zero trans fat</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 rounded-2xl bg-white border border-mg-dark/5">
+                        <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-mg-dark">Protein & Fiber Rich</p>
+                            <p class="text-[10px] text-mg-muted">Guilt-free superfood snack</p>
+                        </div>
+                    </div>
                 </div>
 
             </div>

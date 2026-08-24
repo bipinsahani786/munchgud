@@ -68,13 +68,31 @@ class AdminProductController extends Controller
             'tags' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
-            'secondary_badge_text' => 'nullable|string|max:50'
+            'secondary_badge_text' => 'nullable|string|max:50',
+            'faqs' => 'nullable|array',
+            'faqs.*.question' => 'nullable|string|max:500',
+            'faqs.*.answer' => 'nullable|string',
         ]);
         $validated['cod_allowed'] = $request->has('cod_allowed') ? 1 : 0;
 
         $validated['slug'] = $this->generateUniqueSlug($validated['name']);
         if ($validated['tags']) {
             $validated['tags'] = array_map('trim', explode(',', $validated['tags']));
+        }
+
+        if ($request->has('faqs') && is_array($request->faqs)) {
+            $filteredFaqs = [];
+            foreach ($request->faqs as $faq) {
+                if (!empty(trim($faq['question'] ?? '')) && !empty(trim($faq['answer'] ?? ''))) {
+                    $filteredFaqs[] = [
+                        'question' => trim($faq['question']),
+                        'answer' => trim($faq['answer']),
+                    ];
+                }
+            }
+            $validated['faqs'] = $filteredFaqs;
+        } else {
+            $validated['faqs'] = [];
         }
 
         $product = Product::create($validated);
@@ -112,7 +130,10 @@ class AdminProductController extends Controller
             'tags' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
-            'secondary_badge_text' => 'nullable|string|max:50'
+            'secondary_badge_text' => 'nullable|string|max:50',
+            'faqs' => 'nullable|array',
+            'faqs.*.question' => 'nullable|string|max:500',
+            'faqs.*.answer' => 'nullable|string',
         ]);
         $validated['cod_allowed'] = $request->has('cod_allowed') ? 1 : 0;
 
@@ -122,6 +143,21 @@ class AdminProductController extends Controller
         
         if (isset($validated['tags']) && !is_array($validated['tags'])) {
             $validated['tags'] = array_map('trim', explode(',', $validated['tags']));
+        }
+
+        if ($request->has('faqs') && is_array($request->faqs)) {
+            $filteredFaqs = [];
+            foreach ($request->faqs as $faq) {
+                if (!empty(trim($faq['question'] ?? '')) && !empty(trim($faq['answer'] ?? ''))) {
+                    $filteredFaqs[] = [
+                        'question' => trim($faq['question']),
+                        'answer' => trim($faq['answer']),
+                    ];
+                }
+            }
+            $validated['faqs'] = $filteredFaqs;
+        } else {
+            $validated['faqs'] = [];
         }
 
         $product->update($validated);

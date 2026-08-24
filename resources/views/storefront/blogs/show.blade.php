@@ -1,7 +1,9 @@
 @extends('storefront.layout')
 
-@section('title', $blog->meta_title ?? $blog->title)
-@section('meta_description', $blog->meta_description ?? Str::limit(strip_tags($blog->content), 150))
+@section('title', !empty($blog->meta_title) ? $blog->meta_title : ($blog->title . ' — MunchGud'))
+@section('meta_description', !empty($blog->meta_description) ? $blog->meta_description : Str::limit(strip_tags($blog->content), 155))
+@section('meta_keywords', !empty($blog->meta_keywords) ? $blog->meta_keywords : 'makhana blog, ' . Str::slug($blog->title, ', '))
+@section('meta_image', $blog->image ? Storage::url($blog->image) : asset('images/hero_bg.png'))
 
 @section('structured_data')
 <script type="application/ld+json">

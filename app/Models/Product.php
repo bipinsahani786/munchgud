@@ -26,11 +26,13 @@ class Product extends Model
         'tags',
         'meta_title',
         'meta_description',
-        'secondary_badge_text'
+        'secondary_badge_text',
+        'faqs'
     ];
 
     protected $casts = [
         'tags' => 'array',
+        'faqs' => 'array',
         'is_active' => 'boolean',
         'is_featured' => 'boolean',
         'cod_allowed' => 'boolean',

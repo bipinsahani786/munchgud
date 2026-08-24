@@ -14,8 +14,9 @@ class RecipeController extends Controller
         $recipes = Recipe::where('status', 'approved')->get();
         $featuredRecipe = $recipes->where('featured', true)->first();
         $otherRecipes = $recipes->where('featured', false);
+        $page = \App\Models\Page::where('slug', 'recipes')->first();
 
-        return view('storefront.recipes', compact('featuredRecipe', 'otherRecipes'));
+        return view('storefront.recipes', compact('featuredRecipe', 'otherRecipes', 'page'));
     }
 
     public function show($slug)

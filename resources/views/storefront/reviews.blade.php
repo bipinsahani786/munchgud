@@ -1,6 +1,8 @@
 @extends('storefront.layout')
 
-@section('title', 'Customer Reviews | MunchGud')
+@section('title', isset($page) && $page->meta_title ? $page->meta_title : 'Customer Reviews | MunchGud')
+@section('meta_description', isset($page) && $page->meta_description ? $page->meta_description : 'Read customer reviews and experiences with MunchGud roasted makhana.')
+@section('meta_keywords', isset($page) && $page->meta_keywords ? $page->meta_keywords : 'munchgud reviews, customer feedback, makhana reviews')
 
 @section('content')
 <div class="pt-32 pb-20 bg-mg-cream grain min-h-screen">

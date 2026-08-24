@@ -113,6 +113,64 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Product FAQs -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden" 
+                     x-data="{ 
+                        faqs: {{ Js::from(old('faqs', $product->faqs ?? [])) }},
+                        addFaq() {
+                            this.faqs.push({ question: '', answer: '' });
+                        },
+                        removeFaq(index) {
+                            this.faqs.splice(index, 1);
+                        }
+                     }">
+                    <div class="px-5 py-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <h2 class="text-xs font-bold text-gray-900 uppercase tracking-wide">Product FAQs</h2>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700" x-text="faqs.length + ' FAQs'"></span>
+                        </div>
+                        <button type="button" @click="addFaq()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                            Add FAQ
+                        </button>
+                    </div>
+
+                    <div class="p-5 space-y-4">
+                        <template x-if="faqs.length === 0">
+                            <div class="text-center py-6 border-2 border-dashed border-gray-200 rounded-xl">
+                                <p class="text-xs text-gray-400">No product-specific FAQs added yet.</p>
+                                <button type="button" @click="addFaq()" class="mt-2 text-xs font-bold text-emerald-600 hover:text-emerald-700 hover:underline">
+                                    + Add first FAQ for this product
+                                </button>
+                            </div>
+                        </template>
+
+                        <template x-for="(faq, index) in faqs" :key="index">
+                            <div class="bg-gray-50/70 border border-gray-200/80 rounded-xl p-4 relative space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-gray-700 flex items-center gap-1.5">
+                                        <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-[10px]" x-text="index + 1"></span>
+                                        FAQ Item
+                                    </span>
+                                    <button type="button" @click="removeFaq(index)" class="text-red-500 hover:text-red-700 text-xs flex items-center gap-1 font-semibold hover:bg-red-50 px-2 py-1 rounded-lg transition">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                        Remove
+                                    </button>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1">Question</label>
+                                    <input type="text" :name="'faqs[' + index + '][question]'" x-model="faq.question" required placeholder="e.g. Is this flavor spicy?" class="w-full bg-white border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1">Answer</label>
+                                    <textarea :name="'faqs[' + index + '][answer]'" x-model="faq.answer" rows="2" required placeholder="Enter answer here..." class="w-full bg-white border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition resize-none"></textarea>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
             </div>
         </form>
 
