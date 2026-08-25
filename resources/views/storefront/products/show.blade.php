@@ -72,9 +72,9 @@
             <span class="text-mg-dark">{{ $product->name }}</span>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-y-10 gap-x-8 lg:gap-x-20 items-start mb-24">
-            <!-- 1. Image Gallery (Mobile: 1st, Desktop: Left Column, Row 1) -->
-            <div class="space-y-4 relative w-full overflow-hidden lg:col-start-1 lg:row-start-1">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 mb-24">
+            <!-- Image Gallery -->
+            <div class="space-y-4 relative w-full overflow-hidden">
                 <div class="aspect-[4/5] sm:aspect-square bg-white rounded-[2rem] sm:rounded-[2.5rem] border border-mg-dark/5 flex items-center justify-center overflow-hidden relative group cursor-crosshair"
                      x-data="{ zoom: false, x: 50, y: 50 }"
                      @mouseenter="zoom = true"
@@ -119,10 +119,79 @@
                     @endforeach
                 </div>
                 @endif
+
+                <!-- Left-Side Product Description & FAQs Toggle Card -->
+                <div class="mt-8 bg-white rounded-3xl p-6 sm:p-8 border border-mg-dark/5 shadow-sm" x-data="{ tab: 'description' }">
+                    <!-- Toggle Buttons Header -->
+                    <div class="flex items-center gap-2 p-1.5 bg-mg-cream/70 rounded-2xl mb-6 border border-mg-dark/5">
+                        <button type="button" @click="tab = 'description'" 
+                                class="flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                                :class="tab === 'description' ? 'bg-white text-mg-green shadow-sm ring-1 ring-black/5 font-black' : 'text-mg-muted hover:text-mg-dark'">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/></svg>
+                            <span>Product Description</span>
+                        </button>
+                        <button type="button" @click="tab = 'faqs'" 
+                                class="flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                                :class="tab === 'faqs' ? 'bg-white text-mg-green shadow-sm ring-1 ring-black/5 font-black' : 'text-mg-muted hover:text-mg-dark'">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>FAQs</span>
+                            @if(!empty($product->faqs) && count($product->faqs) > 0)
+                                <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-mg-green/10 text-mg-green">{{ count($product->faqs) }}</span>
+                            @endif
+                        </button>
+                    </div>
+
+                    <!-- TAB 1: Product Description -->
+                    <div x-show="tab === 'description'" x-cloak class="space-y-4">
+                        @if($product->description)
+                        <div class="text-mg-dark/80 text-[15px] sm:text-base leading-relaxed">
+                            {!! nl2br(e($product->description)) !!}
+                        </div>
+                        @else
+                        <p class="text-sm text-mg-muted italic">No full description available for this product.</p>
+                        @endif
+                    </div>
+
+                    <!-- TAB 2: Product FAQs -->
+                    <div x-show="tab === 'faqs'" x-cloak class="space-y-3" x-data="{ openFaq: 0 }">
+                        @if(!empty($product->faqs) && count($product->faqs) > 0)
+                            @foreach($product->faqs as $fIndex => $faq)
+                            <div class="border border-mg-dark/10 rounded-2xl overflow-hidden bg-mg-cream/30 hover:bg-mg-cream/60 transition-all duration-200"
+                                 :class="openFaq === {{ $fIndex }} ? 'border-mg-green/30 bg-white shadow-xs' : ''">
+                                <button type="button" @click="openFaq = openFaq === {{ $fIndex }} ? null : {{ $fIndex }}" 
+                                        class="w-full flex items-center justify-between p-4 text-left outline-none gap-3 cursor-pointer">
+                                    <span class="font-bold text-mg-dark text-sm sm:text-[15px] flex items-center gap-2.5">
+                                        <span class="w-6 h-6 rounded-lg bg-mg-green/10 text-mg-green text-xs flex items-center justify-center font-black shrink-0">Q{{ $fIndex + 1 }}</span>
+                                        <span>{{ $faq['question'] }}</span>
+                                    </span>
+                                    <div class="w-6 h-6 rounded-full bg-white shadow-xs flex items-center justify-center text-mg-dark shrink-0 transition-transform duration-200"
+                                         :class="openFaq === {{ $fIndex }} ? 'rotate-180 bg-mg-green text-white' : ''">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                                    </div>
+                                </button>
+                                <div x-show="openFaq === {{ $fIndex }}" x-collapse style="display: none;">
+                                    <div class="px-4 pb-4 pt-1 text-mg-dark/80 text-xs sm:text-sm leading-relaxed border-t border-mg-dark/5 bg-white/70">
+                                        <div class="pt-2 flex items-start gap-2.5">
+                                            <span class="w-6 h-6 rounded-lg bg-mg-orange/10 text-mg-orange text-xs flex items-center justify-center font-black shrink-0 mt-0.5">A</span>
+                                            <div class="text-mg-dark/80">{!! nl2br(e($faq['answer'])) !!}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        @else
+                            <div class="text-center py-10 bg-mg-cream/20 rounded-2xl border border-dashed border-mg-dark/10">
+                                <svg class="w-10 h-10 text-mg-muted/40 mx-auto mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <p class="text-sm font-semibold text-mg-muted">No FAQs added for this product yet.</p>
+                                <p class="text-xs text-mg-muted/70 mt-1">Have questions? We are always here to help.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
 
-            <!-- 2. Details (Mobile: 2nd, Desktop: Right Column, Spanning Rows 1 & 2) -->
-            <div class="flex flex-col lg:col-start-2 lg:row-start-1 lg:row-span-2">
+            <!-- Details -->
+            <div class="flex flex-col">
                 <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-black text-mg-dark mb-3 lg:mb-4 leading-tight">{{ $product->name }}</h1>
                 
                 @php
@@ -246,7 +315,7 @@
                             <button @click="selectOption({{ $opt->variant_type_id }}, {{ $opt->id }})" 
                                     class="px-5 py-2.5 rounded-xl text-sm font-semibold border-2 transition-all"
                                     :class="selectedOptions[{{ $opt->variant_type_id }}] === {{ $opt->id }} ? 'border-mg-green bg-mg-green/5 text-mg-green' : 'border-mg-dark/10 text-mg-dark hover:border-mg-green/50'">
-                                    {{ $opt->value }}
+                                {{ $opt->value }}
                             </button>
                             @endforeach
                         </div>
@@ -337,75 +406,6 @@
                     </div>
                 </div>
 
-            </div>
-
-            <!-- 3. Left-Side Product Description & FAQs Toggle Card (Mobile: 3rd [below details], Desktop: Left Column, Row 2) -->
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-mg-dark/5 shadow-sm lg:col-start-1 lg:row-start-2" x-data="{ tab: 'description' }">
-                <!-- Toggle Buttons Header -->
-                <div class="flex items-center gap-2 p-1.5 bg-mg-cream/70 rounded-2xl mb-6 border border-mg-dark/5">
-                    <button type="button" @click="tab = 'description'" 
-                            class="flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
-                            :class="tab === 'description' ? 'bg-white text-mg-green shadow-sm ring-1 ring-black/5 font-black' : 'text-mg-muted hover:text-mg-dark'">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/></svg>
-                        <span>Product Description</span>
-                    </button>
-                    <button type="button" @click="tab = 'faqs'" 
-                            class="flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
-                            :class="tab === 'faqs' ? 'bg-white text-mg-green shadow-sm ring-1 ring-black/5 font-black' : 'text-mg-muted hover:text-mg-dark'">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <span>FAQs</span>
-                        @if(!empty($product->faqs) && count($product->faqs) > 0)
-                            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-mg-green/10 text-mg-green">{{ count($product->faqs) }}</span>
-                        @endif
-                    </button>
-                </div>
-
-                <!-- TAB 1: Product Description -->
-                <div x-show="tab === 'description'" x-cloak class="space-y-4">
-                    @if($product->description)
-                    <div class="text-mg-dark/80 text-[15px] sm:text-base leading-relaxed">
-                        {!! nl2br(e($product->description)) !!}
-                    </div>
-                    @else
-                    <p class="text-sm text-mg-muted italic">No full description available for this product.</p>
-                    @endif
-                </div>
-
-                <!-- TAB 2: Product FAQs -->
-                <div x-show="tab === 'faqs'" x-cloak class="space-y-3" x-data="{ openFaq: 0 }">
-                    @if(!empty($product->faqs) && count($product->faqs) > 0)
-                        @foreach($product->faqs as $fIndex => $faq)
-                        <div class="border border-mg-dark/10 rounded-2xl overflow-hidden bg-mg-cream/30 hover:bg-mg-cream/60 transition-all duration-200"
-                             :class="openFaq === {{ $fIndex }} ? 'border-mg-green/30 bg-white shadow-xs' : ''">
-                            <button type="button" @click="openFaq = openFaq === {{ $fIndex }} ? null : {{ $fIndex }}" 
-                                    class="w-full flex items-center justify-between p-4 text-left outline-none gap-3 cursor-pointer">
-                                <span class="font-bold text-mg-dark text-sm sm:text-[15px] flex items-center gap-2.5">
-                                    <span class="w-6 h-6 rounded-lg bg-mg-green/10 text-mg-green text-xs flex items-center justify-center font-black shrink-0">Q{{ $fIndex + 1 }}</span>
-                                    <span>{{ $faq['question'] }}</span>
-                                </span>
-                                <div class="w-6 h-6 rounded-full bg-white shadow-xs flex items-center justify-center text-mg-dark shrink-0 transition-transform duration-200"
-                                     :class="openFaq === {{ $fIndex }} ? 'rotate-180 bg-mg-green text-white' : ''">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-                                </div>
-                            </button>
-                            <div x-show="openFaq === {{ $fIndex }}" x-collapse style="display: none;">
-                                <div class="px-4 pb-4 pt-1 text-mg-dark/80 text-xs sm:text-sm leading-relaxed border-t border-mg-dark/5 bg-white/70">
-                                    <div class="pt-2 flex items-start gap-2.5">
-                                        <span class="w-6 h-6 rounded-lg bg-mg-orange/10 text-mg-orange text-xs flex items-center justify-center font-black shrink-0 mt-0.5">A</span>
-                                        <div class="text-mg-dark/80">{!! nl2br(e($faq['answer'])) !!}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    @else
-                        <div class="text-center py-10 bg-mg-cream/20 rounded-2xl border border-dashed border-mg-dark/10">
-                            <svg class="w-10 h-10 text-mg-muted/40 mx-auto mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            <p class="text-sm font-semibold text-mg-muted">No FAQs added for this product yet.</p>
-                            <p class="text-xs text-mg-muted/70 mt-1">Have questions? We are always here to help.</p>
-                        </div>
-                    @endif
-                </div>
             </div>
         </div>
 
