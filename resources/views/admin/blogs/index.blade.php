@@ -42,8 +42,13 @@
                             @endif
                             <div>
                                 <div class="font-bold text-mg-dark text-base">{{ $blog->title }}</div>
-                                <div class="text-xs text-gray-400 font-medium mt-0.5 flex items-center gap-1.5">
-                                    By {{ $blog->author_name ?? 'Admin' }}
+                                <div class="text-xs text-gray-400 font-medium mt-0.5 flex items-center gap-2">
+                                    <span>By {{ $blog->author_name ?? 'Admin' }}</span>
+                                    <span>•</span>
+                                    <a href="{{ route('blogs.show', $blog->slug) }}" target="_blank" class="text-emerald-600 hover:text-emerald-700 hover:underline font-mono text-[11px] inline-flex items-center gap-0.5">
+                                        <span>/blogs/{{ $blog->slug }}</span>
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                    </a>
                                 </div>
                             </div>
                         </div>

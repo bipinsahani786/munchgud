@@ -35,7 +35,7 @@ Route::delete('/cart/{item}', [CartController::class, 'remove'])->name('cart.rem
 Route::post('/cart/{item}/move-to-wishlist', [CartController::class, 'moveToWishlist'])->name('cart.moveToWishlist');
 
 // Checkout (auth required)
-Route::middleware('auth')->group(function() {
+Route::middleware('auth')->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/order-success/{orderNumber}', [CheckoutController::class, 'success'])->name('checkout.success');
@@ -66,7 +66,7 @@ Route::get('/auth/google', [SocialAuthController::class, 'redirectToGoogle'])->n
 Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
 // Account (auth required)
-Route::middleware('auth')->prefix('account')->name('account.')->group(function() {
+Route::middleware('auth')->prefix('account')->name('account.')->group(function () {
     Route::get('/', [AccountController::class, 'index'])->name('index');
     Route::get('/profile', [AccountController::class, 'profile'])->name('profile');
     Route::patch('/profile', [AccountController::class, 'updateProfile'])->name('profile.update');
@@ -82,7 +82,7 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function()
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
     Route::post('/wishlist/{sku}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
     Route::post('/wishlist/{sku}/move-to-cart', [WishlistController::class, 'moveToCart'])->name('wishlist.moveToCart');
-    
+
     // Support Tickets
     Route::get('/tickets', [SupportTicketController::class, 'index'])->name('tickets.index');
     Route::get('/tickets/create', [SupportTicketController::class, 'create'])->name('tickets.create');
@@ -129,7 +129,7 @@ Route::post('/api/check-pincode', [\App\Http\Controllers\PincodeController::clas
 Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 Route::get('/sitemap.html', [App\Http\Controllers\SitemapController::class, 'html'])->name('sitemap.html');
 
-require __DIR__.'/admin.php';
+require __DIR__ . '/admin.php';
 
 
 

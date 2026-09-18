@@ -26,14 +26,18 @@
     @livewireStyles
     @yield('styles')
 </head>
-<body class="bg-[#f5f6fa] flex h-screen overflow-hidden text-gray-800" x-data="{ sidebarOpen: false }">
+<body class="bg-[#f5f6fa] flex h-screen overflow-hidden text-gray-800" x-data="{ sidebarOpen: false, desktopSidebarOpen: true }">
     
     <!-- Mobile Overlay -->
     <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false" class="fixed inset-0 bg-black/50 z-30 md:hidden" x-cloak></div>
 
     <!-- Sidebar -->
-    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
-           class="w-[250px] bg-[#0f172a] text-white flex flex-col h-full fixed md:relative z-40 transition-transform duration-300 border-r border-white/[0.04]">
+    <aside id="adminSidebar"
+           :class="[
+               sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
+               desktopSidebarOpen ? 'md:w-[250px]' : 'md:w-0 md:overflow-hidden md:border-none'
+           ]"
+           class="w-[250px] bg-[#0f172a] text-white flex flex-col h-full fixed md:relative z-40 transition-all duration-300 border-r border-white/[0.04]">
         
         <!-- Brand -->
         <div class="px-5 h-16 flex items-center gap-3 border-b border-white/[0.06] flex-shrink-0">
@@ -263,9 +267,12 @@
             <div class="px-5 sm:px-8 h-16 flex items-center justify-between">
                 
                 <!-- Left side -->
-                <div class="flex items-center gap-4">
-                    <button @click="sidebarOpen = !sidebarOpen" class="md:hidden text-gray-400 hover:text-gray-900 transition p-1">
+                <div class="flex items-center gap-3">
+                    <button @click="sidebarOpen = !sidebarOpen" class="md:hidden text-gray-400 hover:text-gray-900 transition p-1" title="Toggle Mobile Navigation">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                    <button @click="desktopSidebarOpen = !desktopSidebarOpen" class="hidden md:flex text-gray-400 hover:text-gray-900 transition p-1.5 rounded-lg hover:bg-gray-100" title="Toggle Sidebar Expand / Collapse">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/></svg>
                     </button>
                     <div>
                         <h2 class="text-lg font-bold text-gray-900 leading-none">@yield('header', 'Dashboard')</h2>
@@ -346,8 +353,8 @@
         @endif
 
         <!-- Page Content -->
-        <div class="flex-1 overflow-y-auto p-5 sm:p-8">
-            <div class="max-w-7xl mx-auto">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8" id="adminMainScrollArea">
+            <div class="@yield('container_class', 'max-w-7xl mx-auto') transition-all duration-300" id="adminContainerWrapper">
                 @yield('content')
                 
                 @if(isset($slot))
