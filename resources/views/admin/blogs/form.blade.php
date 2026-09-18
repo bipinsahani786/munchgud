@@ -858,7 +858,7 @@
     </div>
     <!-- Modal Body -->
     <div class="flex-1 overflow-y-auto p-4 sm:p-10 bg-[#fafaf9]">
-        <div class="max-w-4xl mx-auto bg-white rounded-3xl p-8 sm:p-14 shadow-xl border border-stone-200/80">
+        <div class="max-w-3xl mx-auto bg-white rounded-3xl p-8 sm:p-14 shadow-xl border border-stone-200/80">
             <!-- Header -->
             <header class="text-center mb-10">
                 <div class="flex items-center justify-center gap-3 text-xs sm:text-sm font-bold text-emerald-700 uppercase tracking-widest mb-4">
@@ -1014,7 +1014,7 @@
                     line-height: 1.8; 
                     color: #374151; 
                     background-color: #ffffff;
-                    max-width: 896px;
+                    max-width: 768px;
                     margin: 16px auto;
                     padding: 24px 32px;
                     box-sizing: border-box;
@@ -1027,6 +1027,11 @@
                     word-break: break-word !important;
                     user-select: text !important;
                     -webkit-user-select: text !important;
+                }
+                body::after {
+                    content: "";
+                    display: table;
+                    clear: both;
                 }
                 * {
                     overflow-wrap: break-word !important;

@@ -38,15 +38,15 @@
 @endsection
 
 @section('content')
-<article class="pt-10 pb-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
+<article class="pt-8 pb-20 max-w-3xl mx-auto px-4 sm:px-6">
     <!-- Header -->
-    <header class="max-w-4xl mx-auto text-center mb-12">
-        <div class="flex items-center justify-center gap-4 text-sm font-bold text-mg-green uppercase tracking-widest mb-6">
+    <header class="text-center mb-10">
+        <div class="flex items-center justify-center gap-4 text-xs sm:text-sm font-bold text-mg-green uppercase tracking-widest mb-5">
             <span>{{ $blog->created_at->format('M d, Y') }}</span>
             <span class="w-1.5 h-1.5 rounded-full bg-mg-green/30"></span>
             <span>BY {{ $blog->author_name ?? 'MunchGud' }}</span>
         </div>
-        <h1 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-mg-dark leading-tight mb-8">
+        <h1 class="font-heading text-3xl sm:text-4xl md:text-5xl font-black text-mg-dark leading-tight mb-8">
             {{ $blog->title }}
         </h1>
         
@@ -68,12 +68,12 @@
     </header>
 
     <!-- Content -->
-    <div class="max-w-4xl mx-auto prose max-w-none prose-mg">
+    <div class="prose max-w-none prose-mg">
         {!! $blog->content !!}
     </div>
 
     <!-- Back to Blogs -->
-    <div class="max-w-4xl mx-auto mt-16 pt-10 border-t border-mg-dark/10 text-center">
+    <div class="mt-16 pt-10 border-t border-mg-dark/10 text-center">
         <a href="{{ route('blogs.index') }}" class="inline-flex items-center gap-2 font-bold text-mg-dark hover:text-mg-green transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
             Back to all articles
@@ -280,6 +280,23 @@
         border-radius: 0.375rem;
         font-family: monospace;
         font-size: 0.9em;
+    }
+    .prose-mg::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    @media (max-width: 640px) {
+        .prose-mg img[style*="float: left"],
+        .prose-mg img[style*="float:left"],
+        .prose-mg img[style*="float: right"],
+        .prose-mg img[style*="float:right"] {
+            float: none !important;
+            margin: 1.5rem auto !important;
+            display: block !important;
+            max-width: 100% !important;
+            height: auto !important;
+        }
     }
 </style>
 @endsection
