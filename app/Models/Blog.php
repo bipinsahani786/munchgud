@@ -14,6 +14,7 @@ class Blog extends Model
         'slug',
         'author_name',
         'image',
+        'cover_image_link',
         'content',
         'meta_title',
         'meta_description',
@@ -23,6 +24,20 @@ class Blog extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public function setContentAttribute($value)
+    {
+        $this->attributes['content'] = is_string($value) 
+            ? preg_replace('/src=["\'](?:\.\.\/)+storage\//i', 'src="/storage/', $value) 
+            : $value;
+    }
+
+    public function getContentAttribute($value)
+    {
+        return is_string($value) 
+            ? preg_replace('/src=["\'](?:\.\.\/)+storage\//i', 'src="/storage/', $value) 
+            : $value;
+    }
 
     public function scopeActive($query)
     {

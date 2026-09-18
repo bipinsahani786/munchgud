@@ -77,6 +77,7 @@
     </noscript>
 
     @yield('head')
+    @yield('styles')
 
     <!-- Tailwind CSS (Vite) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
