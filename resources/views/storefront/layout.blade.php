@@ -17,20 +17,20 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:url" content="{{ request()->fullUrl() }}">
     <meta property="og:title" content="@yield('title', $defaultTitle)">
     <meta property="og:description" content="@yield('meta_description', $defaultDesc)">
     <meta property="og:image" content="@yield('meta_image', $defaultImage)">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:url" content="{{ request()->fullUrl() }}">
     <meta property="twitter:title" content="@yield('title', $defaultTitle)">
     <meta property="twitter:description" content="@yield('meta_description', $defaultDesc)">
     <meta property="twitter:image" content="@yield('meta_image', $defaultImage)">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="canonical" href="{{ request()->fullUrl() }}">
 
     <!-- Structured Data: Organization -->
     <script type="application/ld+json">
