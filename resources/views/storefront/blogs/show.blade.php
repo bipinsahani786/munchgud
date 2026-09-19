@@ -38,7 +38,7 @@
 @endsection
 
 @section('content')
-<article class="pt-8 pb-20 max-w-3xl mx-auto px-4 sm:px-6">
+<article class="relative max-w-4xl mx-auto py-10 px-5 sm:py-16 sm:px-12 lg:px-16 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] rounded-3xl my-8 sm:my-12 border border-mg-dark/5">
     <!-- Header -->
     <header class="text-center mb-10">
         <div class="flex items-center justify-center gap-4 text-xs sm:text-sm font-bold text-mg-green uppercase tracking-widest mb-5">
