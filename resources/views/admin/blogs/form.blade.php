@@ -345,11 +345,29 @@
             <!-- Row 1: Article Title & Custom URL / Slug -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                    <div class="flex items-center justify-between mb-1.5">
-                        <label for="articleTitle" class="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-                            Article Title <span class="text-red-500">*</span>
-                        </label>
-                        <span id="titleCount" class="text-[11px] font-medium text-gray-400">0 / 100</span>
+                    <div class="flex items-center justify-between mb-1.5 flex-wrap gap-2">
+                        <div class="flex items-center gap-2">
+                            <label for="articleTitle" class="block text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                Article Title <span class="text-red-500">*</span>
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center gap-2">
+                            <input type="color" name="title_color" value="{{ old('title_color', $blog->title_color ?? '#1A1A1A') }}" class="w-6 h-6 p-0 border-0 rounded cursor-pointer shadow-sm" title="Title Color">
+                            <select name="title_font" class="text-[11px] py-1 px-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500" title="Title Font">
+                                <option value="Playfair Display" {{ (old('title_font', $blog->title_font ?? '') == 'Playfair Display') ? 'selected' : '' }}>Playfair Display</option>
+                                <option value="Inter" {{ (old('title_font', $blog->title_font ?? '') == 'Inter') ? 'selected' : '' }}>Inter</option>
+                                <option value="Outfit" {{ (old('title_font', $blog->title_font ?? '') == 'Outfit') ? 'selected' : '' }}>Outfit</option>
+                                <option value="Arial" {{ (old('title_font', $blog->title_font ?? '') == 'Arial') ? 'selected' : '' }}>Arial</option>
+                            </select>
+                            <select name="title_design" class="text-[11px] py-1 px-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500" title="Text Design">
+                                <option value="normal" {{ (old('title_design', $blog->title_design ?? '') == 'normal') ? 'selected' : '' }}>Normal</option>
+                                <option value="bold" {{ (old('title_design', $blog->title_design ?? '') == 'bold') ? 'selected' : '' }}>Bold</option>
+                                <option value="italic" {{ (old('title_design', $blog->title_design ?? '') == 'italic') ? 'selected' : '' }}>Italic</option>
+                                <option value="underline" {{ (old('title_design', $blog->title_design ?? '') == 'underline') ? 'selected' : '' }}>Underline</option>
+                            </select>
+                            <span id="titleCount" class="text-[11px] font-medium text-gray-400">0 / 100</span>
+                        </div>
                     </div>
                     <input type="text" 
                            name="title" 
@@ -579,7 +597,15 @@
                                 <span>BY <span class="live-sim-author">{{ $blog->author_name ?? 'MunchGud' }}</span></span>
                             </div>
 
-                            <h1 class="live-sim-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#1A1A1A] leading-tight mb-8 text-center" style="font-family: 'Playfair Display', Georgia, serif !important;">
+                            @php
+                                $tColor = old('title_color', $blog->title_color ?? '#1A1A1A');
+                                $tFont = old('title_font', $blog->title_font ?? 'Playfair Display');
+                                $tDesign = old('title_design', $blog->title_design ?? 'normal');
+                                $tWeight = ($tDesign == 'bold') ? 'bold' : ($tDesign == 'normal' ? 'normal' : '900');
+                                $tStyle = ($tDesign == 'italic') ? 'italic' : 'normal';
+                                $tDeco = ($tDesign == 'underline') ? 'underline' : 'none';
+                            @endphp
+                            <h1 class="live-sim-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight mb-8 text-center" style="color: {{ $tColor }}; font-family: '{{ $tFont }}', sans-serif !important; font-weight: {{ $tWeight }}; font-style: {{ $tStyle }}; text-decoration: {{ $tDeco }};">
                                 {{ $blog->title ?: 'Your Article Title Goes Here' }}
                             </h1>
 
@@ -2124,6 +2150,10 @@
         var appContainer = document.getElementById('blogAppContainer');
         var isSlugAuto = appContainer ? (appContainer.getAttribute('data-exists') !== '1') : true;
 
+        var titleColorInput = document.querySelector('input[name="title_color"]');
+        var titleFontSelect = document.querySelector('select[name="title_font"]');
+        var titleDesignSelect = document.querySelector('select[name="title_design"]');
+
         function slugify(text) {
             return text.toString().toLowerCase()
                 .trim()
@@ -2142,6 +2172,16 @@
             // Sync Titles
             document.querySelectorAll('.live-sim-title').forEach(function (el) {
                 el.textContent = titleVal || fallbackTitle;
+                if (titleColorInput) el.style.color = titleColorInput.value;
+                if (titleFontSelect) {
+                    el.style.fontFamily = "'" + titleFontSelect.value + "', sans-serif";
+                }
+                if (titleDesignSelect) {
+                    var d = titleDesignSelect.value;
+                    el.style.fontWeight = (d === 'bold') ? 'bold' : (d === 'normal' ? 'normal' : '900');
+                    el.style.fontStyle = (d === 'italic') ? 'italic' : 'normal';
+                    el.style.textDecoration = (d === 'underline') ? 'underline' : 'none';
+                }
             });
             document.querySelectorAll('.live-sim-breadcrumb-title').forEach(function (el) {
                 el.textContent = titleVal || 'Article Title';
@@ -2250,6 +2290,10 @@
             syncLivePreview();
             updateChecklist();
         });
+
+        if (titleColorInput) titleColorInput.addEventListener('input', syncLivePreview);
+        if (titleFontSelect) titleFontSelect.addEventListener('change', syncLivePreview);
+        if (titleDesignSelect) titleDesignSelect.addEventListener('change', syncLivePreview);
 
         // Slug Input Event
         slugInput.addEventListener('input', function () {
