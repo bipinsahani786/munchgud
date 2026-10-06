@@ -46,7 +46,25 @@
             <span class="w-1.5 h-1.5 rounded-full bg-mg-green/30"></span>
             <span>BY {{ $blog->author_name ?? 'MunchGud' }}</span>
         </div>
-        <h1 class="font-heading text-3xl sm:text-4xl md:text-5xl font-black text-mg-dark leading-tight mb-8">
+        @php
+            $tColor = $blog->title_color ?? ''; // fallback to default tailwind class if empty
+            $tFont = $blog->title_font ?? 'Outfit'; // fallback if not set
+            $tDesign = $blog->title_design ?? 'bold';
+            
+            $styleParts = [];
+            if ($tColor) $styleParts[] = "color: {$tColor}";
+            if ($tFont) $styleParts[] = "font-family: '{$tFont}', sans-serif";
+            
+            if ($tDesign == 'bold') $styleParts[] = "font-weight: bold";
+            elseif ($tDesign == 'normal') $styleParts[] = "font-weight: normal";
+            else $styleParts[] = "font-weight: 900"; // corresponds to font-black
+            
+            if ($tDesign == 'italic') $styleParts[] = "font-style: italic";
+            if ($tDesign == 'underline') $styleParts[] = "text-decoration: underline";
+            
+            $styleStr = implode('; ', $styleParts);
+        @endphp
+        <h1 class="font-heading text-3xl sm:text-4xl md:text-5xl leading-tight mb-8" style="{{ $styleStr }}">
             {{ $blog->title }}
         </h1>
         
@@ -133,6 +151,9 @@
         color: #111827 !important;
         margin-top: 1.75rem !important;
         margin-bottom: 0.875rem !important;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        word-break: break-word !important;
     }
     .prose-mg h2 {
         font-family: 'Outfit', sans-serif;
@@ -144,6 +165,9 @@
         margin-bottom: 0.75rem !important;
         border-bottom: 2px solid rgba(46, 139, 87, 0.15);
         padding-bottom: 0.4rem;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        word-break: break-word !important;
     }
     .prose-mg h3 {
         font-family: 'Outfit', sans-serif;
@@ -153,6 +177,9 @@
         color: #1f2937 !important;
         margin-top: 1.5rem !important;
         margin-bottom: 0.65rem !important;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        word-break: break-word !important;
     }
     .prose-mg h4 {
         font-family: 'Outfit', sans-serif;
@@ -162,11 +189,16 @@
         color: #1f2937 !important;
         margin-top: 1.25rem !important;
         margin-bottom: 0.5rem !important;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        word-break: break-word !important;
     }
     .prose-mg p {
         margin-bottom: 1.25rem !important;
         color: #374151;
-        line-height: 1.8;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        word-break: break-word !important;
     }
     .prose-mg strong, .prose-mg b {
         color: #111827 !important;
